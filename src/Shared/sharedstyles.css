@@ -1,0 +1,62 @@
+.landing-page {
+    height: 100vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.app-container {
+    width: 75%;
+    background-color: #fff;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+    padding: 1rem;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+
+.app-container .title {
+    font-size: 1rem;
+    text-align: center;
+    text-transform: uppercase;
+    color: #8338ec;
+}
+
+.app-container label {
+    font-size: 0.8rem;
+}
+
+.app-container .form-control {
+    padding: 0.4rem 0.7rem;
+    box-shadow: #8338ec 0px 1px 1px, #8338ec 0px 0px 0px 1px;
+   
+}
+.app-container .form-control::placeholder{
+    font-size: 0.9rem;
+    font-family: Barlow;
+    color: #8338ec;
+}
+
+
+.app-container .btn-register {
+    background-color: #8338ec;
+    color: #fff;
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+}
+
+@media screen and (min-width:768px) {
+    .app-container {
+        display: grid;
+        grid-template-columns: 60% 40%;
+    }
+}
