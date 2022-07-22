@@ -36,7 +36,12 @@ const SupplierLicense = () => {
             </label>
           </div>
           <div className="input-box my-3">
-            <input type="file" name="lincense" className="form-control" required/>
+            <input
+              type="file"
+              name="lincense"
+              className="form-control"
+              required
+            />
             <FaCloudUploadAlt
               className="upload-icon"
               size={50}
