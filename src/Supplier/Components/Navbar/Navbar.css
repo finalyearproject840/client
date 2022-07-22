@@ -1,0 +1,124 @@
+.nav-bar {
+    height: 4rem;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0rem 3rem;
+    background-color: #fff;
+}
+
+.nav-bar-form {
+    width: 30%;
+    display: flex;
+    align-items: center;
+}
+
+.nav-bar .nav-bar-form .form-control {
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid #DDDDDD;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    -ms-border-radius: 0;
+    -o-border-radius: 0;
+    box-shadow: none;
+    background-color: transparent;
+}
+
+.nav-bar .nav-bar-form .btn {
+    background-color: #8338ec;
+    border-radius: 50%;
+    height: 35px;
+    width: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    border: none;
+    margin-left: 0.4rem;
+}
+
+.nav-bar .search-icon {
+    color: #8338ec;
+    cursor: pointer;
+}
+
+.nav-bar .navbar-second {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav-bar .icon {
+    font-size: 1.3rem;
+}
+
+.nav-bar .notification-icon {
+    margin-right: 1rem;
+    color: #8338ec;
+}
+
+.nav-bar .avatar-icon {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: #F5F5F5;
+    margin-right: 0.5rem;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+
+.nav-bar .user-icon {
+    color: #8338ec;
+    font-size: 0.8rem;
+}
+
+.nav-bar p {
+    padding: 0;
+    margin: 0;
+}
+
+.nav-bar .name {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.nav-bar .notification-area {
+    position: relative;
+}
+
+.nav-bar .notification-container {
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
+    height: 400px;
+    width: 300px;
+    position: absolute;
+    top: 50px;
+    right: -10px;
+    background-color: #fff;
+    display: none;
+}
+
+.nav-bar .account-area {
+    position: relative;
+}
+
+.nav-bar .account-container {
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
+    height: 200px;
+    width: 200px;
+    position: absolute;
+    right: 10px;
+    top: 50px;
+    background-color: #fff;
+    display: none;
+}

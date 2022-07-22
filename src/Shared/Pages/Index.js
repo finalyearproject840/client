@@ -2,6 +2,7 @@ import React from "react";
 import "../sharedstyles.css";
 import Lottie from "react-lottie";
 import background_image_1 from "../../Assets/Images/Design/background/background_1.jpg";
+import { Link } from "react-router-dom";
 
 function Index() {
   return (
@@ -14,7 +15,7 @@ function Index() {
     >
       <div className="app-container">
         {/* left box */}
-        <div>
+        <div className="avatar-container">
           <lottie-player
             src="https://assets3.lottiefiles.com/packages/lf20_jcsfwbvi.json"
             background="transparent"
@@ -26,22 +27,8 @@ function Index() {
         </div>
         {/* right box */}
         <div>
-          <h1 className="title">Become a supplier</h1>
+          <h1 className="title">Supplier Login</h1>
           <form method="post">
-            {/* Name */}
-            <div className="mb-3">
-              <label htmlFor="name" className="form-label">
-                Organisation name
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id="name"
-                name="name"
-                required
-                placeholder="Your Organisation's Name"
-              />
-            </div>
             {/* Email */}
             <div className="mb-3">
               <label htmlFor="exampleInputEmail1" className="form-label">
@@ -70,31 +57,18 @@ function Index() {
                 placeholder="Enter a Password"
               />
             </div>
-            {/* confirm password */}
-            <div className="mb-3">
-              <label htmlFor="password" className="form-label">
-                Confirm Password
-              </label>
-              <input
-                type="password"
-                name="confirm-password"
-                className="form-control"
-                id="password"
-                required
-                placeholder="Re-enter Password"
-              />
-            </div>
+
             <div className="py-3">
               <button type="submit" className="btn btn-register">
-                Register
+                Login
               </button>
             </div>
           </form>
-          <h3 className="subtitle">have an account already?</h3>
+          <h3 className="subtitle">Have an account already?</h3>
           <div className="mb-3">
-            <button type="submit" className="btn btn-register">
-              Login
-            </button>
+            <Link to="#" className="btn btn-login">
+              Create Account
+            </Link>
           </div>
         </div>
       </div>

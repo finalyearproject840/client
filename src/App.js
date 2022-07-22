@@ -1,10 +1,7 @@
 import React from "react";
-import "./App.css";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap";
-import AppWrapper from "./AppWrapper";
+import AppRoutes from "./Router/AppRoutes";
 function App() {
-  return <AppWrapper />;
+  return <AppRoutes />;
 }
 
 export default App;
