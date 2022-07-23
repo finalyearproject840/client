@@ -1,7 +1,7 @@
 export const colors = {
   voilet: "#8338ec",
   white: "#fff",
-  light: "#F0F0F0",
+  light: "#e7ecef",
   blue: "#3B44F6",
   red: "#ef233c",
   deedRed: "#d90429",
@@ -12,6 +12,7 @@ export const colors = {
   pink: "#ff4d6d",
   ligthBlue: "#48cae4",
   ash: "#adb5bd",
+  gold:"#fdc500"
 };
 
 export const fontSize = {

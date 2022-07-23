@@ -5,8 +5,17 @@ import { colors, fontSize } from "./DefaultValues";
 //styled container
 export const StyleContainer = styled.main`
   background-color: ${colors.light};
-  display: grid;
-  grid-template-columns: 20% 80%;
+  position: relative;
+  height: 100vh;
+  overflow-y: hidden;
+  @media screen and (min-width: 768px) {
+    display: grid;
+    grid-template-columns: 30% 70%;
+  }
+  @media screen and (min-width: 1025px) {
+    display: grid;
+    grid-template-columns: 20% 80%;
+  }
 `;
 
 //styled title
