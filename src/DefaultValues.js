@@ -6,7 +6,7 @@ export const colors = {
   red: "#ef233c",
   deedRed: "#d90429",
   green: "#38b000",
-  muted: "#343a40",
+  muted: "#9999a1",
   dark: "#212529",
   black: "#000",
   pink: "#ff4d6d",

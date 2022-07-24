@@ -1,10 +1,10 @@
 import React from "react";
 import CardItem from "../../Components/CardItem/CardItem";
 import { AiFillMedicineBox } from "react-icons/ai";
-import{FaUsers} from "react-icons/fa"
-import {MdDeliveryDining} from "react-icons/md";
+import { FaUsers } from "react-icons/fa";
+import { MdDeliveryDining } from "react-icons/md";
 import { StyleSubtitle, StyleTitle } from "../../../Styles";
-import { colors, fontSize } from "../../../DefaultValues";
+import { colors, fonts, fontSize } from "../../../DefaultValues";
 import { Link } from "react-router-dom";
 
 {
@@ -26,7 +26,12 @@ const CardSection = () => {
                   <StyleTitle size={fontSize.n} color={colors.voilet}>
                     45,399
                   </StyleTitle>
-                  <StyleSubtitle size={fontSize.sm} className="text-uppercase">
+                  <StyleSubtitle
+                    size={fontSize.sm}
+                    className="text-uppercase"
+                    font={fonts.righteous}
+                    color={colors.muted}
+                  >
                     Subscribers
                   </StyleSubtitle>
                 </div>
@@ -44,7 +49,12 @@ const CardSection = () => {
                   <StyleTitle size={fontSize.n} color={colors.blue}>
                     45,399
                   </StyleTitle>
-                  <StyleSubtitle size={fontSize.sm} className="text-uppercase">
+                  <StyleSubtitle
+                    size={fontSize.sm}
+                    className="text-uppercase"
+                    font={fonts.righteous}
+                    color={colors.muted}
+                  >
                     Medicines
                   </StyleSubtitle>
                 </div>
@@ -62,8 +72,13 @@ const CardSection = () => {
                   <StyleTitle size={fontSize.n} color={colors.gold}>
                     67
                   </StyleTitle>
-                  <StyleSubtitle size={fontSize.sm} className="text-uppercase">
-                   New Orders
+                  <StyleSubtitle
+                    size={fontSize.sm}
+                    className="text-uppercase"
+                    font={fonts.righteous}
+                    color={colors.muted}
+                  >
+                    New Orders
                   </StyleSubtitle>
                 </div>
               </div>
@@ -80,7 +95,12 @@ const CardSection = () => {
                   <StyleTitle size={fontSize.n} color={colors.red}>
                     67
                   </StyleTitle>
-                  <StyleSubtitle size={fontSize.sm} className="text-uppercase">
+                  <StyleSubtitle
+                    size={fontSize.sm}
+                    className="text-uppercase"
+                    font={fonts.righteous}
+                    color={colors.muted}
+                  >
                     Sold
                   </StyleSubtitle>
                 </div>
