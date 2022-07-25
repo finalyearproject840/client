@@ -84,10 +84,7 @@ const ChartSection = () => {
             <Chart data={data} options={options} />
             {/* chart 2 */}
           </div>
-          <div className="col-lg-4">
-            {/* chart 2 */}
-           
-          </div>
+          <div className="col-lg-4">{/* chart 2 */}</div>
         </div>
       </div>
     </StyledChartSection>
