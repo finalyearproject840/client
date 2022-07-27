@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import StyledAccount, {
   StyledDivider,
   StyledFormContainer,
@@ -13,8 +13,69 @@ import { AiOutlineMail } from "react-icons/ai";
 import Button from "../../../Shared/Components/Button";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
+import { sessionService } from "redux-react-session";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import Loading from "../../../Shared/Components/Loading";
 
 const AdminLogin = () => {
+  //usestates to handle various changes
+  const [submissionError, setSubmissionError] = useState({
+    error: false,
+    msg: "",
+  });
+
+  const navigate = useNavigate();
+
+  //console.log(process.env);
+  //form submission function
+  const handleSubmit = (form, setSubmitting) => {
+    let config = {
+      method: "post",
+      url: "http://localhost:5000/api/pharmacy/admin/login",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: form,
+    };
+    axios(config)
+      .then(function (response) {
+        //code to perform when the signup is successful
+        if (response.data.success) {
+          setSubmissionError({ error: false, msg: "successful" });
+          setSubmitting(false);
+
+          //save userdata in the session
+          const { data, token } = response.data;
+          sessionService
+            .saveSession(data.id)
+            .then(() => {
+              sessionService
+                .saveUser(data)
+                .then(() => {
+                  //store token and data inside cookies for future autorizations
+                  document.cookie = `token=${token}`;
+                  document.cookie = `supplier=${JSON.stringify(data)}`;
+
+                  //redirect supplier to the pending page
+                  navigate("/admin/dashboard");
+                })
+                .catch((error) => console.log(error));
+            })
+            .catch((error) => console.log(error));
+        } else {
+          console.log(response);
+          setSubmitting(false);
+          setSubmissionError({ error: true, msg: response.data.msg });
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+        setSubmitting(false);
+        setSubmissionError({ error: true, msg: "Authentication error" });
+      });
+  };
+
   //write validation schema using Yup library
   const validateSchema = Yup.object({
     email: Yup.string()
@@ -31,7 +92,7 @@ const AdminLogin = () => {
       </StyledImageContainer>
       {/*form container*/}
       <StyledFormContainer className="form-container">
-      <StyleTitle
+        <StyleTitle
           className="text-center mb-4"
           color={colors.voilet}
           size="1.5rem"
@@ -47,7 +108,17 @@ const AdminLogin = () => {
         >
           Login in to your account
         </StyleTitle>
-
+        {/* display authentication error */}
+        {submissionError.error ? (
+          <div
+            className="alert alert-danger text-center text-capitalize"
+            role="alert"
+          >
+            <b> {submissionError.msg}</b>
+          </div>
+        ) : (
+          ""
+        )}
         {/*form with formik  */}
         <Formik
           initialValues={{
@@ -55,38 +126,47 @@ const AdminLogin = () => {
             email: "",
           }}
           validationSchema={validateSchema}
-          onSubmit={(form) => console.log(form)}
+          onSubmit={(form, { setSubmitting }) =>
+            handleSubmit(form, setSubmitting)
+          }
         >
-          <Form encType="multipart/form-data">
-            <TextField
-              type="email"
-              name="email"
-              label="Email Address"
-              placeholder="Email Address"
-              icon={<AiOutlineMail size={24} color={colors.voilet} />}
-            />
-            <TextField
-              type="password"
-              name="password"
-              label="Password"
-              placeholder="Password"
-              icon={<AiOutlineMail size={24} color={colors.voilet} />}
-            />
-            <StyledDivider>
-              <div className="divider-text">
-                <span>&</span>
-              </div>
-            </StyledDivider>
-            <Button display="block" width="100%" case="uppercase" type="submit">
-              Login
-            </Button>
-          </Form>
+          {({ isSubmitting }) => (
+            <Form encType="multipart/form-data">
+              <TextField
+                type="email"
+                name="email"
+                label="Email Address"
+                placeholder="Email Address"
+                icon={<AiOutlineMail size={24} color={colors.voilet} />}
+              />
+              <TextField
+                type="password"
+                name="password"
+                label="Password"
+                placeholder="Password"
+                icon={<AiOutlineMail size={24} color={colors.voilet} />}
+              />
+              {isSubmitting ? (
+                <div className="d-flex justify-content-center">
+                  <Loading />
+                </div>
+              ) : (
+                <Button
+                  display="block"
+                  width="100%"
+                  case="uppercase"
+                  type="submit"
+                >
+                  Login
+                </Button>
+              )}
+            </Form>
+          )}
         </Formik>
-
         {/*alternate link*/}
         <div className="my-3">
           <p className="lead">
-            don't have an account yet? <Link to="/admin/create">Register</Link>
+            don 't have an account yet? <Link to="/admin/create">Register</Link>
           </p>
         </div>
       </StyledFormContainer>

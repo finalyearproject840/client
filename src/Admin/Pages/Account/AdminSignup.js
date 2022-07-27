@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import StyledAccount, {
   StyledDivider,
   StyledFormContainer,
@@ -14,7 +14,66 @@ import Button from "../../../Shared/Components/Button";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
 
+import { sessionService } from "redux-react-session";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import Loading from "../../../Shared/Components/Loading";
+
 const AdminSignup = () => {
+  //usestates to handle various changes
+  const [submissionError, setSubmissionError] = useState({
+    error: false,
+    msg: "",
+  });
+  const navigate = useNavigate();
+
+  //console.log(process.env);
+  //form submission function
+  const handleSubmit = (form, setSubmitting) => {
+    let config = {
+      method: "post",
+      url: "http://localhost:5000/api/pharmacy/admin/signup",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: form,
+    };
+    axios(config)
+      .then(function (response) {
+        //code to perform when the signup is successful
+        if (response.data.success) {
+          setSubmissionError({ error: false, msg: "successful" });
+          setSubmitting(false);
+
+          //save userdata in the session
+          const { data, token } = response.data;
+          sessionService
+            .saveSession(data._id)
+            .then(() => {
+              sessionService
+                .saveUser(data)
+                .then(() => {
+                  //store token and data inside cookies for future autorizations
+                  document.cookie = `token=${token}`;
+                  document.cookie = `admin=${JSON.stringify(data)}`;
+                  //redirect supplier to the pending page
+                  navigate("/admin/dashboard");
+                })
+                .catch((error) => console.log(error));
+            })
+            .catch((error) => console.log(error));
+        } else {
+          setSubmitting(false);
+          setSubmissionError({ error: true, msg: response.data.msg });
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+        setSubmitting(false);
+        setSubmissionError({ error: true, msg: "Signup Error" });
+      });
+  };
+
   //write validation schema using Yup library
   const validateSchema = Yup.object({
     email: Yup.string()
@@ -35,7 +94,8 @@ const AdminSignup = () => {
 
   return (
     <StyledAccount template="30% 70%">
-      {/*form container*/}
+      {" "}
+      {/*form container*/}{" "}
       <StyledFormContainer className="form-container">
         <StyleTitle
           className="text-center mb-4"
@@ -43,8 +103,8 @@ const AdminSignup = () => {
           size="1.5rem"
           font={fonts.righteous}
         >
-          Administrator
-        </StyleTitle>
+          Administrator{" "}
+        </StyleTitle>{" "}
         <StyleTitle
           className="text-center mb-4"
           color={colors.muted}
@@ -52,8 +112,18 @@ const AdminSignup = () => {
           font={fonts.roboto}
         >
           Create new account
+          {/* display form submission error */}
+          {submissionError.error ? (
+            <div
+              className="alert alert-danger text-center text-capitalize"
+              role="alert"
+            >
+              <b> {submissionError.msg}</b>
+            </div>
+          ) : (
+            ""
+          )}
         </StyleTitle>
-
         {/*form with formik  */}
         <Formik
           initialValues={{
@@ -63,55 +133,69 @@ const AdminSignup = () => {
             confirm: "",
           }}
           validationSchema={validateSchema}
-          onSubmit={(form) => console.log(form)}
+          onSubmit={(form, { setSubmitting }) =>
+            handleSubmit(form, setSubmitting)
+          }
         >
-          <Form encType="multipart/form-data">
-            <TextField
-              type="text"
-              name="username"
-              label="Username"
-              placeholder="Username"
-            />
-            <TextField
-              type="email"
-              name="email"
-              label="Email Address"
-              placeholder="Email Address"
-            />
-            <TextField
-              type="password"
-              name="password"
-              label="Password"
-              placeholder="Password"
-            />
-            <TextField
-              type="password"
-              name="confirm"
-              label="Confirm Password"
-              placeholder="Confirm Password"
-            />
-            <StyledDivider>
-              <div className="divider-text">
-                <span>&</span>
-              </div>
-            </StyledDivider>
-            <Button display="block" width="100%" case="uppercase" type="submit">
-              Register
-            </Button>
-          </Form>
+          {({ isSubmitting }) => (
+            <Form encType="multipart/form-data">
+              <TextField
+                type="text"
+                name="username"
+                label="Username"
+                placeholder="Username"
+              />
+              <TextField
+                type="email"
+                name="email"
+                label="Email Address"
+                placeholder="Email Address"
+              />
+              <TextField
+                type="password"
+                name="password"
+                label="Password"
+                placeholder="Password"
+              />
+              <TextField
+                type="password"
+                name="confirm"
+                label="Confirm Password"
+                placeholder="Confirm Password"
+              />
+              <StyledDivider>
+                <div className="divider-text">
+                  <span> & </span>{" "}
+                </div>{" "}
+              </StyledDivider>{" "}
+              {isSubmitting ? (
+                <div className="d-flex justify-content-center">
+                  <Loading />
+                </div>
+              ) : (
+                <Button
+                  display="block"
+                  width="100%"
+                  case="uppercase"
+                  type="submit"
+                >
+                  Register
+                </Button>
+              )}
+            </Form>
+          )}
         </Formik>
-
-        {/*alternate link*/}
+        {/*alternate link*/}{" "}
         <div className="my-3">
           <p className="lead">
-            I have an account already? <Link to="/admin/login">Login</Link>
-          </p>
-        </div>
-      </StyledFormContainer>
-      {/* Image container */}
+            I have an account already ? <Link to="/admin/login"> Login </Link>{" "}
+          </p>{" "}
+        </div>{" "}
+      </StyledFormContainer>{" "}
+      {/* Image container */}{" "}
       <StyledImageContainer className="img-container d-none d-md-block">
         <img src={Image} alt="account" className="account-image" />
-      </StyledImageContainer>
+      </StyledImageContainer>{" "}
     </StyledAccount>
   );
 };

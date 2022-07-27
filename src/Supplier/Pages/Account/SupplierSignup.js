@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import StyledAccount, {
   StyledDivider,
   StyledFormContainer,
@@ -14,8 +14,75 @@ import { FcGoogle } from "react-icons/fc";
 import Button from "../../../Shared/Components/Button";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import Loading from "../../../Shared/Components/Loading";
+import { sessionService } from "redux-react-session";
 
 const SupplierSignup = () => {
+  //usestates to handle various changes
+  const [submissionError, setSubmissionError] = useState({
+    error: false,
+    msg: "",
+  });
+  const [loading, setLoading] = useState(false);
+  const [initialform, setInitialForm] = useState({
+    password: "",
+    email: "",
+    username: "",
+    confirm: "",
+    organisation: "",
+  });
+
+  const navigate = useNavigate();
+  //console.log(process.env);
+  //form submission function
+  const handleSubmit = (form, setSubmitting) => {
+    setLoading(true);
+    let config = {
+      method: "post",
+      url: "http://localhost:5000/api/pharmacy/supplier/signup",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: form,
+    };
+    axios(config)
+      .then(function (response) {
+        //code to perform when the signup is successful
+        if (response.data.success) {
+          setSubmissionError(false);
+          setSubmitting(false);
+          //save userdata in the session
+          const { data, token } = response.data;
+          sessionService
+            .saveSession(data.id)
+            .then(() => {
+              sessionService
+                .saveUser(data)
+                .then(() => {
+                  //store token and data inside cookies for future autorizations
+                  document.cookie = `token=${token}`;
+                  document.cookie = `supplier=${JSON.stringify(data)}`;
+                  //redirect supplier to the pending page
+                  navigate("/supplier/pending");
+                })
+                .catch((error) => console.log(error));
+            })
+            .catch((error) => console.log(error));
+        } else {
+          console.log(response);
+          setSubmitting(false);
+          setSubmissionError({ error: true, msg: response.data.msg });
+        }
+      })
+      .catch(function (error) {
+        console.log(error)
+        setSubmitting(false);
+        setSubmissionError({ error: true, msg: "Signup Error" });
+      });
+  };
+
   //write validation schema using Yup library
   const validateSchema = Yup.object({
     email: Yup.string()
@@ -48,56 +115,65 @@ const SupplierSignup = () => {
           size="1.5rem"
           font={fonts.righteous}
         >
-          Login in to your account
+          Create an Account
         </StyleTitle>
 
         {/*form with formik  */}
         <Formik
-          initialValues={{
-            password: "",
-            email: "",
-            username: "",
-            confirm: "",
-            organisation: "",
-          }}
+          initialValues={initialform}
           validationSchema={validateSchema}
-          onSubmit={(form) => console.log(form)}
+          onSubmit={(form, { setSubmitting }) =>
+            handleSubmit(form, setSubmitting)
+          }
         >
-          <Form encType="multipart/form-data">
-            <TextField
-              type="text"
-              name="username"
-              label="Username"
-              placeholder="Username"
-            />
-            <TextField
-              type="email"
-              name="email"
-              label="Email Address"
-              placeholder="Email Address"
-            />
-            <TextField
-              type="text"
-              name="organisation"
-              label="Your organisation name"
-              placeholder="Organisation name"
-            />
-            <TextField
-              type="password"
-              name="password"
-              label="Password"
-              placeholder="Password"
-            />
-            <TextField
-              type="password"
-              name="confirm"
-              label="Confirm Password"
-              placeholder="Confirm Password"
-            />
-            <Button display="block" width="100%" case="uppercase" type="submit">
-              Register
-            </Button>
-          </Form>
+          {({ isSubmitting }) => (
+            <Form encType="multipart/form-data">
+              <TextField
+                type="text"
+                name="username"
+                label="Username"
+                placeholder="Username"
+              />
+              <TextField
+                type="email"
+                name="email"
+                label="Email Address"
+                placeholder="Email Address"
+              />
+              <TextField
+                type="text"
+                name="organisation"
+                label="Your organisation name"
+                placeholder="Organisation name"
+              />
+              <TextField
+                type="password"
+                name="password"
+                label="Password"
+                placeholder="Password"
+              />
+              <TextField
+                type="password"
+                name="confirm"
+                label="Confirm Password"
+                placeholder="Confirm Password"
+              />
+              {isSubmitting ? (
+                <div className="d-flex justify-content-center">
+                  <Loading />
+                </div>
+              ) : (
+                <Button
+                  display="block"
+                  width="100%"
+                  case="uppercase"
+                  type="submit"
+                >
+                  Register
+                </Button>
+              )}
+            </Form>
+          )}
         </Formik>
 
         {/* Sign in with goole or other services */}
