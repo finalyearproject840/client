@@ -1,17 +1,11 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
-
-import { sessionReducer, sessionService } from "redux-react-session";
-
-import TestReducer from "./Test/TestReducer";
+import { AdminReducer } from "./Admin/AdminReducer";
 const reducer = combineReducers({
-  TestReducer: TestReducer,
-  session: sessionReducer,
+  AdminState: AdminReducer,
 });
 
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
-
-sessionService.initSessionService(store);
 
 export default store;

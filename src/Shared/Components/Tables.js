@@ -29,12 +29,13 @@ const Tables = (props) => {
           </thead>
           <tbody>
             {props.data.map((result) => {
+              const id = result.id || result._id;
               return (
-                <tr key={result.id}>
+                <tr key={id}>
                   {props.columns.map((column) => {
                     return (
                       <td key={column} className="td">
-                        {result[column]}
+                        {result[column].toString()}
                       </td>
                     );
                   })}

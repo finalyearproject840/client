@@ -35,3 +35,10 @@ export const fonts = {
   barlow: "Barlow",
   righteous: "Righteous",
 };
+
+export const baseUrl = "http://localhost:5000/api/pharmacy"
+export const AdminRoutes = {
+  getSuppliers:`${baseUrl}/admin/all/suppliers`,
+  verifySupplier:`${baseUrl}/admin/verify/supplier`,
+  suspendSupplier:`${baseUrl}/admin/suspend/supplier`,
+}

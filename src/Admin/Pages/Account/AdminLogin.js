@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import StyledAccount, {
-  StyledDivider,
   StyledFormContainer,
   StyledImageContainer,
 } from "./AccountStyles";
@@ -13,18 +12,19 @@ import { AiOutlineMail } from "react-icons/ai";
 import Button from "../../../Shared/Components/Button";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
-import { sessionService } from "redux-react-session";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../../Shared/Components/Loading";
-
+import Cookies from "js-cookie";
+import { useDispatch } from "react-redux";
+import { loadAdminFunc } from "../../../Redux/Admin/AdminActions";
 const AdminLogin = () => {
   //usestates to handle various changes
   const [submissionError, setSubmissionError] = useState({
     error: false,
     msg: "",
   });
-
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   //console.log(process.env);
@@ -42,37 +42,38 @@ const AdminLogin = () => {
       .then(function (response) {
         //code to perform when the signup is successful
         if (response.data.success) {
-          setSubmissionError({ error: false, msg: "successful" });
+          setSubmissionError({
+            error: false,
+            msg: "successful",
+          });
           setSubmitting(false);
 
           //save userdata in the session
           const { data, token } = response.data;
-          sessionService
-            .saveSession(data.id)
-            .then(() => {
-              sessionService
-                .saveUser(data)
-                .then(() => {
-                  //store token and data inside cookies for future autorizations
-                  document.cookie = `token=${token}`;
-                  document.cookie = `supplier=${JSON.stringify(data)}`;
 
-                  //redirect supplier to the pending page
-                  navigate("/admin/dashboard");
-                })
-                .catch((error) => console.log(error));
-            })
-            .catch((error) => console.log(error));
+          //store token and data inside cookies for future autorizations
+          Cookies.set("token", token);
+          Cookies.set("admin", JSON.stringify(data));
+          //store admin state in redux
+          dispatch(loadAdminFunc());
+          //redirect supplier to the pending page
+          navigate("/admin/dashboard");
         } else {
           console.log(response);
           setSubmitting(false);
-          setSubmissionError({ error: true, msg: response.data.msg });
+          setSubmissionError({
+            error: true,
+            msg: response.data.msg,
+          });
         }
       })
       .catch(function (error) {
         console.log(error);
         setSubmitting(false);
-        setSubmissionError({ error: true, msg: "Authentication error" });
+        setSubmissionError({
+          error: true,
+          msg: "Authentication error",
+        });
       });
   };
 
@@ -114,7 +115,7 @@ const AdminLogin = () => {
             className="alert alert-danger text-center text-capitalize"
             role="alert"
           >
-            <b> {submissionError.msg}</b>
+            <b> {submissionError.msg} </b>
           </div>
         ) : (
           ""
