@@ -42,3 +42,7 @@ export const AdminRoutes = {
   verifySupplier:`${baseUrl}/admin/verify/supplier`,
   suspendSupplier:`${baseUrl}/admin/suspend/supplier`,
 }
+
+export const SupplierRoutes = {
+  uploadProduct:`${baseUrl}/supplier/upload/product`,
+}

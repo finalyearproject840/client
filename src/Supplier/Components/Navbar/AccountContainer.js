@@ -2,15 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { colors, fonts, fontSize, spacing } from "../../../DefaultValues";
-import { StyleTitle } from "../../../Styles";
-import NoficationListItem from "./NoficationListItem";
 import { CgProfile, CgLogOut } from "react-icons/cg";
 import { HiOutlineCog } from "react-icons/hi";
 import { AiTwotoneHeart } from "react-icons/ai";
 import { MdLiveHelp } from "react-icons/md";
 
 const AccountContainer = (props) => {
-  console.log(props.show);
   return (
     <StyledAccountContainer className="account-container" show={props.show}>
       <ul className="account-list">

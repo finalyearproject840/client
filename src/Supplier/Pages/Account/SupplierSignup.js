@@ -17,7 +17,9 @@ import * as Yup from "yup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../../Shared/Components/Loading";
-import { sessionService } from "redux-react-session";
+import { useDispatch } from "react-redux";
+import { loadSupplierFunc } from "../../../Redux/Supplier/SupplierActions";
+import Cookies from "js-cookie";
 
 const SupplierSignup = () => {
   //usestates to handle various changes
@@ -25,20 +27,12 @@ const SupplierSignup = () => {
     error: false,
     msg: "",
   });
-  const [loading, setLoading] = useState(false);
-  const [initialform, setInitialForm] = useState({
-    password: "",
-    email: "",
-    username: "",
-    confirm: "",
-    organisation: "",
-  });
 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   //console.log(process.env);
   //form submission function
   const handleSubmit = (form, setSubmitting) => {
-    setLoading(true);
     let config = {
       method: "post",
       url: "http://localhost:5000/api/pharmacy/supplier/signup",
@@ -51,25 +45,18 @@ const SupplierSignup = () => {
       .then(function (response) {
         //code to perform when the signup is successful
         if (response.data.success) {
-          setSubmissionError(false);
+          setSubmissionError({ error: false, msg: "successful" });
           setSubmitting(false);
           //save userdata in the session
           const { data, token } = response.data;
-          sessionService
-            .saveSession(data.id)
-            .then(() => {
-              sessionService
-                .saveUser(data)
-                .then(() => {
-                  //store token and data inside cookies for future autorizations
-                  document.cookie = `token=${token}`;
-                  document.cookie = `supplier=${JSON.stringify(data)}`;
-                  //redirect supplier to the pending page
-                  navigate("/supplier/pending");
-                })
-                .catch((error) => console.log(error));
-            })
-            .catch((error) => console.log(error));
+
+          //store token and data inside cookies for future autorizations
+          Cookies.set("token", token);
+          Cookies.set("supplier", JSON.stringify(data));
+          //store supplier state in redux
+          dispatch(loadSupplierFunc());
+          //redirect supplier to the pending page
+          navigate("/supplier/dashboard");
         } else {
           console.log(response);
           setSubmitting(false);
@@ -77,7 +64,7 @@ const SupplierSignup = () => {
         }
       })
       .catch(function (error) {
-        console.log(error)
+        console.log(error);
         setSubmitting(false);
         setSubmissionError({ error: true, msg: "Signup Error" });
       });
@@ -118,9 +105,26 @@ const SupplierSignup = () => {
           Create an Account
         </StyleTitle>
 
+        {/* display authentication error */}
+        {submissionError.error ? (
+          <div
+            className="alert alert-danger text-center text-capitalize"
+            role="alert"
+          >
+            <b> {submissionError.msg}</b>
+          </div>
+        ) : (
+          ""
+        )}
         {/*form with formik  */}
         <Formik
-          initialValues={initialform}
+          initialValues={{
+            password: "",
+            email: "",
+            username: "",
+            confirm: "",
+            organisation: "",
+          }}
           validationSchema={validateSchema}
           onSubmit={(form, { setSubmitting }) =>
             handleSubmit(form, setSubmitting)

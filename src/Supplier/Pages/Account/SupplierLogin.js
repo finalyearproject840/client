@@ -15,11 +15,12 @@ import { FcGoogle } from "react-icons/fc";
 import Button from "../../../Shared/Components/Button";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
-import { sessionService } from "redux-react-session";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../../Shared/Components/Loading";
-
+import Cookies from "js-cookie";
+import { useDispatch } from "react-redux";
+import { loadSupplierFunc } from "../../../Redux/Supplier/SupplierActions";
 const SupplierLogin = () => {
   //usestates to handle various changes
   const [submissionError, setSubmissionError] = useState({
@@ -28,6 +29,7 @@ const SupplierLogin = () => {
   });
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   //console.log(process.env);
   //form submission function
@@ -42,29 +44,21 @@ const SupplierLogin = () => {
     };
     axios(config)
       .then(function (response) {
-        //code to perform when the signup is successful
+        //code to perform when the sign is successful
         if (response.data.success) {
-          setSubmissionError({error:false, msg:"successful"});
+          setSubmissionError({ error: false, msg: "successful" });
           setSubmitting(false);
 
           //save userdata in the session
           const { data, token } = response.data;
-          sessionService
-            .saveSession(data.id)
-            .then(() => {
-              sessionService
-                .saveUser(data)
-                .then(() => {
-                  //store token and data inside cookies for future autorizations
-                  document.cookie = `token=${token}`;
-                  document.cookie = `supplier=${JSON.stringify(data)}`;
 
-                  //redirect supplier to the pending page
-                  navigate("/supplier/pending");
-                })
-                .catch((error) => console.log(error));
-            })
-            .catch((error) => console.log(error));
+          //store token and data inside cookies for future autorizations
+          Cookies.set("token", token);
+          Cookies.set("supplier", JSON.stringify(data));
+          //store supplier state in redux
+          dispatch(loadSupplierFunc());
+          //redirect supplier to the pending page
+          navigate("/supplier/dashboard");
         } else {
           console.log(response);
           setSubmitting(false);

@@ -31,7 +31,7 @@ const MenuBar = () => {
           {/* drug upload button */}
           <Button display="block" width="100%">
             <Link
-              to="#"
+              to="/supplier/product/upload"
               id="upload-drug-link"
               className="d-flex text-light justify-content-between"
             >

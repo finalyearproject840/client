@@ -6,7 +6,6 @@ import { StyleTitle } from "../../../Styles";
 import NoficationListItem from "./NoficationListItem";
 
 const NotificationContainer = (props) => {
-  console.log(props.show);
   return (
     <StyledNotiContainer className="notification-container" show={props.show}>
       {/* Notification container top */}

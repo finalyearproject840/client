@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { IoMdNotifications } from "react-icons/io";
 import { IoSearchCircleSharp } from "react-icons/io5";
 import { RiArrowDropDownLine, RiUser3Line } from "react-icons/ri";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { colors, fontSize } from "../../../DefaultValues";
 import { StyleTitle } from "../../../Styles";
@@ -23,6 +24,23 @@ const NavBar = () => {
     setShowNotiContainer(false);
     setShowAccountContainer(!showAccountContainer);
   };
+
+  //get all the admin state from redux
+  const SupplierState = useSelector((state) => state.SupplierState);
+  const { supplier } = SupplierState;
+
+  
+  let supplierName = "";
+  if (supplier) {
+    //limit supplier name string
+    supplierName = supplier.username;
+    if (supplierName.length > 10) {
+      supplierName = supplierName.substring(0, 10) + "...";
+    }
+
+    //work on supplier image
+    
+  }
 
   const notifications = [
     {
@@ -105,7 +123,7 @@ const NavBar = () => {
                 className="d-inline"
                 color={colors.muted}
               >
-                Sean
+               {supplier ? supplierName.substring(0, 10) : ""}
               </StyleTitle>
               <RiArrowDropDownLine
                 className="icon drop-icon"
