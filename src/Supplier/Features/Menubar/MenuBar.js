@@ -43,7 +43,7 @@ const MenuBar = () => {
         {/*menu bar list */}
         <div className="menu-list-container">
           <StyledList className="menu-list">
-            <MenuListItem text="Medicine" icon={<GiMedicines size={23} />} />
+            <MenuListItem text="Medicine" Link="/supplier/products" icon={<GiMedicines size={23} />} />
             <MenuListItem text="Customers" icon={<FaUsers size={23} />} />
             <MenuListItem text="Order" icon={<BsBasket size={23} />} />
             <MenuListItem text="Delievery" icon={<BsTruck size={23} />} />

@@ -6,7 +6,7 @@ import { colors, fonts, fontSize } from "../../../DefaultValues";
 const MenuListItem = (props) => {
   return (
     <StyledListItem>
-      <Link to={props.Link ? props.Link : "#"} className="list-link">
+      <Link to={props.Link ? props.Link : "#"} onClick={props.onClick} className="list-link">
         {props.icon}
         <span className="ms-3">{props.text}</span>
       </Link>

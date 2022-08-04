@@ -1,12 +1,53 @@
-import React from "react";
+import axios from "axios";
+import Cookies from "js-cookie";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { colors, fonts, fontSize } from "../../../DefaultValues";
+import { AdminRoutes, colors, fonts, fontSize } from "../../../DefaultValues";
 import { StyleTitle } from "../../../Styles";
 import NoficationListItem from "./NoficationListItem";
 
 const NotificationContainer = (props) => {
-  console.log(props.show);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+
+  const getData = () => {
+    setLoading(true);
+    //for authentication
+    const token = Cookies.get("token");
+    //config headers
+    var config = {
+      method: "get",
+      url: `${AdminRoutes.adminNotification}?limit=10`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    };
+
+    //axios
+    axios(config)
+      .then(function (response) {
+        if (response.data.success) {
+          setLoading(false);
+          setData(response.data.data);
+        } else {
+          setLoading(false);
+          setError(true);
+        }
+      })
+      .catch(function (error) {
+        setLoading(false);
+        setError(true);
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <StyledNotiContainer className="notification-container" show={props.show}>
       {/* Notification container top */}
@@ -23,16 +64,20 @@ const NotificationContainer = (props) => {
 
       {/* Notification list */}
       <div className="notification-list">
-        {props.data.map((item) => (
-          <Link to="#" key={item.id} onClick={() => props.setShow()}>
-            <NoficationListItem {...item} />
-          </Link>
-        ))}
+        {data.length < 0 ? (
+          <div>loading....</div>
+        ) : (
+          data.map((item) => (
+            <Link to="#" key={item._id} onClick={() => props.setShow()}>
+              <NoficationListItem title={item.title} date={new Date(item.created_at).toDateString()} />
+            </Link>
+          ))
+        )}
       </div>
       {/* Notification container bottom */}
       <div className="bottom">
         <Link to="/supplier/notifications" className="all-link">
-          Show all(3 new notifications)
+         {data.length > 0? `${data.filter(item=>item.read === false).length} unread messages`: "No unread messages"}
         </Link>
       </div>
     </StyledNotiContainer>

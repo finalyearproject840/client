@@ -127,14 +127,6 @@ const PreviewSection = () => {
                     <br />
                     {data.description}
                   </p>
-                  <div className="text-center">
-                    <Link
-                      to={`/supplier/edit/product/${data._id}`}
-                      className="btn btn-dark"
-                    >
-                      Edit Product
-                    </Link>
-                  </div>
                 </div>
               </div>
             ) : (

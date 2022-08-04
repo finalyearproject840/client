@@ -5,7 +5,7 @@ import Navbar from "../Components/Navbar/Navbar";
 import MenuBar from "../Features/Menubar/MenuBar";
 import PreviewSection from "../Features/ProductPreview/PreviewSection";
 
-const ProductPreview = () => {
+const AdminProductPreview = () => {
   return (
     <StyleContainer>
       {/* divide the container into 2 menubar and the main content */}
@@ -28,4 +28,4 @@ const StyledMainContainer = styled.div`
   padding-bottom: 6rem;
 `;
 
-export default ProductPreview;
+export default AdminProductPreview;

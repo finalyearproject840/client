@@ -2,8 +2,6 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { colors, fonts, fontSize, spacing } from "../../../DefaultValues";
-import { StyleTitle } from "../../../Styles";
-import NoficationListItem from "./NoficationListItem";
 import { CgProfile, CgLogOut } from "react-icons/cg";
 import { HiOutlineCog } from "react-icons/hi";
 import { AiTwotoneHeart } from "react-icons/ai";
@@ -17,7 +15,7 @@ const AccountContainer = (props) => {
   const handleLogout = (e) => {
     props.setShow();
     dispatch(logoutAdminFunc());
-    Navigate("/admin/Login");
+    Navigate("/admin/login");
   };
   return (
     <StyledAccountContainer className="account-container" show={props.show}>

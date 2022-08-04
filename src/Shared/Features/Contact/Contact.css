@@ -1,0 +1,11 @@
+.contact-container .title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    position: relative;
+    display: inline;
+    font-size: 1.5rem;
+}
+
+.contact-container label{
+    font-size: 0.8rem;
+}

@@ -1,13 +1,24 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { colors, fonts, fontSize, spacing } from "../../../DefaultValues";
 import { CgProfile, CgLogOut } from "react-icons/cg";
 import { HiOutlineCog } from "react-icons/hi";
 import { AiTwotoneHeart } from "react-icons/ai";
 import { MdLiveHelp } from "react-icons/md";
+import { useDispatch } from "react-redux";
+import { logoutSupplierFunc } from "../../../Redux/Supplier/SupplierActions";
 
 const AccountContainer = (props) => {
+  const Navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleLogout = (e) => {
+    props.setShow();
+    dispatch(logoutSupplierFunc());
+    Navigate("/supplier/login");
+  };
+
   return (
     <StyledAccountContainer className="account-container" show={props.show}>
       <ul className="account-list">
@@ -53,14 +64,10 @@ const AccountContainer = (props) => {
         </li>
         <hr />
         <li className="account-list-item">
-          <Link
-            to="#"
-            className="account-list-link"
-            onClick={() => props.setShow()}
-          >
+        <button className="account-list-link" onClick={() => handleLogout()}>
             <CgLogOut className="icon" />
-            <span className="link-text">Logout</span>
-          </Link>
+            <span className="link-text"> Logout </span>
+          </button>
         </li>
       </ul>
     </StyledAccountContainer>
@@ -97,6 +104,8 @@ const StyledAccountContainer = styled.div`
     font-size: ${fontSize.sm};
     letter-spacing: 1px;
     font-family: ${fonts.roboto};
+    background-color: transparent;
+    border: none;
   }
   .account-list-link:hover {
     color: ${colors.voilet};

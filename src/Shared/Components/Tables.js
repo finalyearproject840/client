@@ -22,9 +22,17 @@ const Tables = (props) => {
         <table id={props.id} className="table table-hover table-bordered">
           <thead>
             <tr className="tr">
-              <th>ID</th>
-              <th>Email</th>
-              <th>Username</th>
+              {props.columnName ? (
+                props.columnName.map((item, index) => (
+                  <th key={index}>{item}</th>
+                ))
+              ) : (
+                <>
+                  <th>id</th>
+                  <th>Email</th>
+                  <th>Name</th>
+                </>
+              )}
             </tr>
           </thead>
           <tbody>

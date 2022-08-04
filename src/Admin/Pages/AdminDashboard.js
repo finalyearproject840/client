@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { StyleContainer } from "../../Styles";
 import Navbar from "../Components/Navbar/Navbar";
@@ -9,7 +9,14 @@ import "datatables.net-bs5/js/dataTables.bootstrap5";
 import "datatables.net-bs5/css/dataTables.bootstrap5.min.css";
 import TableSection from "../Features/Dashboard/TableSection";
 import ChartSection from "../Features/Dashboard/ChartSection";
+import { useDispatch } from "react-redux";
+import { loadAllSuppliersFunc, loadProductFunc } from "../../Redux/Admin/AdminActions";
 const AdminDashboard = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(loadAllSuppliersFunc());
+    dispatch(loadProductFunc())
+  }, []);
   return (
     <StyleContainer>
       {/* divide the container into 2 menubar and the main content */}

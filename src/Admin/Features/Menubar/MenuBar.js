@@ -1,11 +1,10 @@
-import Reac, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../../../Shared/Components/Button";
 import StyledMenu, { StyledList, StyledMenuCloser } from "./MenuStyles";
-import { colors, fonts, fontSize } from "../../../DefaultValues";
+import { colors, } from "../../../DefaultValues";
 import MenuListItem from "./MenuListItem";
 import { BsPatchPlusFill, BsTruck, BsBasket } from "react-icons/bs";
-import { BiCategory } from "react-icons/bi";
 import { AiOutlineClose } from "react-icons/ai";
 import {
   IoMdNotificationsOutline,
@@ -16,8 +15,18 @@ import { IoLogOutOutline } from "react-icons/io5";
 import { RiMenuUnfoldLine } from "react-icons/ri";
 import { GiMedicines } from "react-icons/gi";
 import { FaUsers, FaEdit } from "react-icons/fa";
-import { StyleSubtitle } from "../../../Styles";
+import {useDispatch} from "react-redux";
+import { logoutAdminFunc } from "../../../Redux/Admin/AdminActions";
+
 const MenuBar = () => {
+
+  const dispatch = useDispatch();
+  const Navigate = useNavigate();
+  const handleLogout = (e) => {
+    dispatch(logoutAdminFunc());
+    Navigate("/admin/login");
+  };
+
   const [show, setShow] = useState(true);
   return (
     <StyledMenu show={show}>
@@ -32,31 +41,25 @@ const MenuBar = () => {
           {/* drug upload button */}
           <Button display="block" width="100%">
             <Link
-              to="#"
+              to="/admin/dashboard/"
               id="upload-drug-link"
               className="d-flex text-light justify-content-between"
             >
-              <span>Upload Drug</span>
+              <span>Dashboard</span>
               <BsPatchPlusFill size={24} />
             </Link>
           </Button>
-          <StyleSubtitle
-            className="text-center my-2"
-            font={fonts.barlow}
-            size={fontSize.l}
-          >
-            Admin
-          </StyleSubtitle>
         </div>
         {/*menu bar list */}
         <div className="menu-list-container">
           <StyledList className="menu-list">
-            <MenuListItem text="Medicines" icon={<GiMedicines size={23} />} />
-            <MenuListItem text="Suppliers" Link="/admin/allsuppliers" icon={<FaUsers size={23} />} />
+            <MenuListItem text="Medicines" Link="/admin/all/products" icon={<GiMedicines size={23} />} />
+            <MenuListItem text="Suppliers" Link="/admin/all/suppliers" icon={<FaUsers size={23} />} />
             <MenuListItem text="Users" icon={<FaUsers size={23} />} />
             <MenuListItem text="Manage Orders" icon={<BsBasket size={23} />} />
             <MenuListItem text="Delieveries" icon={<BsTruck size={23} />} />
             <MenuListItem
+              Link="/admin/all/notifications"
               text="Notifications"
               icon={<IoMdNotificationsOutline size={23} />}
             />
@@ -66,7 +69,7 @@ const MenuBar = () => {
               icon={<IoMdHelpCircle size={23} />}
             />
             <MenuListItem text="Settings" icon={<IoMdSettings size={23} />} />
-            <MenuListItem text="Logout" icon={<IoLogOutOutline size={23} />} />
+            <MenuListItem text="Logout" onClick={handleLogout} icon={<IoLogOutOutline size={23} />} />
           </StyledList>
         </div>
       </div>

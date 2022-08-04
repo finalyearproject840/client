@@ -6,25 +6,28 @@ import { MdDeliveryDining } from "react-icons/md";
 import { StyleSubtitle, StyleTitle } from "../../../Styles";
 import { colors, fonts, fontSize } from "../../../DefaultValues";
 import { Link } from "react-router-dom";
+import {useSelector} from "react-redux"
 
 {
   /* the card section as the first section of the dashboard */
 }
 const CardSection = () => {
+  const appStore = useSelector(state=>state.AdminState);
+  const {suppliers, products} = appStore;
   return (
     <section className="card-section my-3" id="card-section">
       <div className="container">
         <div className="row">
           {/* Card item */}
           <CardItem className="col-sm-6 col-lg-3">
-            <Link to="#">
+            <Link to="/admin/all/suppliers">
               <div className="card-container">
                 <div className="icon-box">
                   <FaUsers color={colors.white} size={25} />
                 </div>
                 <div className="text-container">
                   <StyleTitle size={fontSize.n} color={colors.voilet}>
-                    45,399
+                    {suppliers.length}
                   </StyleTitle>
                   <StyleSubtitle
                     size={fontSize.sm}
@@ -40,14 +43,14 @@ const CardSection = () => {
           </CardItem>
           {/* Card item */}
           <CardItem className="col-sm-6 col-lg-3" color={colors.blue}>
-            <Link to="#">
+            <Link to="/admin/all/products">
               <div className="card-container">
                 <div className="icon-box">
                   <AiFillMedicineBox color={colors.white} size={25} />
                 </div>
                 <div className="text-container">
                   <StyleTitle size={fontSize.n} color={colors.blue}>
-                    45,399
+                    {products.data.length}
                   </StyleTitle>
                   <StyleSubtitle
                     size={fontSize.sm}
@@ -102,29 +105,6 @@ const CardSection = () => {
                     color={colors.muted}
                   >
                     New Orders
-                  </StyleSubtitle>
-                </div>
-              </div>
-            </Link>
-          </CardItem>
-          {/* Card item */}
-          <CardItem className="col-sm-6 col-lg-3" color={colors.red}>
-            <Link to="#">
-              <div className="card-container">
-                <div className="icon-box">
-                  <AiFillMedicineBox color={colors.white} size={25} />
-                </div>
-                <div className="text-container">
-                  <StyleTitle size={fontSize.n} color={colors.red}>
-                    67
-                  </StyleTitle>
-                  <StyleSubtitle
-                    size={fontSize.sm}
-                    className="text-uppercase"
-                    font={fonts.righteous}
-                    color={colors.muted}
-                  >
-                    Sold
                   </StyleSubtitle>
                 </div>
               </div>

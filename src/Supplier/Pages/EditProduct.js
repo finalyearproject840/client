@@ -2,10 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import { StyleContainer } from "../../Styles";
 import Navbar from "../Components/Navbar/Navbar";
+import EditProductSection from "../Features/EditProduct/EditProductSection";
 import MenuBar from "../Features/Menubar/MenuBar";
 import PreviewSection from "../Features/ProductPreview/PreviewSection";
 
-const ProductPreview = () => {
+const EditProduct = () => {
   return (
     <StyleContainer>
       {/* divide the container into 2 menubar and the main content */}
@@ -16,7 +17,7 @@ const ProductPreview = () => {
         <Navbar />
         {/* Main container */}
         <StyledMainContainer>
-            <PreviewSection />
+           <EditProductSection />
         </StyledMainContainer>
       </div>
     </StyleContainer>
@@ -28,4 +29,4 @@ const StyledMainContainer = styled.div`
   padding-bottom: 6rem;
 `;
 
-export default ProductPreview;
+export default EditProduct;

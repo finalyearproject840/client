@@ -1,8 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import Tables from "../../../Shared/Components/Tables";
+import {useSelector} from "react-redux";
 
 const TableSection = () => {
+  const appStore = useSelector(state=>state.AdminState);
+  const {suppliers, products} = appStore;
   const userData = [
     {
       id: 1,
@@ -22,19 +25,21 @@ const TableSection = () => {
           {/* column one */}
           <div className="col-lg-6">
             <Tables
-              data={userData}
-              columns={["id", "email", "name"]}
+              data={products.data.slice(0,11)}
+              columns={["_id", "name", "price"]}
+              columnName={["ID", "Product Name", "Price"]}
               title="Top 10 Medicines"
-              id="table1"
+              id="top-medicines"
             />
           </div>
           {/* column two */}
           <div className="col-lg-6">
             <Tables
-              data={userData}
-              columns={["id", "email", "name"]}
-              title="Top 10 Subscribers"
-              id="table2"
+              data={suppliers.slice(0,11)}
+              columns={["_id", "organisation", "username"]}
+              columnName={["ID", "Organisation", "Name"]}
+              title="Top 10 Suppliers"
+              id="top-suppliers"
             />
           </div>
         </div>

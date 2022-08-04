@@ -1,11 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { StyleContainer } from "../../Styles";
 import Navbar from "../Components/Navbar/Navbar";
 import MenuBar from "../Features/Menubar/MenuBar";
-import PreviewSection from "../Features/ProductPreview/PreviewSection";
+import { useDispatch } from "react-redux";
+import { loadNotificationFunc, loadProductFunc } from "../../Redux/Admin/AdminActions";
+import AdminNotificationSection from "../Features/AdminNotification/AdminNotificationSection";
 
-const ProductPreview = () => {
+
+
+
+const AllNotification = () => {
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(loadNotificationFunc());
+  }, []);
+
+
   return (
     <StyleContainer>
       {/* divide the container into 2 menubar and the main content */}
@@ -16,16 +28,17 @@ const ProductPreview = () => {
         <Navbar />
         {/* Main container */}
         <StyledMainContainer>
-            <PreviewSection />
+          <AdminNotificationSection />
         </StyledMainContainer>
       </div>
     </StyleContainer>
   );
 };
+
 const StyledMainContainer = styled.div`
   height: 100vh;
   overflow-y: scroll;
   padding-bottom: 6rem;
 `;
 
-export default ProductPreview;
+export default AllNotification;

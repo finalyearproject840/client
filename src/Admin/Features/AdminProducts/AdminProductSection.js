@@ -4,30 +4,27 @@ import styled from "styled-components";
 import $ from "jquery";
 import { colors, fonts, fontSize } from "../../../DefaultValues";
 import ConfirmModal from "../../../Shared/Components/ConfirmModal";
+import Loading from "../../../Shared/Components/Loading";
+//datatables
+import "datatables.net-bs5/js/dataTables.bootstrap5";
+import "datatables.net-bs5/css/dataTables.bootstrap5.min.css";
+import { Link } from "react-router-dom";
 import {
-  suspendSupplierFunc,
-  VerifySupplierFunc,
+  loadProductFunc,
+  VerifyProductFunc,
 } from "../../../Redux/Admin/AdminActions";
 import { StyleTitle } from "../../../Styles";
 
-const AllSupplierSection = () => {
+const AdminProductSection = () => {
   const dispatch = useDispatch();
+
   const [confirmModalTitle, setConfirmModalTitle] = useState("");
   const [confirmModalFunc, setConfirmModalFunc] = useState(
     () => () => console.log("hello")
   );
-  //get suppliers keys for table columns
-  useEffect(() => {
-    //initialize datatable
-    $(document).ready(function () {
-      setTimeout(function () {
-        $(`#supplierstable`).DataTable();
-      }, 1000);
-    });
-  }, []);
 
   const appStore = useSelector((state) => state.AdminState);
-  const { suppliers } = appStore;
+  const { loading, error, data } = appStore.products;
 
   //const function to verfy or unverify supplier
   const handleVerify = (options) => {
@@ -36,7 +33,7 @@ const AllSupplierSection = () => {
     //create a verification function to be passed into the confirmation modal
     const verifyFunc = () => {
       dispatch(
-        VerifySupplierFunc({
+        VerifyProductFunc({
           id: options.id,
           verify: options.type === "verify" ? true : false,
         })
@@ -46,22 +43,15 @@ const AllSupplierSection = () => {
     setConfirmModalFunc(() => () => verifyFunc());
   };
 
-  //const function to suspend or unsuspend supplier
-  const handleSuspend = (options) => {
-    //set the title of the confirmation modal
-    setConfirmModalTitle(options.msg);
-    //create a Suspension function to be passed into the confirmation modal
-    const suspendFunc = () => {
-      dispatch(
-        suspendSupplierFunc({
-          id: options.id,
-          suspend: options.type === "suspend" ? true : false,
-        })
-      );
-    };
-    //parse the suspendFun to the confirmationModal to call it when admin confirm
-    setConfirmModalFunc(() => () => suspendFunc());
-  };
+  //get suppliers keys for table columns
+  useEffect(() => {
+    //initialize datatable
+    $(document).ready(function () {
+      setTimeout(function () {
+        $(`#productTable`).DataTable();
+      }, 1000);
+    });
+  }, []);
 
   return (
     <StyledTableSection>
@@ -69,46 +59,61 @@ const AllSupplierSection = () => {
         <div className="row">
           {/* column one */}
           <div className="col-12">
-            {suppliers.length > 0 ? (
+            {loading ? (
+              <div className="d-flex justify-content-center">
+                <Loading width={100} />
+              </div>
+            ) : data.length > 0 ? (
               <StyledTableContainer>
                 <StyleTitle
                   font={fonts.barlow}
                   size={fontSize.xxl}
                   color={colors.muted}
                   className="text-center"
-                >
-                  All Suppliers
-                </StyleTitle>
 
+                >
+                  All Medicines
+                </StyleTitle>
                 <div className="table-responsive">
                   <table
-                    id="supplierstable"
+                    id="productTable"
                     className="table table-hover table-bordered"
                   >
                     <thead>
                       <tr className="tr">
-                        <th>ID</th>
-                        <th>Email</th>
-                        <th>Username</th>
-                        <th>Orginisation</th>
-                        <th>Staus</th>
+                        <th>View</th>
+                        <th>Product ID</th>
+                        <th>Supplier ID</th>
+                        <th>name</th>
+                        <th>category</th>
+                        <th>Price</th>
+                        <th>Status</th>
                         <th>Verified</th>
-                        <th>Suspended</th>
+                        <th>Quantity</th>
                         <th>Rating</th>
-                        <th>License</th>
+                        <th>Reviews</th>
                         <th>Created At</th>
-                        <th>Address</th>
-                        <th>Tel</th>
+                        <th>Expiry Date</th>
+                        <th>Manufactured Date</th>
                       </tr>
                     </thead>
                     <tbody className="lead">
-                      {suppliers.map((item) => {
+                      {data.map((item) => {
                         return (
                           <tr key={item._id}>
+                            <td className="td">
+                              <Link
+                                to={`/admin/product/${item._id}`}
+                                className="btn btn-dark"
+                              >
+                                Details
+                              </Link>
+                            </td>
                             <td className="td">{item._id}</td>
-                            <td className="td">{item.email}</td>
-                            <td className="td">{item.username}</td>
-                            <td className="td">{item.organisation}</td>
+                            <td className="td">{item.supplier.supplier_id}</td>
+                            <td className="td">{item.name}</td>
+                            <td className="td">{item.category}</td>
+                            <td className="td">{item.price}</td>
                             <td className="td">{item.status}</td>
                             <td className="td">
                               {item.verified ? (
@@ -121,7 +126,7 @@ const AllSupplierSection = () => {
                                   onClick={() =>
                                     handleVerify({
                                       type: "unverify",
-                                      msg: "You  are about to unverify this supplier",
+                                      msg: "You  are about to unverify this product",
                                       id: item._id,
                                     })
                                   }
@@ -138,7 +143,7 @@ const AllSupplierSection = () => {
                                   onClick={() =>
                                     handleVerify({
                                       type: "verify",
-                                      msg: "You are about to verify this supplier",
+                                      msg: "You are about to verify this product",
                                       id: item._id,
                                     })
                                   }
@@ -147,54 +152,18 @@ const AllSupplierSection = () => {
                                 </button>
                               )}
                             </td>
-                            <td className="td">
-                              {item.suspended ? (
-                                <button
-                                  className="btn btn-secondary btn"
-                                  type="button"
-                                  data-bs-toggle="modal"
-                                  data-bs-target="#exampleModal"
-                                  data-backdrop="false"
-                                  onClick={() =>
-                                    handleSuspend({
-                                      type: "unsuspend",
-                                      msg: "You are about to unsuspend this supplier",
-                                      id: item._id,
-                                    })
-                                  }
-                                >
-                                  Unsuspend
-                                </button>
-                              ) : (
-                                <button
-                                  className="btn btn-secondary btn"
-                                  type="button"
-                                  data-bs-toggle="modal"
-                                  data-bs-target="#exampleModal"
-                                  data-backdrop="false"
-                                  onClick={() =>
-                                    handleSuspend({
-                                      type: "suspend",
-                                      msg: "You are about to suspend this supplier",
-                                      id: item._id,
-                                    })
-                                  }
-                                >
-                                  Suspend
-                                </button>
-                              )}
-                            </td>
-                            <td className="td">{item.rating}</td>
-                            <td className="td">
-                              {item.supplier_license
-                                ? item.supplier_license
-                                : "unavailable"}
-                            </td>
+                            <td className="td">{item.quantity}</td>
+                            <td className="td">{item.totalRating}</td>
+                            <td className="td">{item.totalReviews}</td>
                             <td className="td">
                               {new Date(item.created_at).toDateString()}
                             </td>
-                            <td className="td">{item.address.join(",")}</td>
-                            <td className="td">{item.tel.join(",")}</td>
+                            <td className="td">
+                              {new Date(item.expiry_date).toDateString()}
+                            </td>
+                            <td className="td">
+                              {new Date(item.manufactured_date).toDateString()}
+                            </td>
                           </tr>
                         );
                       })}
@@ -203,7 +172,9 @@ const AllSupplierSection = () => {
                 </div>
               </StyledTableContainer>
             ) : (
-              "no suppliers"
+              <div className="alert alert-light  text-center" role="alert">
+                <b>No Products yets</b>
+              </div>
             )}
           </div>
         </div>
@@ -226,7 +197,6 @@ const StyledTableContainer = styled.div`
   box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
   .tr {
     color: ${colors.blue};
-    font-family: ${fonts.barlow};
     font-size: ${fontSize.sm};
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -236,11 +206,7 @@ const StyledTableContainer = styled.div`
     color: ${colors.muted};
     letter-spacing: 1px;
     font-weight: 500;
-    font-family: ${fonts.roboto};
-  }
-  .lead{
-    font-size: ${fontSize.n};
   }
 `;
 
-export default AllSupplierSection;
+export default AdminProductSection;

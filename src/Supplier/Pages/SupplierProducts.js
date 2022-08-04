@@ -3,9 +3,9 @@ import styled from "styled-components";
 import { StyleContainer } from "../../Styles";
 import Navbar from "../Components/Navbar/Navbar";
 import MenuBar from "../Features/Menubar/MenuBar";
-import PreviewSection from "../Features/ProductPreview/PreviewSection";
+import SupplierProductSection from "../Features/SupplierProducts/SupplierProductSection";
 
-const ProductPreview = () => {
+const SupplierProducts = () => {
   return (
     <StyleContainer>
       {/* divide the container into 2 menubar and the main content */}
@@ -16,7 +16,7 @@ const ProductPreview = () => {
         <Navbar />
         {/* Main container */}
         <StyledMainContainer>
-            <PreviewSection />
+          <SupplierProductSection />
         </StyledMainContainer>
       </div>
     </StyleContainer>
@@ -28,4 +28,4 @@ const StyledMainContainer = styled.div`
   padding-bottom: 6rem;
 `;
 
-export default ProductPreview;
+export default SupplierProducts;
