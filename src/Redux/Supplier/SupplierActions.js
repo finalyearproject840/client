@@ -19,6 +19,11 @@ const uploadProduct = (payload) => ({
   type: SupplierActionTypes.LOGOUT_SUPPLIER,
   payload: payload,
 });
+//action for upload additional product images
+const uploadProductImages = (payload) => ({
+  type: SupplierActionTypes.SUPPLIER_UPLOAD_ADDITIONAL_IMAGES,
+  payload: payload,
+});
 
 //const supplier load products start
 const loadProductStart = () => ({
@@ -114,6 +119,7 @@ export const uploadProductFunc = (
     formData.append("supplier_id", supplier._id);
     formData.append("tags", form.tags);
     formData.append("description", form.description);
+    formData.append("usage", form.usage);
     //for authentication
     const token = Cookies.get("token");
     //config headers
@@ -161,6 +167,114 @@ export const uploadProductFunc = (
       });
   };
 };
+
+//supplier upload product function
+export const uploadProductImagesFunc = (
+  form,
+  setSubmitting,
+  resetForm,
+  setSubmissionError,
+  supplier,
+  setSuccess,
+  handleRedirect
+) => {
+  return (dispatch) => {
+    const formData = new FormData();
+    //process images
+    for (let i = 0; i < form.images.length; i++) {
+      formData.append("images", form.images[i]);
+    }
+    //for authentication
+    const token = Cookies.get("token");
+    //config headers
+    var config = {
+      method: "post",
+      url: SupplierRoutes.uploadProductImages+"/"+form.product_id,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      data: formData,
+    };
+    //axios
+    axios(config)
+      .then(function (response) {
+        if (response.data.success) {
+          setSubmitting(false);
+          setSubmissionError({
+            error: false,
+          });
+          setSuccess({
+            title: "Successful",
+            msg: "product uploaded",
+            show: true,
+          });
+          dispatch(loadProductSuccess(response.data.data));
+          console.log(response.data);
+          resetForm({});
+          handleRedirect(response.data.data._id);
+        } else {
+          setSubmitting(false);
+          setSubmissionError({
+            error: true,
+            msg: response.data.msg,
+          });
+        }
+      })
+      .catch(function (error) {
+        setSubmitting(false);
+        setSubmissionError({
+          error: true,
+          msg: "couldn't upload images",
+        });
+        console.log(error);
+      });
+  };
+};
+
+
+//supplier delete product image
+export const deleteProductImageFunc = (
+  product_id,
+  data,
+  setSubmissionError,
+  getData
+) => {
+  return (dispatch) => {
+    //for authentication
+    const token = Cookies.get("token");
+    //config headers
+    var config = {
+      method: "post",
+      url: SupplierRoutes.deleteProductImages+"/"+ product_id,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
+    //axios
+    axios(config)
+      .then(function (response) {
+        if (response.data.success) {
+          getData(product_id);
+        } else {
+          setSubmissionError({
+          error: true,
+          msg: response.data.msg,
+        });
+        }
+      })
+      .catch(function (error) {
+        setSubmissionError({
+          error: true,
+          msg: "couldn't delete the image",
+        });
+        console.log(error);
+      });
+  };
+};
+
 
 //supplier update product function
 export const updateProductFunc = (

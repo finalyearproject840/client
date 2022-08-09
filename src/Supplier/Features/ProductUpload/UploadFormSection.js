@@ -53,7 +53,7 @@ const UploadFormSection = () => {
   const validateSchema = Yup.object({
     name: Yup.string()
       .required("Product name is required")
-      .min(3, "Product name should have atleast 1 characters")
+      .min(1, "Product name should have atleast 1 character")
       .max(30, "Username can't be more than 256 characters"),
     quantity: Yup.number().required("Quantity is required").min(1, "Atleast 1"),
     price: Yup.number().required("Price is required").min(0, "Atleast 0"),
@@ -64,11 +64,12 @@ const UploadFormSection = () => {
     tags: Yup.string().required("Please enter atleast one tag"),
     expiry_date: Yup.date().required("should enter a valid date"),
     manufactured_date: Yup.date().required("should enter a valid date"),
-    category: Yup.string().required("Please Select a category"),
+    category: Yup.mixed().required("Please Select at least one category"),
     description: Yup.string()
       .required("Please enter product description")
       .min(3, "description should be at least 3 character long"),
     images: Yup.mixed().required("upload atleast one image"),
+    usage: Yup.string().required("usage info is required"),
   });
 
   //display sweet alert
@@ -105,6 +106,7 @@ const UploadFormSection = () => {
                 manufactured_date: "",
                 tags: "",
                 images: "",
+                usage: "",
               }}
               validationSchema={validateSchema}
               onSubmit={(form, { setSubmitting, resetForm }) =>
@@ -170,6 +172,12 @@ const UploadFormSection = () => {
                     placeholder="eg. stomach medicine, for children..."
                   />
                   <TextField
+                    type="text"
+                    name="usage"
+                    label="Enter usage information"
+                    placeholder="eg. 3x daily"
+                  />
+                  <TextField
                     type="date"
                     name="manufactured_date"
                     label="Select product manufactured date"
@@ -184,12 +192,34 @@ const UploadFormSection = () => {
                   />
                   <div className="my-3">
                     <StyledLabel htmlFor="category">
-                      Select Product category
+                      Select Product categories | Hold the Ctrl key on your
+                      keyboard to select multiple categories
                     </StyledLabel>
-                    <Field as="select" className="form-control" name="category">
+                    <Field
+                      as="select"
+                      className="form-control"
+                      name="category"
+                      multiple
+                    >
                       <option value="pain killer">Pain killer</option>
                       <option value="stomach pains">Stomach Pains</option>
-                      <option value="ointment">Ointment</option>
+                      <option value="supplements">Supplements</option>
+                      <option value="sleep">Sleep</option>
+                      <option value="energy">Energy</option>
+                      <option value="health">Health</option>
+                      <option value="cough">Cough</option>
+                      <option value="cold">Cold</option>
+                      <option value="flue">Flue</option>
+                      <option value="digestive health">Degistive Health</option>
+                      <option value="eyecare">Eyecare</option>
+                      <option value="family planning">Family Planning</option>
+                      <option value="first aid">First Aid</option>
+                      <option value="herbal">Herbal</option>
+                      <option value="sexual health">Sexual Health</option>
+                      <option value="vitamin">Vitamins</option>
+                      <option value="asthma">Asthma</option>
+                      <option value="anti-acid">anti-acid</option>
+                      <option value="rashes">Rashes Treatment</option>
                     </Field>
                     {errors.category && (
                       <StyledErrorText className="text-danger">

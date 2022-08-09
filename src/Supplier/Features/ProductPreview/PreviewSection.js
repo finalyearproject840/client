@@ -75,14 +75,22 @@ const PreviewSection = () => {
                 <div className="text-center">
                   <StyleSubtitle>Product images</StyleSubtitle>
                   {data.product_images.map((item, index) => (
-                    <div key={index} className="my-2">
+                    <div key={index} className="my-4">
                       <img
                         className="w-50 img img-thumbnail"
-                        src={`${baseUrl}/${item}`}
+                        src={`${baseUrl}/${item.location}`}
                       />
                     </div>
                   ))}
                 </div>
+                <div className="text-center">
+                    <Link
+                      to={`/supplier/edit/product/images/${data._id}`}
+                      className="btn btn-dark"
+                    >
+                      Edit Product Images
+                    </Link>
+                  </div>
                 <div className="p-3">
                   <p className="lead">
                     <b>Name</b>: {data.name}
@@ -123,6 +131,11 @@ const PreviewSection = () => {
                     {new Date(data.expiry_date).toDateString()}
                   </p>
                   <p className="lead">
+                    <b>Usage:</b>
+                    <br />
+                    {data.usage}
+                  </p>
+                  <p className="lead">
                     <b>Description:</b>
                     <br />
                     {data.description}
@@ -132,7 +145,7 @@ const PreviewSection = () => {
                       to={`/supplier/edit/product/${data._id}`}
                       className="btn btn-dark"
                     >
-                      Edit Product
+                      Edit Product Information
                     </Link>
                   </div>
                 </div>

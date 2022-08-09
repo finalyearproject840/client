@@ -51,5 +51,7 @@ export const SupplierRoutes = {
   uploadProduct:`${baseUrl}/supplier/upload/product`,
   loadProducts:`${baseUrl}/supplier/products`,
   loadProduct:`${baseUrl}/supplier/product`,
-  updateProduct:`${baseUrl}/supplier/update/product`
+  updateProduct:`${baseUrl}/supplier/update/product`,
+  uploadProductImages:`${baseUrl}/supplier/upload/product/images`,
+  deleteProductImages:`${baseUrl}/supplier/delete/product/image`,
 }

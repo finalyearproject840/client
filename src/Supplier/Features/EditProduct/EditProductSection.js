@@ -112,7 +112,7 @@ const EditProductSection = () => {
     tags: Yup.string().required("Please enter atleast one tag"),
     expiry_date: Yup.date().required("Expiry Date is required"),
     manufactured_date: Yup.date().required("Manufactured Date is required"),
-    category: Yup.string().required("Category is required"),
+    category: Yup.mixed().required("Category at least required"),
     description: Yup.string()
       .required("Please enter product description")
       .min(3, "description should be at least 3 character long"),
@@ -168,7 +168,7 @@ const EditProductSection = () => {
                     name: data.name,
                     price: data.price,
                     description: data.description,
-                    category: data.category[data.category.length - 1],
+                    category: data.category,
                     discount: data.discount,
                     quantity: data.quantity,
                     expiry_date: processDate(data.expiry_date),
@@ -233,10 +233,31 @@ const EditProductSection = () => {
                           as="select"
                           className="form-control"
                           name="category"
+                          multiple
                         >
                           <option value="pain killer">Pain killer</option>
                           <option value="stomach pains">Stomach Pains</option>
-                          <option value="ointment">Ointment</option>
+                          <option value="supplements">Supplements</option>
+                          <option value="sleep">Sleep</option>
+                          <option value="energy">Energy</option>
+                          <option value="health">Health</option>
+                          <option value="cough">Cough</option>
+                          <option value="cold">Cold</option>
+                          <option value="flue">Flue</option>
+                          <option value="digestive health">
+                            Degistive Health
+                          </option>
+                          <option value="eyecare">Eyecare</option>
+                          <option value="family planning">
+                            Family Planning
+                          </option>
+                          <option value="first aid">First Aid</option>
+                          <option value="herbal">Herbal</option>
+                          <option value="sexual health">Sexual Health</option>
+                          <option value="vitamin">Vitamins</option>
+                          <option value="asthma">Asthma</option>
+                          <option value="anti-acid">anti-acid</option>
+                          <option value="rashes">Rashes Treatment</option>
                         </Field>
                         {errors.category && (
                           <StyledErrorText className="text-danger">
