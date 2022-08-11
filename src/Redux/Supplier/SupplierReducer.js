@@ -52,7 +52,7 @@ export const SupplierReducer = (state = initialState, { type, payload }) => {
           error: true,
         },
       };
-
+      
     default:
       return state;
   }

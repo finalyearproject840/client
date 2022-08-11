@@ -54,4 +54,11 @@ export const SupplierRoutes = {
   updateProduct:`${baseUrl}/supplier/update/product`,
   uploadProductImages:`${baseUrl}/supplier/upload/product/images`,
   deleteProductImages:`${baseUrl}/supplier/delete/product/image`,
+  editProductImage:`${baseUrl}/supplier/edit/product/image`,
+
+  suppllierNotification:`${baseUrl}/supplier/all/notifications`,
+  readNotification:`${baseUrl}/supplier/read/notification`,
+
+  uploadSupplierLicense:`${baseUrl}/supplier/upload/license`,
+  updateSupplierDetails:`${baseUrl}/supplier/update/details`
 }

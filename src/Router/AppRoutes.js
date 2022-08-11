@@ -26,6 +26,8 @@ import AllProducts from "../Admin/Pages/AllProducts";
 import AdminProductPreview from "../Admin/Pages/AdminProductPreview";
 import AllNotification from "../Admin/Pages/AllNotification";
 import EditProductImage from "../Supplier/Pages/EditProductImage";
+import EditProfile from "../Supplier/Pages/EditProfile";
+import SupplierProfile from "../Supplier/Pages/Account/SupplierProfile";
 
 const AppRoutes = () => {
   return (
@@ -50,11 +52,13 @@ const AppRoutes = () => {
         {/* supplier protected route */}
         <Route element={<SupplierProtectedRoutes />}>
           <Route element={<SupplierDashboard />} path="/supplier/dashboard" />
+          <Route element={<SupplierProfile />} path="/supplier/profile" />
           <Route element={<UploadProduct />} path="/supplier/product/upload" />
           <Route element={<ProductPreview />} path="/supplier/product/:id" />
           <Route element={<SupplierProducts />} path="/supplier/products" />
           <Route element={<EditProduct />} path="/supplier/edit/product/:id" />
           <Route element={<EditProductImage />} path="/supplier/edit/product/images/:id" />
+          <Route element={<EditProfile />} path="/supplier/edit/profile" />
         </Route>
 
         {/* Admin route */}

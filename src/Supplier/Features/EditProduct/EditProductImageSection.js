@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Formik, Form, ErrorMessage } from "formik";
-import{
-  StyledErrorText,
-} from "../../Components/TextInputs/TextField";
+import { StyledErrorText } from "../../Components/TextInputs/TextField";
 import Button from "../../../Shared/Components/Button";
 import * as Yup from "yup";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   deleteProductImageFunc,
+  editProductImageFunc,
   uploadProductImagesFunc,
 } from "../../../Redux/Supplier/SupplierActions";
 import Loading from "../../../Shared/Components/Loading";
@@ -19,7 +18,6 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { BsTrash } from "react-icons/bs";
 import { BiEdit } from "react-icons/bi";
-
 
 const EditProductImageSection = () => {
   //usestates to handle various changes
@@ -88,11 +86,15 @@ const EditProductImageSection = () => {
     );
   };
 
+  //function to handle change image
+  const handleChangeImage = (form, setSubmitting, resetForm) => {
+    dispatch(editProductImageFunc(id, form, setSubmissionError, setSubmitting, resetForm, getData));
+  };
+
   //useEffect hook to get product data when the page loads
   useEffect(() => {
     getData(id);
   }, []);
-
 
   //validation schema using Yup library for form validation
   const validateSchema = Yup.object({
@@ -174,18 +176,64 @@ const EditProductImageSection = () => {
                           <BsTrash /> Delete Picture
                         </button>
                       </div>
-                      <div className="my-3 bg-light p-3">
-                        <form encType="multipart/form-data">
-                          <input
-                            type="file"
-                            name="image"
-                            className="form-control mb-3"
-                            id=""
-                          />
-                          <button className="btn btn-dark">
-                            <BiEdit /> Change Picture
-                          </button>
-                        </form>
+                      <div className="my-5
+                       bg-light p-3">
+                        {/* form to change image */}
+                        {/*form with formik  */}
+                        <Formik
+                          initialValues={{
+                            images: "",
+                            image_id: item._id,
+                            location: item.location,
+                            product_id: data._id,
+                          }}
+                          validationSchema={validateSchema}
+                          onSubmit={(form, { setSubmitting, resetForm }) =>
+                            handleChangeImage(form, setSubmitting, resetForm)
+                          }
+                        >
+                          {({
+                            isSubmitting,
+                            setFieldValue,
+                            touched,
+                            errors,
+                          }) => (
+                            <Form encType="multipart/form-data">
+                              <div className="my-2">
+                                <input
+                                  type="file"
+                                  name="images"
+                                  className={
+                                    touched.images && errors.images
+                                      ? "form-control is-invalid p-3"
+                                      : `form-control p-3`
+                                  }
+                                  placeholder="Product Image"
+                                  onChange={(e) =>
+                                    setFieldValue(
+                                      "images",
+                                      e.currentTarget.files
+                                    )
+                                  }
+                                />
+                                {touched.images && errors.images && (
+                                  <StyledErrorText className="text-danger">
+                                    <ErrorMessage name="images" />
+                                  </StyledErrorText>
+                                )}
+                              </div>
+                              {isSubmitting ? (
+                                <div className="d-flex justify-content-center">
+                                  <Loading />
+                                </div>
+                              ) : (
+                                <button className="btn btn-dark" type="submit">
+                                  <BiEdit /> Change this image
+                                </button>
+                              )}
+                            </Form>
+                          )}
+                        </Formik>
                       </div>
                     </div>
                   ))}

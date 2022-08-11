@@ -9,7 +9,7 @@ const SupplierProducts = () => {
   return (
     <StyleContainer>
       {/* divide the container into 2 menubar and the main content */}
-      <MenuBar />
+      <MenuBar active="medicine" />
       {/* main content */}
       <div className="main-content">
         {/* Navbar */}

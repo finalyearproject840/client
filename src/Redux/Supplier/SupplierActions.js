@@ -1,7 +1,11 @@
-import { SupplierActionTypes } from "./SupplierActionTypes";
+import {
+  SupplierActionTypes
+} from "./SupplierActionTypes";
 import Cookies from "js-cookie";
 import axios from "axios";
-import { SupplierRoutes } from "../../DefaultValues";
+import {
+  SupplierRoutes
+} from "../../DefaultValues";
 
 //redux action to load authenticated supplier from browser cookie
 const loadSupplier = (payload) => ({
@@ -14,16 +18,7 @@ const logoutSupplier = (payload) => ({
   type: SupplierActionTypes.LOGOUT_SUPPLIER,
   payload: payload,
 });
-//action for upload product
-const uploadProduct = (payload) => ({
-  type: SupplierActionTypes.LOGOUT_SUPPLIER,
-  payload: payload,
-});
-//action for upload additional product images
-const uploadProductImages = (payload) => ({
-  type: SupplierActionTypes.SUPPLIER_UPLOAD_ADDITIONAL_IMAGES,
-  payload: payload,
-});
+
 
 //const supplier load products start
 const loadProductStart = () => ({
@@ -38,6 +33,84 @@ const loadProductSuccess = (payload) => ({
 const loadProductFail = () => ({
   type: SupplierActionTypes.SUPPLIER_LOAD_PRODUCT_FAIL,
 });
+
+
+//const supplier load notification start
+const loadNotificationStart = () => ({
+  type: SupplierActionTypes.SUPPLIER_START_LOAD_NOTIFICATION,
+});
+//const supplier load notification success
+const loadNotificationSuccess = (payload) => ({
+  type: SupplierActionTypes.SUPPLIER_LOAD_NOTIFICATION_SUCCESS,
+  payload: payload,
+});
+//const supplier load notification fail
+const loadNotificationFail = () => ({
+  type: SupplierActionTypes.SUPPLIER_LOAD_NOTIFICATION_FAIL,
+});
+
+
+//function load notification function
+export const loadNotificationFunc = () => {
+  return (dispatch) => {
+    dispatch(loadNotificationStart());
+    //for authorization
+    const token = Cookies.get("token");
+    //config headers
+    var config = {
+      method: "get",
+      url: `${SupplierRoutes.suppllierNotification}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    };
+    //axios
+    axios(config)
+      .then(function (response) {
+        if (response.data.success) {
+          dispatch(loadNotificationSuccess(response.data.data));
+        } else {
+          dispatch(loadNotificationFail());
+        }
+      })
+      .catch(function (error) {
+        console.log("error", error);
+        dispatch(loadNotificationFail());
+      });
+  };
+};
+
+//notification read function
+export const readNotificationFunc = (id) => {
+  return (dispatch) => {
+    const token = Cookies.get("token");
+    var config = {
+      method: "post",
+      url: SupplierRoutes.readNotification,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      data: {
+        id: id,
+      },
+    };
+
+    axios(config)
+      .then(function (response) {
+        console.log(response.data);
+        dispatch(loadNotificationSuccess(response.data.data));
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+};
+
+
+
+
 
 //function load products function
 export const loadProductFunc = (id) => {
@@ -64,7 +137,7 @@ export const loadProductFunc = (id) => {
         }
       })
       .catch(function (error) {
-        console.log("error",error);
+        console.log("error", error);
         dispatch(loadProductFail());
       });
   };
@@ -189,7 +262,7 @@ export const uploadProductImagesFunc = (
     //config headers
     var config = {
       method: "post",
-      url: SupplierRoutes.uploadProductImages+"/"+form.product_id,
+      url: SupplierRoutes.uploadProductImages + "/" + form.product_id,
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
@@ -246,7 +319,7 @@ export const deleteProductImageFunc = (
     //config headers
     var config = {
       method: "post",
-      url: SupplierRoutes.deleteProductImages+"/"+ product_id,
+      url: SupplierRoutes.deleteProductImages + "/" + product_id,
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
@@ -260,9 +333,9 @@ export const deleteProductImageFunc = (
           getData(product_id);
         } else {
           setSubmissionError({
-          error: true,
-          msg: response.data.msg,
-        });
+            error: true,
+            msg: response.data.msg,
+          });
         }
       })
       .catch(function (error) {
@@ -275,6 +348,65 @@ export const deleteProductImageFunc = (
   };
 };
 
+//supplier edit product image
+export const editProductImageFunc = (
+  product_id,
+  form,
+  setSubmissionError,
+  setSubmitting,
+  resetForm,
+  getData
+) => {
+  return (dispatch) => {
+    const formData = new FormData();
+    //process images
+    for (let i = 0; i < form.images.length; i++) {
+      formData.append("images", form.images[i]);
+    }
+    //process other form input
+    formData.append("image_id", form.image_id);
+    formData.append("location", form.location);
+
+    //for authentication
+    const token = Cookies.get("token");
+    //config headers
+    var config = {
+      method: "post",
+      url: SupplierRoutes.editProductImage + "/" + product_id,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      data: formData,
+    };
+    //axios
+    setSubmitting(true);
+    axios(config)
+      .then(function (response) {
+        if (response.data.success) {
+          resetForm({})
+          setSubmitting(false);
+          getData(product_id);
+        } else {
+          resetForm({})
+          setSubmitting(false);
+          setSubmissionError({
+            error: true,
+            msg: response.data.msg,
+          });
+        }
+      })
+      .catch(function (error) {
+        resetForm({})
+        setSubmitting(false);
+        setSubmissionError({
+          error: true,
+          msg: "couldn't edit the image",
+        });
+        console.log(error);
+      });
+  };
+};
 
 //supplier update product function
 export const updateProductFunc = (
@@ -293,7 +425,7 @@ export const updateProductFunc = (
     //config headers
     var config = {
       method: "post",
-      url: SupplierRoutes.updateProduct + "/"+id,
+      url: SupplierRoutes.updateProduct + "/" + id,
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
@@ -315,6 +447,125 @@ export const updateProductFunc = (
           });
           console.log(response.data);
           resetForm({});
+          handleRedirect(response.data.data._id);
+        } else {
+          setSubmitting(false);
+          setSubmissionError({
+            error: true,
+            msg: response.data.msg,
+          });
+          console.log(response.data);
+        }
+      })
+      .catch(function (error) {
+        setSubmitting(false);
+        setSubmissionError({
+          error: true,
+          msg: "couldn't upload product",
+        });
+        console.log(error);
+      });
+  };
+};
+
+//supplier upload license function
+export const supplierUploadLicenseFunc = (
+  form,
+  setSubmitting,
+  resetForm,
+  setSubmissionError,
+  handleNavigate
+) => {
+  return (dispatch) => {
+    const formData = new FormData();
+    //process lincense
+    for (let i = 0; i < form.license.length; i++) {
+      formData.append("license", form.license[i]);
+    }
+    formData.append("supplier_id", form.supplier_id);
+    //for authentication
+    const token = Cookies.get("token");
+    //config headers
+    var config = {
+      method: "post",
+      url: SupplierRoutes.uploadSupplierLicense,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      data: formData,
+    };
+    //axios
+    axios(config)
+      .then(function (response) {
+        if (response.data.success) {
+          setSubmitting(false);
+          setSubmissionError({
+            error: false,
+          });
+          dispatch(loadSupplier(response.data.data));
+          resetForm({});
+          handleNavigate();
+        } else {
+          setSubmitting(false);
+          setSubmissionError({
+            error: true,
+            msg: response.data.msg,
+          });
+        }
+      })
+      .catch(function (error) {
+        setSubmitting(false);
+        setSubmissionError({
+          error: true,
+          msg: "couldn't upload images",
+        });
+        console.log(error);
+      });
+  };
+};
+
+//Edit supplier details
+export const updateSupplierFunc = (
+  form,
+  setSubmitting,
+  setSubmissionError,
+  setSuccess,
+  handleRedirect
+) => {
+  return (dispatch) => {
+    //for authentication
+    const token = Cookies.get("token");
+    //config headers
+    var config = {
+      method: "post",
+      url: SupplierRoutes.updateSupplierDetails + "/" + form.id,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      data: form,
+    };
+    //axios
+    axios(config)
+      .then(function (response) {
+        if (response.data.success) {
+          setSubmitting(false);
+          setSubmissionError({
+            error: false,
+          });
+          setSuccess({
+            title: "Successful",
+            msg: "update successful",
+            show: true,
+          });
+          const { data, token } = response.data;
+
+          //store token and data inside cookies for future autorizations
+          Cookies.set("token", token);
+          Cookies.set("supplier", JSON.stringify(data));
+
+          dispatch(loadSupplier(response.data.data))
           handleRedirect(response.data.data._id);
         } else {
           setSubmitting(false);

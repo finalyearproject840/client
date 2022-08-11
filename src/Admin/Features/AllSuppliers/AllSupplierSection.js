@@ -9,6 +9,7 @@ import {
   VerifySupplierFunc,
 } from "../../../Redux/Admin/AdminActions";
 import { StyleTitle } from "../../../Styles";
+import { baseUrl } from "../../../DefaultValues";
 
 const AllSupplierSection = () => {
   const dispatch = useDispatch();
@@ -185,10 +186,19 @@ const AllSupplierSection = () => {
                               )}
                             </td>
                             <td className="td">{item.rating}</td>
-                            <td className="td">
-                              {item.supplier_license
-                                ? item.supplier_license
-                                : "unavailable"}
+                            <td className="td w-25">
+                              {item.supplier_license ? (
+                                <a
+                                  href={`${baseUrl}/${item.supplier_license}`}
+                                  download={true}
+                                  className="btn btn-danger"
+                                  
+                                >
+                                  Download
+                                </a>
+                              ) : (
+                                "unavailable"
+                              )}
                             </td>
                             <td className="td">
                               {new Date(item.created_at).toDateString()}
@@ -238,7 +248,7 @@ const StyledTableContainer = styled.div`
     font-weight: 500;
     font-family: ${fonts.roboto};
   }
-  .lead{
+  .lead {
     font-size: ${fontSize.n};
   }
 `;
