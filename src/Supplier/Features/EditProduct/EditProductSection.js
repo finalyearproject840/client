@@ -10,7 +10,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   updateProductFunc,
-  uploadProductFunc,
 } from "../../../Redux/Supplier/SupplierActions";
 import Loading from "../../../Shared/Components/Loading";
 import styled from "styled-components";

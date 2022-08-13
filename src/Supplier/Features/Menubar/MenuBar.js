@@ -149,6 +149,7 @@ const MenuBar = (props) => {
             />
             <MenuListItem
               text="Help"
+              Link="/supplier/help/"
               icon={<IoMdHelpCircle size={23} />}
               active={
                 props.active

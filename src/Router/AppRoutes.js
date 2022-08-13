@@ -28,13 +28,13 @@ import AllNotification from "../Admin/Pages/AllNotification";
 import EditProductImage from "../Supplier/Pages/EditProductImage";
 import EditProfile from "../Supplier/Pages/EditProfile";
 import SupplierProfile from "../Supplier/Pages/Account/SupplierProfile";
+import SupplierHelp from "../Supplier/Pages/SupplierHelp";
 
 const AppRoutes = () => {
   return (
     <Router>
       <Routes>
         <Route element={<Index />} path="/" />
-        <Route element={<SupplierDashboard />} path="/supplier/dashboard" />
         <Route element={<SupplierSignup />} path="/supplier/create" />
         <Route element={<SupplierLogin />} path="/supplier/login" />
         <Route element={<SupplierPending />} path="/supplier/pending" />
@@ -59,6 +59,7 @@ const AppRoutes = () => {
           <Route element={<EditProduct />} path="/supplier/edit/product/:id" />
           <Route element={<EditProductImage />} path="/supplier/edit/product/images/:id" />
           <Route element={<EditProfile />} path="/supplier/edit/profile" />
+          <Route element={<SupplierHelp />} path="/supplier/help/" />
         </Route>
 
         {/* Admin route */}

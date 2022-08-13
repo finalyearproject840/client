@@ -1,11 +1,7 @@
-import {
-  SupplierActionTypes
-} from "./SupplierActionTypes";
+import { SupplierActionTypes } from "./SupplierActionTypes";
 import Cookies from "js-cookie";
 import axios from "axios";
-import {
-  SupplierRoutes
-} from "../../DefaultValues";
+import { SupplierRoutes } from "../../DefaultValues";
 
 //redux action to load authenticated supplier from browser cookie
 const loadSupplier = (payload) => ({
@@ -18,7 +14,6 @@ const logoutSupplier = (payload) => ({
   type: SupplierActionTypes.LOGOUT_SUPPLIER,
   payload: payload,
 });
-
 
 //const supplier load products start
 const loadProductStart = () => ({
@@ -34,7 +29,6 @@ const loadProductFail = () => ({
   type: SupplierActionTypes.SUPPLIER_LOAD_PRODUCT_FAIL,
 });
 
-
 //const supplier load notification start
 const loadNotificationStart = () => ({
   type: SupplierActionTypes.SUPPLIER_START_LOAD_NOTIFICATION,
@@ -48,7 +42,6 @@ const loadNotificationSuccess = (payload) => ({
 const loadNotificationFail = () => ({
   type: SupplierActionTypes.SUPPLIER_LOAD_NOTIFICATION_FAIL,
 });
-
 
 //function load notification function
 export const loadNotificationFunc = () => {
@@ -107,10 +100,6 @@ export const readNotificationFunc = (id) => {
       });
   };
 };
-
-
-
-
 
 //function load products function
 export const loadProductFunc = (id) => {
@@ -305,7 +294,6 @@ export const uploadProductImagesFunc = (
   };
 };
 
-
 //supplier delete product image
 export const deleteProductImageFunc = (
   product_id,
@@ -384,11 +372,11 @@ export const editProductImageFunc = (
     axios(config)
       .then(function (response) {
         if (response.data.success) {
-          resetForm({})
+          resetForm({});
           setSubmitting(false);
           getData(product_id);
         } else {
-          resetForm({})
+          resetForm({});
           setSubmitting(false);
           setSubmissionError({
             error: true,
@@ -397,7 +385,7 @@ export const editProductImageFunc = (
         }
       })
       .catch(function (error) {
-        resetForm({})
+        resetForm({});
         setSubmitting(false);
         setSubmissionError({
           error: true,
@@ -565,7 +553,7 @@ export const updateSupplierFunc = (
           Cookies.set("token", token);
           Cookies.set("supplier", JSON.stringify(data));
 
-          dispatch(loadSupplier(response.data.data))
+          dispatch(loadSupplier(response.data.data));
           handleRedirect(response.data.data._id);
         } else {
           setSubmitting(false);
@@ -582,6 +570,139 @@ export const updateSupplierFunc = (
           error: true,
           msg: "couldn't upload product",
         });
+        console.log(error);
+      });
+  };
+};
+
+//supplier edit brand logo
+export const editBrandLogoFunc = (
+  form,
+  setSubmitting,
+  resetForm,
+  setSubmissionError,
+  setSuccess,
+  handleNavigate
+) => {
+  return (dispatch) => {
+    const formData = new FormData();
+    //process images
+    for (let i = 0; i < form.images.length; i++) {
+      formData.append("images", form.images[i]);
+    }
+    //process other form input
+    formData.append("old_logo", form.old_logo);
+    //for authentication
+    const token = Cookies.get("token");
+    //config headers
+    var config = {
+      method: "post",
+      url: SupplierRoutes.updateSupplierLogo + "/" + form.supplier_id,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      data: formData,
+    };
+    //axios
+    setSubmitting(true);
+    //axios
+    axios(config)
+      .then(function (response) {
+        if (response.data.success) {
+          setSubmitting(false);
+          setSubmissionError({
+            error: false,
+          });
+          setSuccess({
+            title: "Successful",
+            msg: "update successful",
+            show: true,
+          });
+          const { data, token } = response.data;
+          //store token and data inside cookies for future autorizations
+          Cookies.set("token", token);
+          Cookies.set("supplier", JSON.stringify(data));
+          resetForm();
+          dispatch(loadSupplier(data));
+          handleNavigate();
+        } else {
+          setSubmitting(false);
+          setSubmissionError({
+            error: true,
+            msg: response.data.msg,
+          });
+          resetForm();
+          console.log(response.data);
+        }
+      })
+      .catch(function (error) {
+        setSubmitting(false);
+        setSubmissionError({
+          error: true,
+          msg: "couldn't change image",
+        });
+        resetForm();
+        console.log(error);
+      });
+  };
+};
+
+//Edit supplier details
+export const supplierHelpFunc = (
+  form,
+  setSubmitting,
+  resetForm,
+  setSubmissionError,
+  supplier,
+  setSuccess,
+  handleRedirect
+) => {
+  return (dispatch) => {
+    //for authentication
+    const token = Cookies.get("token");
+    //config headers
+    var config = {
+      method: "post",
+      url: SupplierRoutes.requestHelp + "/" + supplier._id,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      data: form,
+    };
+    //axios
+    axios(config)
+      .then(function (response) {
+        if (response.data.success) {
+          setSubmitting(false);
+          setSubmissionError({
+            error: false,
+          });
+          setSuccess({
+            title: "Successful",
+            msg: "Request Sent Successfully",
+            show: true,
+          });
+          resetForm()
+          handleRedirect();
+        } else {
+          setSubmitting(false);
+          setSubmissionError({
+            error: true,
+            msg: response.data.msg,
+          });
+          resetForm()
+          console.log(response.data);
+        }
+      })
+      .catch(function (error) {
+        setSubmitting(false);
+        setSubmissionError({
+          error: true,
+          msg: "couldn't sumbit help request",
+        });
+        resetForm()
         console.log(error);
       });
   };

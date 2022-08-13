@@ -1,22 +1,45 @@
-import axios from "axios";
-import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
-import Cookies from "js-cookie";
-import {
-  baseUrl,
-  fonts,
-  fontSize,
-  SupplierRoutes,
-} from "../../../DefaultValues";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { baseUrl, fontSize } from "../../../DefaultValues";
 import styled from "styled-components";
 import Loading from "../../../Shared/Components/Loading";
-import { StyleSubtitle, StyleTitle } from "../../../Styles";
-import { useSelector } from "react-redux";
-
+import No_Image from "../../../Assets/Images/no_image.jpg";
+import { useDispatch, useSelector } from "react-redux";
+import { BiEdit } from "react-icons/bi";
+import { Formik, Form } from "formik";
+import { editBrandLogoFunc } from "../../../Redux/Supplier/SupplierActions";
+import { useNavigate } from "react-router-dom";
 const SupplierProfileSection = () => {
+  //usestates to handle various changes
+  const [submissionError, setSubmissionError] = useState({
+    error: false,
+    msg: "",
+  });
+  const [success, setSuccess] = useState({});
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const SupplierState = useSelector((state) => state.SupplierState);
   const { supplier: data } = SupplierState;
-  console.log(data);
+
+  const handleNavigate = ()=>{
+    navigate("/supplier/profile");
+  }
+
+  //function to handle change image
+  const handleChangeImage = (form, setSubmitting, resetForm) => {
+    console.log(form);
+    dispatch(
+      editBrandLogoFunc(
+        form,
+        setSubmitting,
+        resetForm,
+        setSubmissionError,
+        setSuccess,
+        handleNavigate
+      )
+    );
+  };
 
   return (
     <div className="container">
@@ -25,30 +48,67 @@ const SupplierProfileSection = () => {
           <StyledProductPreviewSection>
             {data ? (
               <div className="my-4 bg-light py-3">
-                <StyleTitle
-                  font={fonts.roboto}
-                  size={fontSize.l}
-                  className="text-center"
-                >
-                  {data.username}
-                </StyleTitle>
+                <h3 className="text-center display-6 text-uppercase">
+                  {data.organisation}
+                </h3>
                 {/* Product images */}
                 <div className="text-center">
-                  <StyleSubtitle>Product images</StyleSubtitle>
                   <div className="my-4">
                     <img
                       className="w-50 img img-thumbnail"
-                      src={`${baseUrl}/${data.brand_logo}`}
+                      src={
+                        data.brand_logo
+                          ? `${baseUrl}/${data.brand_logo}`
+                          : No_Image
+                      }
+                      alt="brand logo"
                     />
                   </div>
                 </div>
-                <div className="text-center">
-                  <Link
-                    to={`/supplier/edit/product/images/${data._id}`}
-                    className="btn btn-dark"
+                <div
+                  className="my-2
+                       bg-light p-3"
+                >
+                  {/* form to change image */}
+                  {/*form with formik  */}
+                  <Formik
+                    initialValues={{
+                      images: "",
+                      old_logo: data.brand_logo,
+                      supplier_id: data._id,
+                    }}
+                    onSubmit={(form, { setSubmitting, resetForm }) =>
+                      handleChangeImage(form, setSubmitting, resetForm)
+                    }
                   >
-                    Change Brand Logo
-                  </Link>
+                    {({ isSubmitting, setFieldValue }) => (
+                      <Form encType="multipart/form-data">
+                        <div className="d-flex justify-content-center">
+                          <input
+                            type="file"
+                            name="images"
+                            className="form-control w-25"
+                            placeholder="Product Image"
+                            onChange={(e) =>
+                              setFieldValue("images", e.currentTarget.files)
+                            }
+                            required
+                          />
+                        </div>
+                        <div className="d-flex justify-content-center mt-3">
+                          {isSubmitting ? (
+                            <div className="d-flex justify-content-center">
+                              <Loading />
+                            </div>
+                          ) : (
+                            <button className="btn btn-dark" type="submit">
+                              <BiEdit /> Change this image
+                            </button>
+                          )}
+                        </div>
+                      </Form>
+                    )}
+                  </Formik>
                 </div>
                 <div className="p-3">
                   <p className="lead">

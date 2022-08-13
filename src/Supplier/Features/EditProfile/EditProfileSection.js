@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import TextField, {
   StyledErrorText,
@@ -6,19 +6,12 @@ import TextField, {
 } from "../../Components/TextInputs/TextField";
 import Button from "../../../Shared/Components/Button";
 import * as Yup from "yup";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  updateProductFunc,
-  updateSupplierFunc,
-  uploadProductFunc,
-} from "../../../Redux/Supplier/SupplierActions";
+import { updateSupplierFunc } from "../../../Redux/Supplier/SupplierActions";
 import Loading from "../../../Shared/Components/Loading";
 import styled from "styled-components";
-import { colors, SupplierRoutes } from "../../../DefaultValues";
-import Swal from "sweetalert2";
-import axios from "axios";
-import Cookies from "js-cookie";
+import { colors } from "../../../DefaultValues";
 
 const EditProfileSection = () => {
   //usestates to handle various changes
@@ -26,8 +19,7 @@ const EditProfileSection = () => {
     error: false,
     msg: "",
   });
-  const [success, setSuccess] = useState({})
-
+  const [success, setSuccess] = useState({});
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -36,7 +28,7 @@ const EditProfileSection = () => {
 
   //function to redirect to product priview after upload succes
   const handleRedirect = (id) => {
-    navigate(`/supplier/edit/profile`);
+    navigate(`/supplier/profile`);
   };
   //form submission function
   const handleSubmit = (form, setSubmitting, resetForm) => {
@@ -67,8 +59,10 @@ const EditProfileSection = () => {
       .max(50, "Organisation name can't be more than 50 characters"),
     tel: Yup.string(),
     address: Yup.string(),
-    description: Yup.string()
-      .min(3, "description should be at least 3 character long"),
+    description: Yup.string().min(
+      3,
+      "description should be at least 3 character long"
+    ),
   });
 
   return (
@@ -97,15 +91,15 @@ const EditProfileSection = () => {
                     email: supplier.email,
                     tel: supplier.tel.join(","),
                     address: supplier.address.join(";"),
-                    id:supplier._id,
-                    description:supplier.description
+                    id: supplier._id,
+                    description: supplier.description,
                   }}
                   validationSchema={validateSchema}
                   onSubmit={(form, { setSubmitting, resetForm }) =>
                     handleSubmit(form, setSubmitting, resetForm)
                   }
                 >
-                  {({ isSubmitting, touched, errors,  }) => (
+                  {({ isSubmitting, touched, errors }) => (
                     <Form encType="multipart/form-data">
                       <TextField
                         type="text"
@@ -137,27 +131,27 @@ const EditProfileSection = () => {
                         label="Change supplier address"
                         placeholder="eg. SNNIT Block 555, floor 3, Adabraka, Accra; GPS-203-392934"
                       />
-                       <div className="my-3">
-                          <StyledLabel htmlFor="category">
-                            Change Supplier description
-                          </StyledLabel>
-                          <Field
-                            name="description"
-                            as="textarea"
-                            row="10"
-                            className={
-                              touched.description && errors.description
-                                ? "form-control is-invalid p-3"
-                                : `form-control p-3`
-                            }
-                            placeholder="Description"
-                          />
-                          {touched.description && errors.description && (
-                            <StyledErrorText className="text-danger">
-                              <ErrorMessage name="description" />
-                            </StyledErrorText>
-                          )}
-                        </div>
+                      <div className="my-3">
+                        <StyledLabel htmlFor="category">
+                          Change Supplier description
+                        </StyledLabel>
+                        <Field
+                          name="description"
+                          as="textarea"
+                          row="10"
+                          className={
+                            touched.description && errors.description
+                              ? "form-control is-invalid p-3"
+                              : `form-control p-3`
+                          }
+                          placeholder="Description"
+                        />
+                        {touched.description && errors.description && (
+                          <StyledErrorText className="text-danger">
+                            <ErrorMessage name="description" />
+                          </StyledErrorText>
+                        )}
+                      </div>
                       <div className="d-flex justify-content-center">
                         {isSubmitting ? (
                           <div className="d-flex justify-content-center">

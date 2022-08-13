@@ -60,5 +60,7 @@ export const SupplierRoutes = {
   readNotification:`${baseUrl}/supplier/read/notification`,
 
   uploadSupplierLicense:`${baseUrl}/supplier/upload/license`,
-  updateSupplierDetails:`${baseUrl}/supplier/update/details`
+  updateSupplierDetails:`${baseUrl}/supplier/update/details`,
+  updateSupplierLogo:`${baseUrl}/supplier/edit/brandlogo`,
+  requestHelp:`${baseUrl}/supplier/request/help`
 }
