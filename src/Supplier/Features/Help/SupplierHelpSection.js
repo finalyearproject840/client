@@ -11,20 +11,8 @@ import { supplierHelpFunc } from "../../../Redux/Supplier/SupplierActions";
 import Loading from "../../../Shared/Components/Loading";
 import styled from "styled-components";
 import { colors } from "../../../DefaultValues";
-import Swal from "sweetalert2";
 
 const SupplierHelpSection = () => {
-  //usestates to handle various changes
-  const [submissionError, setSubmissionError] = useState({
-    error: false,
-    msg: "",
-  });
-  const [success, setSuccess] = useState({
-    show: false,
-    title: "",
-    msg: "",
-  });
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const SupplierState = useSelector((state) => state.SupplierState);
@@ -34,19 +22,12 @@ const SupplierHelpSection = () => {
   const handleRedirect = () => {
     navigate(`/supplier/dashboard`);
   };
+
   //form submission function
   const handleSubmit = (form, setSubmitting, resetForm) => {
     console.log(form, supplier._id);
     dispatch(
-      supplierHelpFunc(
-        form,
-        setSubmitting,
-        resetForm,
-        setSubmissionError,
-        supplier,
-        setSuccess,
-        handleRedirect
-      )
+      supplierHelpFunc(form, setSubmitting, resetForm, supplier, handleRedirect)
     );
   };
 
@@ -56,34 +37,19 @@ const SupplierHelpSection = () => {
     message: Yup.string().required("Message is required"),
   });
 
-  //display sweet alert
-  if (success.show) {
-    Swal.fire(success.title, success.msg, "success");
-  }
-
   return (
     <div className="container">
       <div className="row justify-content-center">
         <div className="col-12 col-lg-10">
           <StyledSectionContainer>
             <h3 className="display-6 text-center text-uppercase">Help Form</h3>
-            {/* display authentication error */}
-            {submissionError.error ? (
-              <div
-                className="alert alert-danger text-center text-capitalize"
-                role="alert"
-              >
-                <b> {submissionError.msg}</b>
-              </div>
-            ) : (
-              ""
-            )}
+
             {/*form with formik  */}
             <Formik
               initialValues={{
                 subject: "",
-                supplier_id: "",
                 message: "",
+                entityType: "supplier",
               }}
               validationSchema={validateSchema}
               onSubmit={(form, { setSubmitting, resetForm }) =>

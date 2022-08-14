@@ -1,6 +1,4 @@
-import {
-  AdminActionTypes
-} from "./AdminActionTypes";
+import { AdminActionTypes } from "./AdminActionTypes";
 
 const initialState = {
   admin: null,
@@ -17,10 +15,7 @@ const initialState = {
   },
 };
 
-export const AdminReducer = (state = initialState, {
-  type,
-  payload
-}) => {
+export const AdminReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     //load admin
     case AdminActionTypes.LOAD_ADMIN:
@@ -28,13 +23,13 @@ export const AdminReducer = (state = initialState, {
         ...state,
         admin: payload,
       };
-      //logout admin
+    //logout admin
     case AdminActionTypes.LOGOUT_ADMIN:
       return {
         ...state,
         admin: payload,
       };
-      //logout admin
+    //logout admin
     case AdminActionTypes.GET_ALL_SUPPLIERS:
       return {
         ...state,
@@ -50,7 +45,7 @@ export const AdminReducer = (state = initialState, {
           data: payload,
         },
       };
-      //start load product
+    //start load product
     case AdminActionTypes.ADMIN_START_LOAD_PRODUCT:
       return {
         ...state,
@@ -79,8 +74,7 @@ export const AdminReducer = (state = initialState, {
           error: true,
         },
       };
-
-         //start load product
+    //start load notification
     case AdminActionTypes.ADMIN_START_LOAD_NOTIFICATION:
       return {
         ...state,
@@ -89,7 +83,7 @@ export const AdminReducer = (state = initialState, {
           loading: true,
         },
       };
-    // load product true
+    // load notification success
     case AdminActionTypes.ADMIN_LOAD_NOTIFICATION_SUCCESS:
       return {
         ...state,
@@ -99,7 +93,7 @@ export const AdminReducer = (state = initialState, {
           data: payload,
         },
       };
-    // load product true
+    // load notification failed
     case AdminActionTypes.ADMIN_LOAD_NOTIFICATION_FAIL:
       return {
         ...state,
@@ -109,7 +103,6 @@ export const AdminReducer = (state = initialState, {
           error: true,
         },
       };
-
 
     default:
       return state;

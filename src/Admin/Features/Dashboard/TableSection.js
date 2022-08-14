@@ -6,22 +6,11 @@ import {useSelector} from "react-redux";
 const TableSection = () => {
   const appStore = useSelector(state=>state.AdminState);
   const {suppliers, products} = appStore;
-  const userData = [
-    {
-      id: 1,
-      email: "sean@gmail.com",
-      name: "sean",
-    },
-    {
-      id: 2,
-      email: "sean@gmail.com",
-      name: "sean",
-    },
-  ];
   return (
     <StyledTableSection>
       <div className="container">
         <div className="row">
+        
           {/* column one */}
           <div className="col-lg-6">
             <Tables

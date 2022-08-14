@@ -13,23 +13,13 @@ import {
 import Loading from "../../../Shared/Components/Loading";
 import styled from "styled-components";
 import { baseUrl, colors, SupplierRoutes } from "../../../DefaultValues";
-import Swal from "sweetalert2";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { BsTrash } from "react-icons/bs";
 import { BiEdit } from "react-icons/bi";
+import { notifyError } from "../../../Shared/Components/NotificationToast";
 
 const EditProductImageSection = () => {
-  //usestates to handle various changes
-  const [submissionError, setSubmissionError] = useState({
-    error: false,
-    msg: "",
-  });
-  const [success, setSuccess] = useState({
-    show: false,
-    title: "",
-    msg: "",
-  });
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
   const [error, setError] = useState(false);
@@ -80,7 +70,6 @@ const EditProductImageSection = () => {
       deleteProductImageFunc(
         id,
         { image_id: image_id, location: location },
-        setSubmissionError,
         getData
       )
     );
@@ -88,7 +77,7 @@ const EditProductImageSection = () => {
 
   //function to handle change image
   const handleChangeImage = (form, setSubmitting, resetForm) => {
-    dispatch(editProductImageFunc(id, form, setSubmissionError, setSubmitting, resetForm, getData));
+    dispatch(editProductImageFunc(id, form, setSubmitting, resetForm, getData));
   };
 
   //useEffect hook to get product data when the page loads
@@ -110,10 +99,7 @@ const EditProductImageSection = () => {
   const uploadAdditionalImages = (form, setSubmitting, resetForm) => {
     //check if the images exceed the allowed number of images
     if (form.images.length > form.allowed) {
-      setSubmissionError({
-        error: true,
-        msg: "you are allowed to add only " + form.allowed + " images",
-      });
+      notifyError("You are allowed to upload only" + form.allowed + " images");
       setSubmitting(false);
       resetForm({});
     } else {
@@ -122,19 +108,11 @@ const EditProductImageSection = () => {
           form,
           setSubmitting,
           resetForm,
-          setSubmissionError,
-          supplier,
-          setSuccess,
           handleRedirect
         )
       );
     }
   };
-
-  //display sweet alert
-  if (success.show) {
-    Swal.fire(success.title, success.msg, "success");
-  }
 
   return (
     <div className="container">
@@ -147,17 +125,6 @@ const EditProductImageSection = () => {
               </div>
             ) : (
               <>
-                {/* display authentication error */}
-                {submissionError.error ? (
-                  <div
-                    className="alert alert-danger text-center text-capitalize"
-                    role="alert"
-                  >
-                    <b> {submissionError.msg}</b>
-                  </div>
-                ) : (
-                  ""
-                )}
                 {/* Product images */}
                 <div className="text-center">
                   {data.product_images.map((item, index) => (
@@ -165,6 +132,7 @@ const EditProductImageSection = () => {
                       <img
                         className="w-50 img img-thumbnail"
                         src={`${baseUrl}/${item.location}`}
+                        alt="product"
                       />
                       <div className="my-3">
                         <button
@@ -176,8 +144,10 @@ const EditProductImageSection = () => {
                           <BsTrash /> Delete Picture
                         </button>
                       </div>
-                      <div className="my-5
-                       bg-light p-3">
+                      <div
+                        className="my-5
+                       bg-light p-3"
+                      >
                         {/* form to change image */}
                         {/*form with formik  */}
                         <Formik

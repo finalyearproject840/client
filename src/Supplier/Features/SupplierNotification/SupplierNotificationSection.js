@@ -1,21 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import $ from "jquery";
 import { colors, fonts, fontSize } from "../../../DefaultValues";
-import ConfirmModal from "../../../Shared/Components/ConfirmModal";
 import Loading from "../../../Shared/Components/Loading";
 //datatables
 import "datatables.net-bs5/js/dataTables.bootstrap5";
 import "datatables.net-bs5/css/dataTables.bootstrap5.min.css";
 import { Link } from "react-router-dom";
-import { readNotificationFunc, VerifyProductFunc } from "../../../Redux/Admin/AdminActions";
 import { StyleTitle } from "../../../Styles";
+import { readNotificationFunc } from "../../../Redux/Supplier/SupplierActions";
 
-const AdminNotificationSection = () => {
+const SupplierNotificationSection = () => {
   const dispatch = useDispatch();
 
-  const appStore = useSelector((state) => state.AdminState);
+  const appStore = useSelector((state) => state.SupplierState);
   const { loading, error, data } = appStore.notifications;
 
   //const function to mark notification as read
@@ -87,9 +86,6 @@ const AdminNotificationSection = () => {
                                 <button
                                   className="btn btn-light"
                                   type="button"
-                                  data-bs-toggle="modal"
-                                  data-bs-target="#exampleModal"
-                                  data-backdrop="false"
                                   onClick={() => handleMarkAsRead(item._id)}
                                   style={{ width:"150px" }}
                                 >
@@ -111,7 +107,7 @@ const AdminNotificationSection = () => {
               </StyledTableContainer>
             ) : (
               <div className="alert alert-light  text-center" role="alert">
-                <b>No Notification yet</b>
+                <b>No Notifications yet</b>
               </div>
             )}
           </div>
@@ -150,4 +146,4 @@ const StyledTableContainer = styled.div`
   }
 `;
 
-export default AdminNotificationSection;
+export default SupplierNotificationSection;

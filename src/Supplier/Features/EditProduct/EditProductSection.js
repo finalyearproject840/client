@@ -7,28 +7,15 @@ import TextField, {
 import Button from "../../../Shared/Components/Button";
 import * as Yup from "yup";
 import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  updateProductFunc,
-} from "../../../Redux/Supplier/SupplierActions";
+import { useDispatch } from "react-redux";
+import { updateProductFunc } from "../../../Redux/Supplier/SupplierActions";
 import Loading from "../../../Shared/Components/Loading";
 import styled from "styled-components";
 import { colors, SupplierRoutes } from "../../../DefaultValues";
-import Swal from "sweetalert2";
 import axios from "axios";
 import Cookies from "js-cookie";
 
 const EditProductSection = () => {
-  //usestates to handle various changes
-  const [submissionError, setSubmissionError] = useState({
-    error: false,
-    msg: "",
-  });
-  const [success, setSuccess] = useState({
-    show: false,
-    title: "",
-    msg: "",
-  });
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
   const [error, setError] = useState(false);
@@ -71,8 +58,6 @@ const EditProductSection = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const SupplierState = useSelector((state) => state.SupplierState);
-  const { supplier } = SupplierState;
 
   //function to redirect to product priview after upload succes
   const handleRedirect = (id) => {
@@ -81,18 +66,8 @@ const EditProductSection = () => {
   //form submission function
   const handleSubmit = (form, setSubmitting, resetForm) => {
     console.log(form);
-
     dispatch(
-      updateProductFunc(
-        id,
-        form,
-        setSubmitting,
-        resetForm,
-        setSubmissionError,
-        supplier,
-        setSuccess,
-        handleRedirect
-      )
+      updateProductFunc(id, form, setSubmitting, resetForm, handleRedirect)
     );
   };
 
@@ -116,11 +91,6 @@ const EditProductSection = () => {
       .required("Please enter product description")
       .min(3, "description should be at least 3 character long"),
   });
-
-  //display sweet alert
-  if (success.show) {
-    Swal.fire(success.title, success.msg, "success");
-  }
 
   const processDate = (date) => {
     let newDate = new Date(date);
@@ -150,17 +120,6 @@ const EditProductSection = () => {
               </div>
             ) : (
               <>
-                {/* display authentication error */}
-                {submissionError.error ? (
-                  <div
-                    className="alert alert-danger text-center text-capitalize"
-                    role="alert"
-                  >
-                    <b> {submissionError.msg}</b>
-                  </div>
-                ) : (
-                  ""
-                )}
                 {/*form with formik  */}
                 <Formik
                   initialValues={{

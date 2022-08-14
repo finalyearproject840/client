@@ -2,6 +2,10 @@ import { SupplierActionTypes } from "./SupplierActionTypes";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { SupplierRoutes } from "../../DefaultValues";
+import {
+  notifyError,
+  notifySuccess,
+} from "../../Shared/Components/NotificationToast";
 
 //redux action to load authenticated supplier from browser cookie
 const loadSupplier = (payload) => ({
@@ -44,7 +48,7 @@ const loadNotificationFail = () => ({
 });
 
 //function load notification function
-export const loadNotificationFunc = () => {
+export const loadNotificationFunc = (id) => {
   return (dispatch) => {
     dispatch(loadNotificationStart());
     //for authorization
@@ -52,7 +56,7 @@ export const loadNotificationFunc = () => {
     //config headers
     var config = {
       method: "get",
-      url: `${SupplierRoutes.suppllierNotification}`,
+      url: `${SupplierRoutes.suppllierNotification}/${id}`,
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
@@ -89,17 +93,18 @@ export const readNotificationFunc = (id) => {
         id: id,
       },
     };
-
     axios(config)
       .then(function (response) {
-        console.log(response.data);
+        notifySuccess("Marked as read");
         dispatch(loadNotificationSuccess(response.data.data));
       })
       .catch(function (error) {
+        notifyError("Failed Operation");
         console.log(error);
       });
   };
 };
+
 
 //function load products function
 export const loadProductFunc = (id) => {
@@ -150,6 +155,7 @@ export const logoutSupplierFunc = () => {
     Cookies.remove("supplier");
     Cookies.remove("token");
     dispatch(logoutSupplier(null));
+    notifySuccess("Supplier logged out!")
   };
 };
 
@@ -158,9 +164,7 @@ export const uploadProductFunc = (
   form,
   setSubmitting,
   resetForm,
-  setSubmissionError,
   supplier,
-  setSuccess,
   handleRedirect
 ) => {
   return (dispatch) => {
@@ -199,32 +203,17 @@ export const uploadProductFunc = (
       .then(function (response) {
         if (response.data.success) {
           setSubmitting(false);
-          setSubmissionError({
-            error: false,
-          });
-          setSuccess({
-            title: "Successful",
-            msg: "product uploaded",
-            show: true,
-          });
-          console.log(response.data);
+          notifySuccess("medicine uploaded successfully");
           resetForm({});
           handleRedirect(response.data.data._id);
         } else {
           setSubmitting(false);
-          setSubmissionError({
-            error: true,
-            msg: response.data.msg,
-          });
-          console.log(response.data);
+          notifyError(response.data.msg);
         }
       })
       .catch(function (error) {
         setSubmitting(false);
-        setSubmissionError({
-          error: true,
-          msg: "couldn't upload product",
-        });
+        notifyError("Opps! something went wrong");
         console.log(error);
       });
   };
@@ -235,9 +224,6 @@ export const uploadProductImagesFunc = (
   form,
   setSubmitting,
   resetForm,
-  setSubmissionError,
-  supplier,
-  setSuccess,
   handleRedirect
 ) => {
   return (dispatch) => {
@@ -263,32 +249,19 @@ export const uploadProductImagesFunc = (
       .then(function (response) {
         if (response.data.success) {
           setSubmitting(false);
-          setSubmissionError({
-            error: false,
-          });
-          setSuccess({
-            title: "Successful",
-            msg: "product uploaded",
-            show: true,
-          });
+          notifySuccess("Image uploaded successfully");
           dispatch(loadProductSuccess(response.data.data));
           console.log(response.data);
           resetForm({});
           handleRedirect(response.data.data._id);
         } else {
           setSubmitting(false);
-          setSubmissionError({
-            error: true,
-            msg: response.data.msg,
-          });
+          notifyError(response.data.msg);
         }
       })
       .catch(function (error) {
         setSubmitting(false);
-        setSubmissionError({
-          error: true,
-          msg: "couldn't upload images",
-        });
+        notifyError("Opps! something went wrong");
         console.log(error);
       });
   };
@@ -298,7 +271,6 @@ export const uploadProductImagesFunc = (
 export const deleteProductImageFunc = (
   product_id,
   data,
-  setSubmissionError,
   getData
 ) => {
   return (dispatch) => {
@@ -319,18 +291,13 @@ export const deleteProductImageFunc = (
       .then(function (response) {
         if (response.data.success) {
           getData(product_id);
+          notifySuccess("Image deleted successfully");
         } else {
-          setSubmissionError({
-            error: true,
-            msg: response.data.msg,
-          });
+          notifyError(response.data.msg);
         }
       })
       .catch(function (error) {
-        setSubmissionError({
-          error: true,
-          msg: "couldn't delete the image",
-        });
+        notifyError("Opps! something went wrong");
         console.log(error);
       });
   };
@@ -340,7 +307,6 @@ export const deleteProductImageFunc = (
 export const editProductImageFunc = (
   product_id,
   form,
-  setSubmissionError,
   setSubmitting,
   resetForm,
   getData
@@ -375,22 +341,17 @@ export const editProductImageFunc = (
           resetForm({});
           setSubmitting(false);
           getData(product_id);
+          notifySuccess("Image changed successfully");
         } else {
           resetForm({});
           setSubmitting(false);
-          setSubmissionError({
-            error: true,
-            msg: response.data.msg,
-          });
+          notifySuccess("Couldn't change image");
         }
       })
       .catch(function (error) {
         resetForm({});
         setSubmitting(false);
-        setSubmissionError({
-          error: true,
-          msg: "couldn't edit the image",
-        });
+        notifyError("Opps! something went wrong");
         console.log(error);
       });
   };
@@ -402,9 +363,6 @@ export const updateProductFunc = (
   form,
   setSubmitting,
   resetForm,
-  setSubmissionError,
-  supplier,
-  setSuccess,
   handleRedirect
 ) => {
   return (dispatch) => {
@@ -425,32 +383,17 @@ export const updateProductFunc = (
       .then(function (response) {
         if (response.data.success) {
           setSubmitting(false);
-          setSubmissionError({
-            error: false,
-          });
-          setSuccess({
-            title: "Successful",
-            msg: "product uploaded",
-            show: true,
-          });
-          console.log(response.data);
+          notifySuccess("Product details updated");
           resetForm({});
           handleRedirect(response.data.data._id);
         } else {
           setSubmitting(false);
-          setSubmissionError({
-            error: true,
-            msg: response.data.msg,
-          });
-          console.log(response.data);
+          notifyError(response.data.msg);
         }
       })
       .catch(function (error) {
         setSubmitting(false);
-        setSubmissionError({
-          error: true,
-          msg: "couldn't upload product",
-        });
+        notifyError("Opps! something went wrong");
         console.log(error);
       });
   };
@@ -461,7 +404,6 @@ export const supplierUploadLicenseFunc = (
   form,
   setSubmitting,
   resetForm,
-  setSubmissionError,
   handleNavigate
 ) => {
   return (dispatch) => {
@@ -488,39 +430,25 @@ export const supplierUploadLicenseFunc = (
       .then(function (response) {
         if (response.data.success) {
           setSubmitting(false);
-          setSubmissionError({
-            error: false,
-          });
+          notifySuccess("License upload successfully");
           dispatch(loadSupplier(response.data.data));
           resetForm({});
           handleNavigate();
         } else {
           setSubmitting(false);
-          setSubmissionError({
-            error: true,
-            msg: response.data.msg,
-          });
+          notifyError(response.data.msg);
         }
       })
       .catch(function (error) {
         setSubmitting(false);
-        setSubmissionError({
-          error: true,
-          msg: "couldn't upload images",
-        });
+        notifyError("Opp! something went wrong");
         console.log(error);
       });
   };
 };
 
 //Edit supplier details
-export const updateSupplierFunc = (
-  form,
-  setSubmitting,
-  setSubmissionError,
-  setSuccess,
-  handleRedirect
-) => {
+export const updateSupplierFunc = (form, setSubmitting, handleRedirect) => {
   return (dispatch) => {
     //for authentication
     const token = Cookies.get("token");
@@ -539,14 +467,7 @@ export const updateSupplierFunc = (
       .then(function (response) {
         if (response.data.success) {
           setSubmitting(false);
-          setSubmissionError({
-            error: false,
-          });
-          setSuccess({
-            title: "Successful",
-            msg: "update successful",
-            show: true,
-          });
+          notifySuccess("Profile info update successfully");
           const { data, token } = response.data;
 
           //store token and data inside cookies for future autorizations
@@ -557,19 +478,13 @@ export const updateSupplierFunc = (
           handleRedirect(response.data.data._id);
         } else {
           setSubmitting(false);
-          setSubmissionError({
-            error: true,
-            msg: response.data.msg,
-          });
+          notifyError("response.data.msg");
           console.log(response.data);
         }
       })
       .catch(function (error) {
         setSubmitting(false);
-        setSubmissionError({
-          error: true,
-          msg: "couldn't upload product",
-        });
+        notifyError("Opps! something went wrong");
         console.log(error);
       });
   };
@@ -580,8 +495,6 @@ export const editBrandLogoFunc = (
   form,
   setSubmitting,
   resetForm,
-  setSubmissionError,
-  setSuccess,
   handleNavigate
 ) => {
   return (dispatch) => {
@@ -611,14 +524,7 @@ export const editBrandLogoFunc = (
       .then(function (response) {
         if (response.data.success) {
           setSubmitting(false);
-          setSubmissionError({
-            error: false,
-          });
-          setSuccess({
-            title: "Successful",
-            msg: "update successful",
-            show: true,
-          });
+          notifySuccess("Brand Logo updated successfully");
           const { data, token } = response.data;
           //store token and data inside cookies for future autorizations
           Cookies.set("token", token);
@@ -628,20 +534,14 @@ export const editBrandLogoFunc = (
           handleNavigate();
         } else {
           setSubmitting(false);
-          setSubmissionError({
-            error: true,
-            msg: response.data.msg,
-          });
+          notifyError("response.data.msg");
           resetForm();
           console.log(response.data);
         }
       })
       .catch(function (error) {
         setSubmitting(false);
-        setSubmissionError({
-          error: true,
-          msg: "couldn't change image",
-        });
+        notifyError("Opps! something went wrong");
         resetForm();
         console.log(error);
       });
@@ -653,9 +553,7 @@ export const supplierHelpFunc = (
   form,
   setSubmitting,
   resetForm,
-  setSubmissionError,
   supplier,
-  setSuccess,
   handleRedirect
 ) => {
   return (dispatch) => {
@@ -676,34 +574,23 @@ export const supplierHelpFunc = (
       .then(function (response) {
         if (response.data.success) {
           setSubmitting(false);
-          setSubmissionError({
-            error: false,
-          });
-          setSuccess({
-            title: "Successful",
-            msg: "Request Sent Successfully",
-            show: true,
-          });
-          resetForm()
+          notifySuccess("Successful! Your request for help has been sent");
+          resetForm();
           handleRedirect();
         } else {
           setSubmitting(false);
-          setSubmissionError({
-            error: true,
-            msg: response.data.msg,
-          });
-          resetForm()
+          notifyError(response.data.msg);
+          resetForm();
           console.log(response.data);
         }
       })
       .catch(function (error) {
         setSubmitting(false);
-        setSubmissionError({
-          error: true,
-          msg: "couldn't sumbit help request",
-        });
-        resetForm()
+        notifyError("Opps! something went wrong");
+        resetForm();
         console.log(error);
       });
   };
 };
+
+

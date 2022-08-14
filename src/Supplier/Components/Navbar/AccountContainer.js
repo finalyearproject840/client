@@ -9,6 +9,7 @@ import { MdLiveHelp } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { logoutSupplierFunc } from "../../../Redux/Supplier/SupplierActions";
 
+
 const AccountContainer = (props) => {
   const Navigate = useNavigate();
   const dispatch = useDispatch();
@@ -24,7 +25,7 @@ const AccountContainer = (props) => {
       <ul className="account-list">
         <li className="account-list-item">
           <Link
-            to="#"
+            to="/supplier/profile"
             className="account-list-link"
             onClick={() => props.setShow()}
           >
@@ -54,7 +55,7 @@ const AccountContainer = (props) => {
         </li>
         <li className="account-list-item">
           <Link
-            to="#"
+            to="/supplier/help"
             className="account-list-link"
             onClick={() => props.setShow()}
           >

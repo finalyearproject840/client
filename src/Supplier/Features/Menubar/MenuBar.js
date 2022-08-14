@@ -103,6 +103,7 @@ const MenuBar = (props) => {
             />
             <MenuListItem
               text="Notifications"
+              Link="/supplier/all/notifications/"
               icon={<IoMdNotificationsOutline size={23} />}
               active={
                 props.active
@@ -170,17 +171,7 @@ const MenuBar = (props) => {
                   : "false"
               }
             />
-            <MenuListItem
-              text="Logout"
-              icon={<IoLogOutOutline size={23} />}
-              active={
-                props.active
-                  ? props.active === "logout"
-                    ? "true"
-                    : "false"
-                  : "false"
-              }
-            />
+            
           </StyledList>
         </div>
       </div>

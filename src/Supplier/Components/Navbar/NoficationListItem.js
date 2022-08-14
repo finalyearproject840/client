@@ -3,15 +3,15 @@ import styled from "styled-components";
 import { AiFillHeart } from "react-icons/ai";
 import { StyleSubtitle } from "../../../Styles";
 import { colors, fontSize, spacing } from "../../../DefaultValues";
+import Button from "../../../Shared/Components/Button";
 const NoficationListItem = (props) => {
-
   return (
     <StyledItemContainer>
       <div className="icon-box">
         <AiFillHeart color={colors.voilet} size={22} />
       </div>
       <div className="notification-content">
-        <b className="notification-date">{props.date.toDateString()}</b>
+        <b className="notification-date">{props.date}</b>
         <StyleSubtitle size={fontSize.sm} color={colors.muted}>
           {props.title}
         </StyleSubtitle>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { baseUrl, fontSize } from "../../../DefaultValues";
 import styled from "styled-components";
@@ -10,35 +10,18 @@ import { Formik, Form } from "formik";
 import { editBrandLogoFunc } from "../../../Redux/Supplier/SupplierActions";
 import { useNavigate } from "react-router-dom";
 const SupplierProfileSection = () => {
-  //usestates to handle various changes
-  const [submissionError, setSubmissionError] = useState({
-    error: false,
-    msg: "",
-  });
-  const [success, setSuccess] = useState({});
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const SupplierState = useSelector((state) => state.SupplierState);
   const { supplier: data } = SupplierState;
 
-  const handleNavigate = ()=>{
+  const handleNavigate = () => {
     navigate("/supplier/profile");
-  }
-
+  };
   //function to handle change image
   const handleChangeImage = (form, setSubmitting, resetForm) => {
     console.log(form);
-    dispatch(
-      editBrandLogoFunc(
-        form,
-        setSubmitting,
-        resetForm,
-        setSubmissionError,
-        setSuccess,
-        handleNavigate
-      )
-    );
+    dispatch(editBrandLogoFunc(form, setSubmitting, resetForm, handleNavigate));
   };
 
   return (

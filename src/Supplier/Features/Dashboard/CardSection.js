@@ -6,11 +6,15 @@ import { MdDeliveryDining } from "react-icons/md";
 import { StyleSubtitle, StyleTitle } from "../../../Styles";
 import { colors, fonts, fontSize } from "../../../DefaultValues";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 {
   /* the card section as the first section of the dashboard */
 }
 const CardSection = () => {
+  const appStore = useSelector((state) => state.SupplierState);
+  const { products } = appStore;
+
   return (
     <section className="card-section my-3" id="card-section">
       <div className="container">
@@ -40,14 +44,14 @@ const CardSection = () => {
           </CardItem>
           {/* Card item */}
           <CardItem className="col-sm-6 col-lg-3" color={colors.blue}>
-            <Link to="#">
+            <Link to="/supplier/products">
               <div className="card-container">
                 <div className="icon-box">
                   <AiFillMedicineBox color={colors.white} size={25} />
                 </div>
                 <div className="text-container">
                   <StyleTitle size={fontSize.n} color={colors.blue}>
-                    45,399
+                    {products.data.length}
                   </StyleTitle>
                   <StyleSubtitle
                     size={fontSize.sm}

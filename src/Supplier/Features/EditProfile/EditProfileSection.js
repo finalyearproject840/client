@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import TextField, {
   StyledErrorText,
@@ -14,13 +14,6 @@ import styled from "styled-components";
 import { colors } from "../../../DefaultValues";
 
 const EditProfileSection = () => {
-  //usestates to handle various changes
-  const [submissionError, setSubmissionError] = useState({
-    error: false,
-    msg: "",
-  });
-  const [success, setSuccess] = useState({});
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const SupplierState = useSelector((state) => state.SupplierState);
@@ -33,15 +26,7 @@ const EditProfileSection = () => {
   //form submission function
   const handleSubmit = (form, setSubmitting, resetForm) => {
     console.log(form);
-    dispatch(
-      updateSupplierFunc(
-        form,
-        setSubmitting,
-        setSubmissionError,
-        setSuccess,
-        handleRedirect
-      )
-    );
+    dispatch(updateSupplierFunc(form, setSubmitting, handleRedirect));
   };
 
   //write validation schema using Yup library
@@ -71,17 +56,6 @@ const EditProfileSection = () => {
         <div className="col-12 col-lg-10">
           <StyledContainer>
             <>
-              {/* display authentication error */}
-              {submissionError.error ? (
-                <div
-                  className="alert alert-danger text-center text-capitalize"
-                  role="alert"
-                >
-                  <b> {submissionError.msg}</b>
-                </div>
-              ) : (
-                ""
-              )}
               {/*form with formik  */}
               {supplier ? (
                 <Formik

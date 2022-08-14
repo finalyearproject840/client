@@ -4,7 +4,7 @@ import { IoSearchCircleSharp } from "react-icons/io5";
 import { RiArrowDropDownLine, RiUser3Line } from "react-icons/ri";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import { colors, fontSize } from "../../../DefaultValues";
+import { colors, fontSize, baseUrl } from "../../../DefaultValues";
 import { StyleTitle } from "../../../Styles";
 import AccountContainer from "./AccountContainer";
 import NotificationContainer from "./NotificationContainer";
@@ -29,7 +29,6 @@ const NavBar = () => {
   const SupplierState = useSelector((state) => state.SupplierState);
   const { supplier } = SupplierState;
 
-  
   let supplierName = "";
   if (supplier) {
     //limit supplier name string
@@ -39,7 +38,6 @@ const NavBar = () => {
     }
 
     //work on supplier image
-    
   }
 
   const notifications = [
@@ -110,20 +108,32 @@ const NavBar = () => {
 
         {/* Account area */}
         <div className="account-area d-flex">
-          <div className="avatar-box d-flex align-items-center">
-            <span className="avatar-icon">
-              <RiUser3Line
-                className="icon user-icon"
-                onClick={() => handleShowAccount()}
-              />
-            </span>
+          <div className="avatar-box d-flex align-items-center" onClick={() => handleShowAccount()}>
+            {supplier ? (
+              supplier.brand_logo ? (
+                <img className="avatar-icon" src={`${baseUrl}/${supplier.brand_logo}`} />
+              ) : (
+                <span className="avatar-icon">
+                  <RiUser3Line
+                    className="icon user-icon"
+                  />
+                </span>
+              )
+            ) : (
+              <span className="avatar-icon">
+                <RiUser3Line
+                  className="icon user-icon"
+                />
+              </span>
+            )}
+
             <div className="name p-0" onClick={() => handleShowAccount()}>
               <StyleTitle
                 size={fontSize.sm}
-                className="d-inline"
+                className="d-inline text-uppercase"
                 color={colors.muted}
               >
-               {supplier ? supplierName.substring(0, 10) : ""}
+                {supplier ? supplierName.substring(0, 10) : ""}
               </StyleTitle>
               <RiArrowDropDownLine
                 className="icon drop-icon"
@@ -207,14 +217,15 @@ const StyledNavbar = styled.div`
   }
 
   .avatar-icon {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
     background-color: #f5f5f5;
     margin-right: 0.5rem;
+    cursor: pointer;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
     -ms-border-radius: 50%;

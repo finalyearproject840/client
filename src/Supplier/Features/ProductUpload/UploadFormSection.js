@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import TextField, {
   StyledErrorText,
@@ -12,23 +12,11 @@ import { uploadProductFunc } from "../../../Redux/Supplier/SupplierActions";
 import Loading from "../../../Shared/Components/Loading";
 import styled from "styled-components";
 import { colors } from "../../../DefaultValues";
-import Swal from "sweetalert2";
-const UploadFormSection = () => {
-  //usestates to handle various changes
-  const [submissionError, setSubmissionError] = useState({
-    error: false,
-    msg: "",
-  });
-  const [success, setSuccess] = useState({
-    show: false,
-    title: "",
-    msg: "",
-  });
 
+const UploadFormSection = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const SupplierState = useSelector((state) => state.SupplierState);
-  const { supplier } = SupplierState;
+  const supplier = useSelector(state=>state.SupplierState.supplier);
 
   //function to redirect to product priview after upload succes
   const handleRedirect = (id) => {
@@ -36,17 +24,7 @@ const UploadFormSection = () => {
   };
   //form submission function
   const handleSubmit = (form, setSubmitting, resetForm) => {
-    dispatch(
-      uploadProductFunc(
-        form,
-        setSubmitting,
-        resetForm,
-        setSubmissionError,
-        supplier,
-        setSuccess,
-        handleRedirect
-      )
-    );
+    dispatch(uploadProductFunc(form, setSubmitting, resetForm, supplier, handleRedirect));
   };
 
   //write validation schema using Yup library
@@ -72,27 +50,11 @@ const UploadFormSection = () => {
     usage: Yup.string().required("usage info is required"),
   });
 
-  //display sweet alert
-  if (success.show) {
-    Swal.fire(success.title, success.msg, "success");
-  }
-
   return (
     <div className="container">
       <div className="row justify-content-center">
         <div className="col-12 col-lg-10">
           <StyledTableContainer>
-            {/* display authentication error */}
-            {submissionError.error ? (
-              <div
-                className="alert alert-danger text-center text-capitalize"
-                role="alert"
-              >
-                <b> {submissionError.msg}</b>
-              </div>
-            ) : (
-              ""
-            )}
             {/*form with formik  */}
             <Formik
               initialValues={{
