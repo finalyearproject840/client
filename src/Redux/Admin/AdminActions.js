@@ -6,6 +6,7 @@ import axios from "axios";
 import {
   AdminRoutes
 } from "../../DefaultValues";
+import { notifyError, notifySuccess, notifyWarning } from "../../Shared/Components/NotificationToast";
 
 //redux action to load authenticated admin from browser cookie
 const loadAdmin = (payload) => ({
@@ -24,20 +25,11 @@ const loadAllSuppliers = (payload) => ({
   type: AdminActionTypes.GET_ALL_SUPPLIERS,
   payload: payload,
 });
-//verify supplier
-const VerifySupplier = (payload) => ({
-  type: AdminActionTypes.VERIFY_SUPPLIER,
-  payload: payload,
-});
+
 
 //verify Product
 const VerifyProduct = (payload) => ({
   type: AdminActionTypes.VERIFY_PRODUCT,
-  payload: payload,
-});
-//read notification
-const readNotification = (payload) => ({
-  type: AdminActionTypes.READ_NOTIFICATION,
   payload: payload,
 });
 
@@ -153,7 +145,7 @@ export const readNotificationFunc = (id) => {
 
     axios(config)
       .then(function (response) {
-        console.log(response.data);
+        notifySuccess("Marked as read");
         dispatch(loadNotificationSuccess(response.data.data));
       })
       .catch(function (error) {
@@ -181,9 +173,56 @@ export const logoutAdminFunc = () => {
     Cookies.remove("admin");
     Cookies.remove("token");
     //console.log(admin);
+    notifyWarning("You are logged out");
     dispatch(logoutAdmin(null));
   };
 };
+
+//Edit admin details
+export const updateAdminFunc = (form, setSubmitting, handleRedirect) => {
+  return (dispatch) => {
+    //for authentication
+    const token = Cookies.get("token");
+    //config headers
+    var config = {
+      method: "post",
+      url: AdminRoutes.updateAdminDetails + "/" + form.id,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      data: form,
+    };
+    //axios
+    axios(config)
+      .then(function (response) {
+        if (response.data.success) {
+          setSubmitting(false);
+          notifySuccess("Profile info update successfully");
+          const { data, token } = response.data;
+
+          //store token and data inside cookies for future autorizations
+          Cookies.set("token", token);
+          Cookies.set("admin", JSON.stringify(data));
+
+          dispatch(loadAdmin(response.data.data));
+          handleRedirect(response.data.data._id);
+        } else {
+          setSubmitting(false);
+          notifyError("response.data.msg");
+          console.log(response.data);
+        }
+      })
+      .catch(function (error) {
+        setSubmitting(false);
+        notifyError("Opps! something went wrong");
+        console.log(error);
+      });
+  };
+};
+
+
+
 //function load admin function
 export const loadAllSuppliersFunc = () => {
   return (dispatch) => {
@@ -224,10 +263,15 @@ export const VerifySupplierFunc = (options) => {
 
     axios(config)
       .then(function (response) {
-        console.log(response.data);
         dispatch(loadAllSuppliers(response.data.data));
+        if(options.verify){
+          notifySuccess("Supplier has been verified successfully");
+        }else{
+          notifySuccess("Supplier has be  unverified successfully");
+        }
       })
       .catch(function (error) {
+        notifyError("Something went wrong");
         console.log(error);
       });
   };
@@ -252,12 +296,17 @@ export const VerifyProductFunc = (options) => {
 
     axios(config)
       .then(function (response) {
-        console.log(response.data);
         if (response.data.success) {
           dispatch(VerifyProduct(response.data.data));
+          if(options.verify){
+            notifySuccess("Product verified successfully");
+          }else{
+            notifySuccess("Product unverified successfully");
+          }
         }
       })
       .catch(function (error) {
+        notifyError("Opps! something went wrong")
         console.log(error);
       });
   };
@@ -283,10 +332,15 @@ export const suspendSupplierFunc = (options) => {
 
     axios(config)
       .then(function (response) {
-        console.log(response.data);
         dispatch(loadAllSuppliers(response.data.data));
+        if(options.suspend){
+          notifySuccess("Supplier suspeneded successfully");
+        }else{
+          notifySuccess("Supplier unsuspend successfully");
+        }
       })
       .catch(function (error) {
+        notifyError("Something went wrong")
         console.log(error);
       });
   };

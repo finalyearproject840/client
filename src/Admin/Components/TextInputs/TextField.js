@@ -49,13 +49,13 @@ const StyledInput = styled.div`
     letter-spacing: 1px;
   }
 `;
-const StyledLabel = styled.label`
+export const StyledLabel = styled.label`
   font-family: ${fonts.barlow};
   font-size: ${fontSize.sm};
   font-weight: 600;
   letter-spacing: 1px;
 `;
-const StyledErrorText = styled.p`
+export const StyledErrorText = styled.p`
   font-size: ${fontSize.sm};
   letter-spacing: 1px;
 `;

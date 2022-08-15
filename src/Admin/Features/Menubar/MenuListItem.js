@@ -5,8 +5,8 @@ import { colors, fonts, fontSize } from "../../../DefaultValues";
 
 const MenuListItem = (props) => {
   return (
-    <StyledListItem>
-      <Link to={props.Link ? props.Link : "#"} onClick={props.onClick} className="list-link">
+    <StyledListItem active={props.active}>
+      <Link to={props.Link ? props.Link : "#"} className="list-link">
         {props.icon}
         <span className="ms-3">{props.text}</span>
       </Link>
@@ -35,7 +35,8 @@ const StyledListItem = styled.li`
   }
 
   .list-link {
-    color: ${colors.muted};
+    color: ${(props) =>
+      props.active === "true" ? colors.voilet : colors.muted};
     font-weight: 500;
   }
   .list-link:hover {

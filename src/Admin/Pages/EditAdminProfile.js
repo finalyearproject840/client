@@ -1,30 +1,22 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import { StyleContainer } from "../../Styles";
 import Navbar from "../Components/Navbar/Navbar";
 import MenuBar from "../Features/Menubar/MenuBar";
-//datatables
-import "datatables.net-bs5/js/dataTables.bootstrap5";
-import "datatables.net-bs5/css/dataTables.bootstrap5.min.css";
-import AllSupplierSection from "../Features/AllSuppliers/AllSupplierSection";
-import { useDispatch } from "react-redux";
-import { loadAllSuppliersFunc } from "../../Redux/Admin/AdminActions";
-const AllSuppliers = () => {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(loadAllSuppliersFunc());
-  }, []);
+import EditProfileSection from "../Features/EditProfile/EditProfileSection";
+
+const EditAdminProfile = () => {
   return (
     <StyleContainer>
       {/* divide the container into 2 menubar and the main content */}
-      <MenuBar active="suppliers" />
+      <MenuBar active="editprofile" />
       {/* main content */}
       <div className="main-content">
         {/* Navbar */}
         <Navbar />
         {/* Main container */}
         <StyledMainContainer>
-          <AllSupplierSection />
+          <EditProfileSection />
         </StyledMainContainer>
       </div>
     </StyleContainer>
@@ -37,4 +29,4 @@ const StyledMainContainer = styled.div`
   padding-bottom: 6rem;
 `;
 
-export default AllSuppliers;
+export default EditAdminProfile;

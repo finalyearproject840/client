@@ -45,6 +45,7 @@ export const AdminRoutes = {
   loadProducts:`${baseUrl}/admin/all/products`,
   verifyProduct:`${baseUrl}/admin/verify/product`,
   readNotification:`${baseUrl}/admin/read/notification`,
+  updateAdminDetails:`${baseUrl}/admin/update/details`,
 }
 
 export const SupplierRoutes = {

@@ -30,6 +30,8 @@ import EditProfile from "../Supplier/Pages/EditProfile";
 import SupplierProfile from "../Supplier/Pages/Account/SupplierProfile";
 import SupplierHelp from "../Supplier/Pages/SupplierHelp";
 import SupplierNotification from "../Supplier/Pages/SupplierNotification";
+import AdminProfile from "../Admin/Pages/Account/AdminProfile";
+import EditAdminProfile from "../Admin/Pages/EditAdminProfile";
 
 const AppRoutes = () => {
   return (
@@ -48,6 +50,8 @@ const AppRoutes = () => {
           <Route element={<AllProducts />} path="/admin/all/products" />
           <Route element={<AdminProductPreview />} path="/admin/product/:id" />
           <Route element={<AllNotification />} path="/admin/all/notifications" />
+          <Route element={<AdminProfile />} path="/admin/profile" />
+          <Route element={<EditAdminProfile />} path="/admin/edit/profile" />
         </Route>
 
         {/* supplier protected route */}
