@@ -35,9 +35,10 @@ export const fonts = {
   barlow: "Barlow",
   righteous: "Righteous",
 };
-
-export const baseUrl = "http://localhost:5000/api/pharmacy"
+export const baseUrl = "https://final-year-pharmacy-backend.herokuapp.com/api/pharmacy"
 export const AdminRoutes = {
+  adminLogin:`${baseUrl}/admin/login`,
+  adminSignup:`${baseUrl}/admin/signup`,
   getSuppliers:`${baseUrl}/admin/all/suppliers`,
   verifySupplier:`${baseUrl}/admin/verify/supplier`,
   suspendSupplier:`${baseUrl}/admin/suspend/supplier`,
@@ -49,6 +50,8 @@ export const AdminRoutes = {
 }
 
 export const SupplierRoutes = {
+  supplierLogin:`${baseUrl}/supplier/login`,
+  supplierSignup:`${baseUrl}/supplier/signup`,
   uploadProduct:`${baseUrl}/supplier/upload/product`,
   loadProducts:`${baseUrl}/supplier/products`,
   loadProduct:`${baseUrl}/supplier/product`,

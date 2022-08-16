@@ -6,7 +6,7 @@ import StyledAccount, {
 } from "./AccountStyles";
 import { StyleSubtitle, StyleTitle } from "../../../Styles";
 import Image from "../../../Assets/Images/Design/background/Account_background.jpg";
-import { colors, fonts, fontSize } from "../../../DefaultValues";
+import { colors, fonts, fontSize, SupplierRoutes } from "../../../DefaultValues";
 import { Formik, Form } from "formik";
 import TextField from "../../Components/TextInputs/TextField";
 import { BsFacebook } from "react-icons/bs";
@@ -35,7 +35,7 @@ const SupplierSignup = () => {
   const handleSubmit = (form, setSubmitting) => {
     let config = {
       method: "post",
-      url: "http://localhost:5000/api/pharmacy/supplier/signup",
+      url: SupplierRoutes.supplierSignup,
       headers: {
         "Content-Type": "application/json",
       },

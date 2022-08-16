@@ -6,7 +6,7 @@ import StyledAccount, {
 } from "./AccountStyles";
 import { StyleSubtitle, StyleTitle } from "../../../Styles";
 import Image from "../../../Assets/Images/Design/background/Account_background.jpg";
-import { colors, fonts, fontSize } from "../../../DefaultValues";
+import { colors, fonts, fontSize, SupplierRoutes } from "../../../DefaultValues";
 import { Formik, Form } from "formik";
 import TextField from "../../Components/TextInputs/TextField";
 import { AiOutlineMail } from "react-icons/ai";
@@ -36,7 +36,7 @@ const SupplierLogin = () => {
   const handleSubmit = (form, setSubmitting) => {
     let config = {
       method: "post",
-      url: "http://localhost:5000/api/pharmacy/supplier/login",
+      url: SupplierRoutes.supplierLogin,
       headers: {
         "Content-Type": "application/json",
       },

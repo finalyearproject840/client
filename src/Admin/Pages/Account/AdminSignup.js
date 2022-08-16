@@ -6,7 +6,7 @@ import StyledAccount, {
 } from "./AccountStyles";
 import { StyleTitle } from "../../../Styles";
 import Image from "../../../Assets/Images/Design/background/admin_account_background.jpg";
-import { colors, fonts } from "../../../DefaultValues";
+import { AdminRoutes, colors, fonts } from "../../../DefaultValues";
 import { Formik, Form } from "formik";
 import TextField from "../../Components/TextInputs/TextField";
 
@@ -35,7 +35,7 @@ const AdminSignup = () => {
   const handleSubmit = (form, setSubmitting) => {
     let config = {
       method: "post",
-      url: "http://localhost:5000/api/pharmacy/admin/signup",
+      url: AdminRoutes.adminSignup,
       headers: {
         "Content-Type": "application/json",
       },
