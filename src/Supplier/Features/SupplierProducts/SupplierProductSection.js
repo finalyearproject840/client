@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import $ from "jquery";
-import { colors, fonts, fontSize } from "../../../DefaultValues";
+import { baseUrl, colors, fonts, fontSize } from "../../../DefaultValues";
 import ConfirmModal from "../../../Shared/Components/ConfirmModal";
 import { loadProductFunc } from "../../../Redux/Supplier/SupplierActions";
 import Loading from "../../../Shared/Components/Loading";
@@ -60,6 +60,7 @@ const SupplierProductSection = () => {
                     <thead>
                       <tr className="tr">
                         <th>View</th>
+                        <th>Image</th>
                         <th>ID</th>
                         <th>name</th>
                         <th>category</th>
@@ -79,6 +80,13 @@ const SupplierProductSection = () => {
                         return (
                           <tr key={item._id}>
                             <td className="td"><Link to={`/supplier/product/${item._id}`} className="btn btn-dark">Details</Link></td>
+                            <td className="td">
+                              <img
+                                src={`${baseUrl}/${item.product_images[0].location}`}
+                                alt="product"
+                                className="img-fluid"
+                              />
+                            </td>
                             <td className="td">{item._id}</td>
                             <td className="td">{item.name}</td>
                             <td className="td">{item.category}</td>

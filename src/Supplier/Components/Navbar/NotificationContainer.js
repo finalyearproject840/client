@@ -26,7 +26,7 @@ const NotificationContainer = (props) => {
     //config headers
     var config = {
       method: "get",
-      url: `${SupplierRoutes.suppllierNotification}/${
+      url: `${SupplierRoutes.supplierNotification}/${
         supplier ? supplier._id : ""
       }?limit=10`,
       headers: {

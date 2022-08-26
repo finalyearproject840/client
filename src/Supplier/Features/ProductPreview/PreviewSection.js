@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Cookies from "js-cookie";
 import {
   baseUrl,
@@ -11,11 +11,15 @@ import {
 import styled from "styled-components";
 import Loading from "../../../Shared/Components/Loading";
 import { StyleSubtitle, StyleTitle } from "../../../Styles";
+import { useDispatch } from "react-redux";
+import { deleteProductFunc } from "../../../Redux/Supplier/SupplierActions";
 
 const PreviewSection = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
   const [error, setError] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const id = useParams().id;
   const getData = (id) => {
@@ -47,6 +51,16 @@ const PreviewSection = () => {
         setError(true);
         console.log(error);
       });
+  };
+
+  //handle redirect after delete
+  const handleRedirect = () => {
+    navigate("/supplier/products");
+  };
+
+  //handle delete product
+  const handleDelete = () => {
+    dispatch(deleteProductFunc(data, handleRedirect));
   };
 
   useEffect(() => {
@@ -84,13 +98,13 @@ const PreviewSection = () => {
                   ))}
                 </div>
                 <div className="text-center">
-                    <Link
-                      to={`/supplier/edit/product/images/${data._id}`}
-                      className="btn btn-dark"
-                    >
-                      Edit Product Images
-                    </Link>
-                  </div>
+                  <Link
+                    to={`/supplier/edit/product/images/${data._id}`}
+                    className="btn btn-dark"
+                  >
+                    Edit Product Images
+                  </Link>
+                </div>
                 <div className="p-3">
                   <p className="lead">
                     <b>Name</b>: {data.name}
@@ -148,10 +162,21 @@ const PreviewSection = () => {
                       Edit Product Information
                     </Link>
                   </div>
+                  {/* Delete product button */}
+                  <div className="text-center mt-3">
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => handleDelete()}
+                    >
+                      Delete Product
+                    </button>
+                  </div>
                 </div>
               </div>
             ) : (
-              <div>Not found</div>
+              <div className="alert alert-light text-center my-4" role="alert">
+                <b>Opps! product not found</b>
+              </div>
             )}
           </StyledProductPreviewSection>
         </div>

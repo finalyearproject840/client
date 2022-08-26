@@ -56,7 +56,7 @@ export const loadNotificationFunc = (id) => {
     //config headers
     var config = {
       method: "get",
-      url: `${SupplierRoutes.suppllierNotification}/${id}`,
+      url: `${SupplierRoutes.supplierNotification}/${id}`,
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
@@ -105,7 +105,6 @@ export const readNotificationFunc = (id) => {
   };
 };
 
-
 //function load products function
 export const loadProductFunc = (id) => {
   return (dispatch) => {
@@ -125,6 +124,7 @@ export const loadProductFunc = (id) => {
     axios(config)
       .then(function (response) {
         if (response.data.success) {
+          console.log(response.data.data);
           dispatch(loadProductSuccess(response.data.data));
         } else {
           dispatch(loadProductFail());
@@ -155,7 +155,7 @@ export const logoutSupplierFunc = () => {
     Cookies.remove("supplier");
     Cookies.remove("token");
     dispatch(logoutSupplier(null));
-    notifySuccess("Supplier logged out!")
+    notifySuccess("Supplier logged out!");
   };
 };
 
@@ -268,11 +268,7 @@ export const uploadProductImagesFunc = (
 };
 
 //supplier delete product image
-export const deleteProductImageFunc = (
-  product_id,
-  data,
-  getData
-) => {
+export const deleteProductImageFunc = (product_id, data, getData) => {
   return (dispatch) => {
     //for authentication
     const token = Cookies.get("token");
@@ -292,6 +288,37 @@ export const deleteProductImageFunc = (
         if (response.data.success) {
           getData(product_id);
           notifySuccess("Image deleted successfully");
+        } else {
+          notifyError(response.data.msg);
+        }
+      })
+      .catch(function (error) {
+        notifyError("Opps! something went wrong");
+        console.log(error);
+      });
+  };
+};
+
+//supplier delete product
+export const deleteProductFunc = (data, handleRedirect) => {
+  return (dispatch) => {
+    //for authentication
+    const token = Cookies.get("token");
+    //config headers
+    var config = {
+      method: "delete",
+      url: SupplierRoutes.deleteProduct + "/" + data._id,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
+    //axios
+    axios(config)
+      .then(function (response) {
+        if (response.data.success) {
+          notifySuccess("Product deleted successfully");
         } else {
           notifyError(response.data.msg);
         }
@@ -592,5 +619,3 @@ export const supplierHelpFunc = (
       });
   };
 };
-
-

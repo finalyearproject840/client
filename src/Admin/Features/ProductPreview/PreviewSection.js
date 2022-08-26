@@ -1,13 +1,8 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Cookies from "js-cookie";
-import {
-  baseUrl,
-  fonts,
-  fontSize,
-  SupplierRoutes,
-} from "../../../DefaultValues";
+import { AdminRoutes, baseUrl, fonts, fontSize } from "../../../DefaultValues";
 import styled from "styled-components";
 import Loading from "../../../Shared/Components/Loading";
 import { StyleSubtitle, StyleTitle } from "../../../Styles";
@@ -15,7 +10,6 @@ import { StyleSubtitle, StyleTitle } from "../../../Styles";
 const PreviewSection = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
-  const [error, setError] = useState(false);
 
   const id = useParams().id;
   const getData = (id) => {
@@ -25,7 +19,7 @@ const PreviewSection = () => {
     //config headers
     var config = {
       method: "get",
-      url: `${SupplierRoutes.loadProduct}/${id}`,
+      url: `${AdminRoutes.loadProduct}/${id}`,
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
@@ -39,12 +33,10 @@ const PreviewSection = () => {
           setData(response.data.data);
         } else {
           setLoading(false);
-          setError(true);
         }
       })
       .catch(function (error) {
         setLoading(false);
-        setError(true);
         console.log(error);
       });
   };
@@ -75,10 +67,10 @@ const PreviewSection = () => {
                 <div className="text-center">
                   <StyleSubtitle>Product images</StyleSubtitle>
                   {data.product_images.map((item, index) => (
-                    <div key={index} className="my-2">
+                    <div key={index} className="my-4">
                       <img
                         className="w-50 img img-thumbnail"
-                        src={`${baseUrl}/${item}`}
+                        src={`${baseUrl}/${item.location}`}
                       />
                     </div>
                   ))}
@@ -130,7 +122,9 @@ const PreviewSection = () => {
                 </div>
               </div>
             ) : (
-              <div>Not found</div>
+              <div className="alert alert-light text-center my-4" role="alert">
+                <b>Opps! product not found</b>
+              </div>
             )}
           </StyledProductPreviewSection>
         </div>

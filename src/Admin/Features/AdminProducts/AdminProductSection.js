@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import $ from "jquery";
-import { colors, fonts, fontSize } from "../../../DefaultValues";
+import { baseUrl, colors, fonts, fontSize } from "../../../DefaultValues";
 import ConfirmModal from "../../../Shared/Components/ConfirmModal";
 import Loading from "../../../Shared/Components/Loading";
 //datatables
@@ -70,7 +70,6 @@ const AdminProductSection = () => {
                   size={fontSize.xxl}
                   color={colors.muted}
                   className="text-center"
-
                 >
                   All Medicines
                 </StyleTitle>
@@ -82,6 +81,7 @@ const AdminProductSection = () => {
                     <thead>
                       <tr className="tr">
                         <th>View</th>
+                        <th>image</th>
                         <th>Product ID</th>
                         <th>Supplier ID</th>
                         <th>name</th>
@@ -108,6 +108,13 @@ const AdminProductSection = () => {
                               >
                                 Details
                               </Link>
+                            </td>
+                            <td className="td">
+                              <img
+                                src={`${baseUrl}/${item.product_images[0].location}`}
+                                alt="product"
+                                className="img-fluid"
+                              />
                             </td>
                             <td className="td">{item._id}</td>
                             <td className="td">{item.supplier.supplier_id}</td>

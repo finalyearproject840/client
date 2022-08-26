@@ -35,7 +35,11 @@ export const fonts = {
   barlow: "Barlow",
   righteous: "Righteous",
 };
-export const baseUrl = "https://final-year-pharmacy-backend.herokuapp.com/api/pharmacy"
+//live url
+//export const baseUrl = "http://pharmacybackend.gidcharityfoundation.org/api/pharmacy"
+
+//local url
+export const baseUrl = "http://localhost:5000/api/pharmacy"
 export const AdminRoutes = {
   adminLogin:`${baseUrl}/admin/login`,
   adminSignup:`${baseUrl}/admin/signup`,
@@ -47,6 +51,7 @@ export const AdminRoutes = {
   verifyProduct:`${baseUrl}/admin/verify/product`,
   readNotification:`${baseUrl}/admin/read/notification`,
   updateAdminDetails:`${baseUrl}/admin/update/details`,
+  loadProduct:`${baseUrl}/admin/product`,
 }
 
 export const SupplierRoutes = {
@@ -59,8 +64,9 @@ export const SupplierRoutes = {
   uploadProductImages:`${baseUrl}/supplier/upload/product/images`,
   deleteProductImages:`${baseUrl}/supplier/delete/product/image`,
   editProductImage:`${baseUrl}/supplier/edit/product/image`,
+  deleteProduct:`${baseUrl}/supplier/delete/product/`,
 
-  suppllierNotification:`${baseUrl}/supplier/all/notifications`,
+  supplierNotification:`${baseUrl}/supplier/all/notifications`,
   readNotification:`${baseUrl}/supplier/read/notification`,
 
   uploadSupplierLicense:`${baseUrl}/supplier/upload/license`,
