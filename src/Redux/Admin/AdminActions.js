@@ -1,12 +1,12 @@
-import {
-  AdminActionTypes
-} from "./AdminActionTypes";
+import { AdminActionTypes } from "./AdminActionTypes";
 import Cookies from "js-cookie";
 import axios from "axios";
+import { AdminRoutes } from "../../DefaultValues";
 import {
-  AdminRoutes
-} from "../../DefaultValues";
-import { notifyError, notifySuccess, notifyWarning } from "../../Shared/Components/NotificationToast";
+  notifyError,
+  notifySuccess,
+  notifyWarning,
+} from "../../Shared/Components/NotificationToast";
 
 //redux action to load authenticated admin from browser cookie
 const loadAdmin = (payload) => ({
@@ -26,14 +26,11 @@ const loadAllSuppliers = (payload) => ({
   payload: payload,
 });
 
-
 //verify Product
 const VerifyProduct = (payload) => ({
   type: AdminActionTypes.VERIFY_PRODUCT,
   payload: payload,
 });
-
-
 
 //const admin load products start
 const loadProductStart = () => ({
@@ -80,7 +77,6 @@ export const loadProductFunc = () => {
   };
 };
 
-
 //const admin load notification start
 const loadNotificationStart = () => ({
   type: AdminActionTypes.ADMIN_START_LOAD_NOTIFICATION,
@@ -94,7 +90,6 @@ const loadNotificationSuccess = (payload) => ({
 const loadNotificationFail = () => ({
   type: AdminActionTypes.ADMIN_LOAD_NOTIFICATION_FAIL,
 });
-
 
 //function load notification function
 export const loadNotificationFunc = () => {
@@ -153,7 +148,6 @@ export const readNotificationFunc = (id) => {
       });
   };
 };
-
 
 //function load admin function
 export const loadAdminFunc = () => {
@@ -221,8 +215,6 @@ export const updateAdminFunc = (form, setSubmitting, handleRedirect) => {
   };
 };
 
-
-
 //function load admin function
 export const loadAllSuppliersFunc = () => {
   return (dispatch) => {
@@ -231,7 +223,7 @@ export const loadAllSuppliersFunc = () => {
       method: "get",
       url: AdminRoutes.getSuppliers,
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
     };
     axios(config)
@@ -257,16 +249,16 @@ export const VerifySupplierFunc = (options) => {
       },
       data: {
         id: options.id,
-        verify: options.verify
+        verify: options.verify,
       },
     };
 
     axios(config)
       .then(function (response) {
         dispatch(loadAllSuppliers(response.data.data));
-        if(options.verify){
+        if (options.verify) {
           notifySuccess("Supplier has been verified successfully");
-        }else{
+        } else {
           notifySuccess("Supplier has be  unverified successfully");
         }
       })
@@ -290,7 +282,7 @@ export const VerifyProductFunc = (options) => {
       },
       data: {
         id: options.id,
-        verify: options.verify
+        verify: options.verify,
       },
     };
 
@@ -298,15 +290,15 @@ export const VerifyProductFunc = (options) => {
       .then(function (response) {
         if (response.data.success) {
           dispatch(VerifyProduct(response.data.data));
-          if(options.verify){
+          if (options.verify) {
             notifySuccess("Product verified successfully");
-          }else{
+          } else {
             notifySuccess("Product unverified successfully");
           }
         }
       })
       .catch(function (error) {
-        notifyError("Opps! something went wrong")
+        notifyError("Opps! something went wrong");
         console.log(error);
       });
   };
@@ -314,7 +306,7 @@ export const VerifyProductFunc = (options) => {
 
 //supplier suspension function
 export const suspendSupplierFunc = (options) => {
-  console.log(options)
+  console.log(options);
   return (dispatch) => {
     const token = Cookies.get("token");
     var config = {
@@ -326,21 +318,53 @@ export const suspendSupplierFunc = (options) => {
       },
       data: {
         id: options.id,
-        suspend: options.suspend
+        suspend: options.suspend,
       },
     };
 
     axios(config)
       .then(function (response) {
         dispatch(loadAllSuppliers(response.data.data));
-        if(options.suspend){
-          notifySuccess("Supplier suspeneded successfully");
-        }else{
+        if (options.suspend) {
+          notifySuccess("Supplier suspended successfully");
+        } else {
           notifySuccess("Supplier unsuspend successfully");
         }
       })
       .catch(function (error) {
-        notifyError("Something went wrong")
+        notifyError("Something went wrong");
+        console.log(error);
+      });
+  };
+};
+//supplier delete product
+export const deleteProductFunc = (data, handleRedirect) => {
+  return (dispatch) => {
+    //for authentication
+    const token = Cookies.get("token");
+
+    //config headers
+    var config = {
+      method: "delete",
+      url: AdminRoutes.deleteProduct + "/" + data._id,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
+    //axios
+    axios(config)
+      .then(function (response) {
+        if (response.data.success) {
+          notifySuccess("Product deleted successfully");
+          handleRedirect();
+        } else {
+          notifyError(response.data.msg);
+        }
+      })
+      .catch(function (error) {
+        notifyError("Opps! something went wrong");
         console.log(error);
       });
   };

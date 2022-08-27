@@ -304,10 +304,13 @@ export const deleteProductFunc = (data, handleRedirect) => {
   return (dispatch) => {
     //for authentication
     const token = Cookies.get("token");
+    let supplier = Cookies.get("supplier");
+    supplier = JSON.parse(supplier);
+
     //config headers
     var config = {
       method: "delete",
-      url: SupplierRoutes.deleteProduct + "/" + data._id,
+      url: SupplierRoutes.deleteProduct + "/" + supplier._id + "/" + data._id,
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
@@ -319,6 +322,7 @@ export const deleteProductFunc = (data, handleRedirect) => {
       .then(function (response) {
         if (response.data.success) {
           notifySuccess("Product deleted successfully");
+          handleRedirect();
         } else {
           notifyError(response.data.msg);
         }

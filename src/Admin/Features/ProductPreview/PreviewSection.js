@@ -1,15 +1,19 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Cookies from "js-cookie";
 import { AdminRoutes, baseUrl, fonts, fontSize } from "../../../DefaultValues";
 import styled from "styled-components";
 import Loading from "../../../Shared/Components/Loading";
 import { StyleSubtitle, StyleTitle } from "../../../Styles";
+import { useDispatch } from "react-redux";
+import { deleteProductFunc } from "../../../Redux/Admin/AdminActions";
 
 const PreviewSection = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const id = useParams().id;
   const getData = (id) => {
@@ -39,6 +43,16 @@ const PreviewSection = () => {
         setLoading(false);
         console.log(error);
       });
+  };
+
+  //handle redirect after delete
+  const handleRedirect = () => {
+    navigate("/admin/all/products");
+  };
+
+  //handle delete product
+  const handleDelete = () => {
+    dispatch(deleteProductFunc(data, handleRedirect));
   };
 
   useEffect(() => {
@@ -71,6 +85,7 @@ const PreviewSection = () => {
                       <img
                         className="w-50 img img-thumbnail"
                         src={`${baseUrl}/${item.location}`}
+                        alt="product"
                       />
                     </div>
                   ))}
@@ -119,6 +134,15 @@ const PreviewSection = () => {
                     <br />
                     {data.description}
                   </p>
+                  {/* Delete product button */}
+                  <div className="text-center mt-3">
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => handleDelete()}
+                    >
+                      Delete Product
+                    </button>
+                  </div>
                 </div>
               </div>
             ) : (

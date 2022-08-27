@@ -11,13 +11,12 @@ import {
 import styled from "styled-components";
 import Loading from "../../../Shared/Components/Loading";
 import { StyleSubtitle, StyleTitle } from "../../../Styles";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { deleteProductFunc } from "../../../Redux/Supplier/SupplierActions";
 
 const PreviewSection = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
-  const [error, setError] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -43,12 +42,10 @@ const PreviewSection = () => {
           setData(response.data.data);
         } else {
           setLoading(false);
-          setError(true);
         }
       })
       .catch(function (error) {
         setLoading(false);
-        setError(true);
         console.log(error);
       });
   };

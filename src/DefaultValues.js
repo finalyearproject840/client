@@ -52,6 +52,7 @@ export const AdminRoutes = {
   readNotification:`${baseUrl}/admin/read/notification`,
   updateAdminDetails:`${baseUrl}/admin/update/details`,
   loadProduct:`${baseUrl}/admin/product`,
+  deleteProduct:`${baseUrl}/admin/delete/product`,
 }
 
 export const SupplierRoutes = {
@@ -64,7 +65,7 @@ export const SupplierRoutes = {
   uploadProductImages:`${baseUrl}/supplier/upload/product/images`,
   deleteProductImages:`${baseUrl}/supplier/delete/product/image`,
   editProductImage:`${baseUrl}/supplier/edit/product/image`,
-  deleteProduct:`${baseUrl}/supplier/delete/product/`,
+  deleteProduct:`${baseUrl}/supplier/delete/product`,
 
   supplierNotification:`${baseUrl}/supplier/all/notifications`,
   readNotification:`${baseUrl}/supplier/read/notification`,
