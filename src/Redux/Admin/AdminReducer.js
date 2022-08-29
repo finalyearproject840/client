@@ -8,6 +8,11 @@ const initialState = {
     data: [],
     error: false,
   },
+  categories: {
+    loading: false,
+    data: [],
+  },
+
   notifications: {
     loading: false,
     data: [],
@@ -36,7 +41,7 @@ export const AdminReducer = (state = initialState, { type, payload }) => {
         suppliers: payload,
       };
 
-    //lverify product
+    //verify product
     case AdminActionTypes.VERIFY_PRODUCT:
       return {
         ...state,
@@ -60,6 +65,24 @@ export const AdminReducer = (state = initialState, { type, payload }) => {
         ...state,
         products: {
           ...state.products,
+          loading: false,
+          data: payload,
+        },
+      };
+    //start load categories
+    case AdminActionTypes.ADMIN_START_LOAD_CATEGORY:
+      return {
+        ...state,
+        categories: {
+          ...state.categories,
+          loading: true,
+        },
+      };
+    // load categories true
+    case AdminActionTypes.ADMIN_LOAD_CATEGORY_SUCCESS:
+      return {
+        ...state,
+        categories: {
           loading: false,
           data: payload,
         },

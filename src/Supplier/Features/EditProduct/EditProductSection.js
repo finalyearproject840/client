@@ -19,6 +19,7 @@ const EditProductSection = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
   const [error, setError] = useState(false);
+  const [categories, setCategories] = useState([]);
 
   const id = useParams().id;
   const getData = (id) => {
@@ -51,15 +52,42 @@ const EditProductSection = () => {
         console.log(error);
       });
   };
+  const getCategories = () => {
+    const token = Cookies.get("token");
+    //config headers
+    var config = {
+      method: "get",
+      url: `${SupplierRoutes.loadCategories}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    };
+    //axios
+    axios(config)
+      .then(function (response) {
+        if (response.data.success) {
+          setCategories(response.data.data);
+        } else {
+          setCategories([]);
+        }
+      })
+      .catch(function (error) {
+        console.log("error", error);
+        setCategories([]);
+      });
+  };
 
   useEffect(() => {
     getData(id);
+    getCategories();
   }, []);
+
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  //function to redirect to product priview after upload succes
+  //function to redirect to product preview after upload success
   const handleRedirect = (id) => {
     navigate(`/supplier/product/${id}`);
   };
@@ -75,7 +103,7 @@ const EditProductSection = () => {
   const validateSchema = Yup.object({
     name: Yup.string()
       .required("Product name is required")
-      .min(3, "Product name should have atleast 1 characters")
+      .min(3, "Product name should have at least 1 characters")
       .max(30, "Username can't be more than 256 characters"),
     quantity: Yup.number().required("Quantity is required").min(1, "Atleast 1"),
     price: Yup.number().required("Price is required").min(0, "Atleast 0"),
@@ -193,29 +221,20 @@ const EditProductSection = () => {
                           name="category"
                           multiple
                         >
-                          <option value="pain killer">Pain killer</option>
-                          <option value="stomach pains">Stomach Pains</option>
-                          <option value="supplements">Supplements</option>
-                          <option value="sleep">Sleep</option>
-                          <option value="energy">Energy</option>
-                          <option value="health">Health</option>
-                          <option value="cough">Cough</option>
-                          <option value="cold">Cold</option>
-                          <option value="flue">Flue</option>
-                          <option value="digestive health">
-                            Degistive Health
-                          </option>
-                          <option value="eyecare">Eyecare</option>
-                          <option value="family planning">
-                            Family Planning
-                          </option>
-                          <option value="first aid">First Aid</option>
-                          <option value="herbal">Herbal</option>
-                          <option value="sexual health">Sexual Health</option>
-                          <option value="vitamin">Vitamins</option>
-                          <option value="asthma">Asthma</option>
-                          <option value="anti-acid">anti-acid</option>
-                          <option value="rashes">Rashes Treatment</option>
+                          {categories.length > 0 ? (
+                        categories.map((item) => (
+                          <StyledOption
+                            key={item._id}
+                            value={item.category_name}
+                          >
+                            {item.category_name}
+                          </StyledOption>
+                        ))
+                      ) : (
+                        <StyledOption value="no-category">
+                          No category
+                        </StyledOption>
+                      )}
                         </Field>
                         {errors.category && (
                           <StyledErrorText className="text-danger">
@@ -274,5 +293,8 @@ const StyledTableContainer = styled.div`
   background-color: ${colors.white};
   padding: 1rem;
   margin: 3rem 0rem;
+`;
+const StyledOption = styled.option`
+  text-transform: capitalize;
 `;
 export default EditProductSection;

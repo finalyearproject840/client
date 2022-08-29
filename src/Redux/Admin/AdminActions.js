@@ -46,6 +46,16 @@ const loadProductFail = () => ({
   type: AdminActionTypes.ADMIN_LOAD_PRODUCT_FAIL,
 });
 
+//const admin load categories start
+const loadCategoryStart = () => ({
+  type: AdminActionTypes.ADMIN_START_LOAD_CATEGORY,
+});
+//const admin load categories success
+const loadCategorySuccess = (payload) => ({
+  type: AdminActionTypes.ADMIN_LOAD_CATEGORY_SUCCESS,
+  payload: payload,
+});
+
 //function load products function
 export const loadProductFunc = () => {
   return (dispatch) => {
@@ -76,6 +86,8 @@ export const loadProductFunc = () => {
       });
   };
 };
+
+
 
 //const admin load notification start
 const loadNotificationStart = () => ({
@@ -209,7 +221,7 @@ export const updateAdminFunc = (form, setSubmitting, handleRedirect) => {
       })
       .catch(function (error) {
         setSubmitting(false);
-        notifyError("Opps! something went wrong");
+        notifyError("Oops! something went wrong");
         console.log(error);
       });
   };
@@ -298,7 +310,35 @@ export const VerifyProductFunc = (options) => {
         }
       })
       .catch(function (error) {
-        notifyError("Opps! something went wrong");
+        notifyError("Oops! something went wrong");
+        console.log(error);
+      });
+  };
+};
+//change product attribute
+export const changeProductAttribute = (options) => {
+  return (dispatch) => {
+    const token = Cookies.get("token");
+    var config = {
+      method: "post",
+      url: AdminRoutes.changeAttribute + "/" + options.id,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      data: options,
+    };
+    axios(config)
+      .then(function (response) {
+        if (response.data.success) {
+          dispatch(loadProductSuccess(response.data.data));
+          notifySuccess("Product changed successfully");
+        }else{
+          notifyError("Oops! something went wrong");
+        }
+      })
+      .catch(function (error) {
+        notifyError("Oops! something went wrong");
         console.log(error);
       });
   };
@@ -337,7 +377,7 @@ export const suspendSupplierFunc = (options) => {
       });
   };
 };
-//supplier delete product
+//admin delete product
 export const deleteProductFunc = (data, handleRedirect) => {
   return (dispatch) => {
     //for authentication
@@ -364,7 +404,149 @@ export const deleteProductFunc = (data, handleRedirect) => {
         }
       })
       .catch(function (error) {
-        notifyError("Opps! something went wrong");
+        notifyError("Oops! something went wrong");
+        console.log(error);
+      });
+  };
+};
+//function load categories function
+export const loadCategoriesFunc = () => {
+  return (dispatch) => {
+    dispatch(loadCategoryStart());
+    //for authorization
+    const token = Cookies.get("token");
+    //config headers
+    var config = {
+      method: "get",
+      url: `${AdminRoutes.loadCategories}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    };
+    //axios
+    axios(config)
+      .then(function (response) {
+        if (response.data.success) {
+          console.log(response.data.data);
+          dispatch(loadCategorySuccess(response.data.data));
+        } else {
+          dispatch(loadCategorySuccess([]));
+        }
+      })
+      .catch(function (error) {
+        console.log("error", error);
+        dispatch(loadCategorySuccess([]));
+      });
+  };
+};
+//supplier delete product
+export const deleteCategoryFunc = (data) => {
+  return (dispatch) => {
+    //for authentication
+    const token = Cookies.get("token");
+    //config headers
+    var config = {
+      method: "delete",
+      url: AdminRoutes.deleteCategory + "/" + data.id,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
+    //axios
+    axios(config)
+      .then(function (response) {
+        if (response.data.success) {
+          notifySuccess("Category deleted successfully");
+          dispatch(loadCategoriesFunc());
+        } else {
+          notifyError(response.data.msg);
+        }
+      })
+      .catch(function (error) {
+        notifyError("Oops! something went wrong");
+        console.log(error);
+      });
+  };
+};
+//admin add category
+export const addCategoryFunc = (
+  form,
+  setSubmitting,
+  resetForm,
+  handleRedirect
+) => {
+  return (dispatch) => {
+    //for authentication
+    const token = Cookies.get("token");
+    //config headers
+    var config = {
+      method: "post",
+      url: AdminRoutes.addCategory,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      data: form,
+    };
+    //axios
+    axios(config)
+      .then(function (response) {
+        if (response.data.success) {
+          setSubmitting(false);
+          notifySuccess("category added successfully");
+          resetForm();
+          handleRedirect();
+        } else {
+          setSubmitting(false);
+          notifyError(response.data.msg);
+        }
+      })
+      .catch(function (error) {
+        setSubmitting(false);
+        notifyError("Oops! something went wrong");
+        console.log(error);
+      });
+  };
+};
+//admin edit category
+export const editCategoryFunc = (
+  form,
+  setSubmitting,
+  resetForm,
+  handleRedirect
+) => {
+  return (dispatch) => {
+    //for authentication
+    const token = Cookies.get("token");
+    //config headers
+    var config = {
+      method: "put",
+      url: AdminRoutes.editCategory+"/"+form.id,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      data: form,
+    };
+    //axios
+    axios(config)
+      .then(function (response) {
+        if (response.data.success) {
+          setSubmitting(false);
+          notifySuccess("category updated successfully");
+          resetForm();
+          handleRedirect();
+        } else {
+          setSubmitting(false);
+          notifyError(response.data.msg);
+        }
+      })
+      .catch(function (error) {
+        setSubmitting(false);
+        notifyError("Oops! something went wrong");
         console.log(error);
       });
   };

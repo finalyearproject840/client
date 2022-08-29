@@ -153,6 +153,7 @@ const MenuBar = (props) => {
             <MenuListItem
               text="Category"
               icon={<BiCategory size={23} />}
+              Link="/admin/all/categories"
               active={
                 props.active
                   ? props.active === "category"

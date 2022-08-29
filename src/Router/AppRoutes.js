@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Index from "../Shared/Pages/Index";
 import SupplierSignup from "../Supplier/Pages/Account/SupplierSignup";
 import SupplierLogin from "../Supplier/Pages/Account/SupplierLogin";
@@ -32,6 +28,9 @@ import SupplierHelp from "../Supplier/Pages/SupplierHelp";
 import SupplierNotification from "../Supplier/Pages/SupplierNotification";
 import AdminProfile from "../Admin/Pages/Account/AdminProfile";
 import EditAdminProfile from "../Admin/Pages/EditAdminProfile";
+import AllCategories from "../Admin/Pages/AllCategories";
+import AddCategory from "../Admin/Pages/AddCategory";
+import EditCategory from "../Admin/Pages/EditCategory";
 
 const AppRoutes = () => {
   return (
@@ -42,16 +41,22 @@ const AppRoutes = () => {
         <Route element={<SupplierLogin />} path="/supplier/login" />
         <Route element={<SupplierPending />} path="/supplier/pending" />
         <Route element={<SupplierLicense />} path="/supplier/license" />
-       
-       {/* admin protected route */}
+
+        {/* admin protected route */}
         <Route element={<AdminProtectedRoutes />}>
           <Route element={<AdminDashboard />} path="/admin/dashboard" />
           <Route element={<AllSuppliers />} path="/admin/all/suppliers" />
           <Route element={<AllProducts />} path="/admin/all/products" />
           <Route element={<AdminProductPreview />} path="/admin/product/:id" />
-          <Route element={<AllNotification />} path="/admin/all/notifications" />
+          <Route
+            element={<AllNotification />}
+            path="/admin/all/notifications"
+          />
           <Route element={<AdminProfile />} path="/admin/profile" />
           <Route element={<EditAdminProfile />} path="/admin/edit/profile" />
+          <Route element={<AllCategories />} path="/admin/all/categories" />
+          <Route element={<AddCategory />} path="/admin/add/category" />
+          <Route element={<EditCategory />} path="/admin/edit/category/:id" />
         </Route>
 
         {/* supplier protected route */}
@@ -62,10 +67,16 @@ const AppRoutes = () => {
           <Route element={<ProductPreview />} path="/supplier/product/:id" />
           <Route element={<SupplierProducts />} path="/supplier/products" />
           <Route element={<EditProduct />} path="/supplier/edit/product/:id" />
-          <Route element={<EditProductImage />} path="/supplier/edit/product/images/:id" />
+          <Route
+            element={<EditProductImage />}
+            path="/supplier/edit/product/images/:id"
+          />
           <Route element={<EditProfile />} path="/supplier/edit/profile" />
           <Route element={<SupplierHelp />} path="/supplier/help/" />
-          <Route element={<SupplierNotification />} path="/supplier/all/notifications/" />
+          <Route
+            element={<SupplierNotification />}
+            path="/supplier/all/notifications/"
+          />
         </Route>
 
         {/* Admin route */}

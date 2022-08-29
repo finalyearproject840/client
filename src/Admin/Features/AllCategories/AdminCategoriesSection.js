@@ -2,35 +2,38 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import $ from "jquery";
-import { baseUrl, colors, fonts, fontSize } from "../../../DefaultValues";
+import { colors, fonts, fontSize } from "../../../DefaultValues";
 import ConfirmModal from "../../../Shared/Components/ConfirmModal";
-import { loadProductFunc } from "../../../Redux/Supplier/SupplierActions";
 import Loading from "../../../Shared/Components/Loading";
 //datatables
 import "datatables.net-bs5/js/dataTables.bootstrap5";
 import "datatables.net-bs5/css/dataTables.bootstrap5.min.css";
+import { deleteCategoryFunc } from "../../../Redux/Admin/AdminActions";
+import { StyleTitle } from "../../../Styles";
 import { Link } from "react-router-dom";
 
-
-const SupplierProductSection = () => {
+const AdminCategoriesSection = () => {
   const dispatch = useDispatch();
   const [confirmModalTitle, setConfirmModalTitle] = useState("");
   const [confirmModalFunc, setConfirmModalFunc] = useState(
     () => () => console.log("hello")
   );
-  
 
-  const appStore = useSelector((state) => state.SupplierState);
-  const { supplier } = appStore;
-  const { loading, error, data } = appStore.products;
+  const appStore = useSelector((state) => state.AdminState);
+  const { loading, data } = appStore.categories;
 
-  useEffect(() => {
-    if (supplier) {
-      dispatch(loadProductFunc(supplier._id));
-    }
-  }, [supplier]);
+  //function to delete category
+  const handleDelete = (options) => {
+    //set the title of the confirmation modal
+    setConfirmModalTitle(options.msg);
+    //create a deletion function to be passed into the confirmation modal
+    const deleteFunc = () => {
+      dispatch(deleteCategoryFunc({ id: options.id }));
+    };
+    //parse the deleteFunc to the confirmationModal to call it when admin confirm
+    setConfirmModalFunc(() => () => deleteFunc());
+  };
 
-  //get suppliers keys for table columns
   useEffect(() => {
     //initialize datatable
     $(document).ready(function () {
@@ -52,6 +55,20 @@ const SupplierProductSection = () => {
               </div>
             ) : data.length > 0 ? (
               <StyledTableContainer>
+                <div className="d-flex justify-content-end mt-3 me-5">
+                  <Link to="/admin/add/category" className="btn btn-primary">
+                    Add Category
+                  </Link>
+                </div>
+                <StyleTitle
+                  font={fonts.barlow}
+                  size={fontSize.xxl}
+                  color={colors.muted}
+                  className="text-center"
+                >
+                  All Categories
+                </StyleTitle>
+
                 <div className="table-responsive">
                   <table
                     id="productTable"
@@ -59,46 +76,43 @@ const SupplierProductSection = () => {
                   >
                     <thead>
                       <tr className="tr">
-                        <th>View</th>
-                        <th>Image</th>
                         <th>ID</th>
-                        <th>name</th>
-                        <th>categories</th>
-                        <th>Price</th>
-                        <th>Status</th>
-                        <th>Verified</th>
-                        <th>Quantity</th>
-                        <th>Rating</th>
-                        <th>Reviews</th>
-                        <th>Created At</th>
-                        <th>Expiry Date</th>
-                        <th>Manufactured Date</th>
+                        <th>Category Name</th>
+                        <th>Delete</th>
+                        <th>Edit</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="lead">
                       {data.map((item) => {
                         return (
                           <tr key={item._id}>
-                            <td className="td"><Link to={`/supplier/product/${item._id}`} className="btn btn-dark">Details</Link></td>
-                            <td className="td">
-                              <img
-                                src={`${baseUrl}/${item.product_images[0].location}`}
-                                alt="product"
-                                className="img-fluid"
-                              />
+                            <td>{item._id}</td>
+                            <td>{item.category_name}</td>
+                            <td>
+                              <button
+                                className="btn btn-danger"
+                                type="button"
+                                data-bs-toggle="modal"
+                                data-bs-target="#exampleModal"
+                                data-backdrop="false"
+                                onClick={() =>
+                                  handleDelete({
+                                    id: item._id,
+                                    msg: "You are about to delete this category",
+                                  })
+                                }
+                              >
+                                Delete
+                              </button>
                             </td>
-                            <td className="td">{item._id}</td>
-                            <td className="td">{item.name}</td>
-                            <td className="td text-capitalize">{item.category.join(", ")}</td>
-                            <td className="td">{item.price}</td>
-                            <td className="td">{item.status}</td>
-                            <td className="td">{item.verified?"Yes":"No"}</td>
-                            <td className="td">{item.quantity}</td>
-                            <td className="td">{item.totalRating}</td>
-                            <td className="td">{item.totalReviews}</td>
-                            <td className="td">{new Date(item.created_at).toDateString()}</td>
-                            <td className="td">{new Date(item.expiry_date).toDateString()}</td>
-                            <td className="td">{new Date(item.manufactured_date).toDateString()}</td>
+                            <td>
+                              <Link
+                                className="btn btn-dark"
+                                to={`/admin/edit/category/${item._id}`}
+                              >
+                                Edit
+                              </Link>
+                            </td>
                           </tr>
                         );
                       })}
@@ -108,7 +122,7 @@ const SupplierProductSection = () => {
               </StyledTableContainer>
             ) : (
               <div className="alert alert-light  text-center" role="alert">
-               <b>No Products yets</b>
+                <b>No Products yet</b>
               </div>
             )}
           </div>
@@ -132,7 +146,6 @@ const StyledTableContainer = styled.div`
   box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
   .tr {
     color: ${colors.blue};
-    font-family: ${fonts.barlow};
     font-size: ${fontSize.sm};
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -142,8 +155,7 @@ const StyledTableContainer = styled.div`
     color: ${colors.muted};
     letter-spacing: 1px;
     font-weight: 500;
-    font-family: ${fonts.roboto};
   }
 `;
 
-export default SupplierProductSection;
+export default AdminCategoriesSection;

@@ -53,6 +53,12 @@ export const AdminRoutes = {
   updateAdminDetails:`${baseUrl}/admin/update/details`,
   loadProduct:`${baseUrl}/admin/product`,
   deleteProduct:`${baseUrl}/admin/delete/product`,
+  loadCategories:`${baseUrl}/admin/all/categories`,
+  deleteCategory:`${baseUrl}/admin/delete/category`,
+  addCategory:`${baseUrl}/admin/add/category`,
+  editCategory:`${baseUrl}/admin/edit/category`,
+  loadCategory:`${baseUrl}/admin/category`,
+  changeAttribute:`${baseUrl}/admin/edit/product/attribute`,
 }
 
 export const SupplierRoutes = {
@@ -73,5 +79,7 @@ export const SupplierRoutes = {
   uploadSupplierLicense:`${baseUrl}/supplier/upload/license`,
   updateSupplierDetails:`${baseUrl}/supplier/update/details`,
   updateSupplierLogo:`${baseUrl}/supplier/edit/brandlogo`,
-  requestHelp:`${baseUrl}/supplier/request/help`
+  requestHelp:`${baseUrl}/supplier/request/help`,
+
+  loadCategories:`${baseUrl}/supplier/all/categories`,
 }

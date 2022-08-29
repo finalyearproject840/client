@@ -9,10 +9,7 @@ import Loading from "../../../Shared/Components/Loading";
 import "datatables.net-bs5/js/dataTables.bootstrap5";
 import "datatables.net-bs5/css/dataTables.bootstrap5.min.css";
 import { Link } from "react-router-dom";
-import {
-  loadProductFunc,
-  VerifyProductFunc,
-} from "../../../Redux/Admin/AdminActions";
+import { changeProductAttribute, VerifyProductFunc } from "../../../Redux/Admin/AdminActions";
 import { StyleTitle } from "../../../Styles";
 
 const AdminProductSection = () => {
@@ -24,9 +21,9 @@ const AdminProductSection = () => {
   );
 
   const appStore = useSelector((state) => state.AdminState);
-  const { loading, error, data } = appStore.products;
+  const { loading, data } = appStore.products;
 
-  //const function to verfy or unverify supplier
+  //const function to verify or Un-verify supplier
   const handleVerify = (options) => {
     //set the title of the confirmation modal
     setConfirmModalTitle(options.msg);
@@ -43,6 +40,19 @@ const AdminProductSection = () => {
     setConfirmModalFunc(() => () => verifyFunc());
   };
 
+   //const function to verify or Un-verify supplier
+   const handleSetAttribute = (options) => {
+    //set the title of the confirmation modal
+    setConfirmModalTitle(options.msg);
+    //create a verification function to be passed into the confirmation modal
+    const verifyFunc = () => {
+      dispatch(
+        changeProductAttribute(options)
+      );
+    };
+    //parse the verifyFunc to the confirmationModal to call it when admin confirm
+    setConfirmModalFunc(() => () => verifyFunc());
+  };
   //get suppliers keys for table columns
   useEffect(() => {
     //initialize datatable
@@ -85,7 +95,8 @@ const AdminProductSection = () => {
                         <th>Product ID</th>
                         <th>Supplier ID</th>
                         <th>name</th>
-                        <th>category</th>
+                        <th>Special Attributes</th>
+                        <th>categories</th>
                         <th>Price</th>
                         <th>Status</th>
                         <th>Verified</th>
@@ -119,7 +130,69 @@ const AdminProductSection = () => {
                             <td className="td">{item._id}</td>
                             <td className="td">{item.supplier.supplier_id}</td>
                             <td className="td">{item.name}</td>
-                            <td className="td">{item.category}</td>
+                            <td className="td ">
+                              <div className="d-flex special-width">
+                                <button
+                                  className="btn btn-dark"
+                                  type="button"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#exampleModal"
+                                  data-backdrop="false"
+                                  disabled={item.special_attributes === "none"}
+                                  onClick={() =>
+                                    handleSetAttribute({
+                                      msg: "Change product's attribute to none",
+                                      id: item._id,
+                                      special_attributes:"none"
+                                    })
+                                  }
+                                  
+                                >
+                                  mark as none
+                                </button>
+                                <button
+                                  className="btn btn-dark mx-2"
+                                  type="button"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#exampleModal"
+                                  data-backdrop="false"
+                                  disabled={
+                                    item.special_attributes === "popular"
+                                  }
+                                  onClick={() =>
+                                    handleSetAttribute({
+                                      msg: "Change product's attribute to popular",
+                                      id: item._id,
+                                      special_attributes:"popular"
+                                    })
+                                  }
+                                >
+                                  mark as popular
+                                </button>
+                                <button
+                                  className="btn btn-dark"
+                                  type="button"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#exampleModal"
+                                  data-backdrop="false"
+                                  disabled={
+                                    item.special_attributes === "latest"
+                                  }
+                                  onClick={() =>
+                                    handleSetAttribute({
+                                      msg: "Change product's attribute to latest",
+                                      id: item._id,
+                                      special_attributes:"latest"
+                                    })
+                                  }
+                                >
+                                  mark as latest
+                                </button>
+                              </div>
+                            </td>
+                            <td className="td text-capitalize">
+                              {item.category.join(", ")}
+                            </td>
                             <td className="td">{item.price}</td>
                             <td className="td">{item.status}</td>
                             <td className="td">
@@ -180,7 +253,7 @@ const AdminProductSection = () => {
               </StyledTableContainer>
             ) : (
               <div className="alert alert-light  text-center" role="alert">
-                <b>No Products yets</b>
+                <b>No Products yet</b>
               </div>
             )}
           </div>
@@ -211,8 +284,13 @@ const StyledTableContainer = styled.div`
   .td {
     font-size: ${fontSize.sm};
     color: ${colors.muted};
-    letter-spacing: 1px;
-    font-weight: 500;
+    font-weight: 400;
+  }
+  .special-width {
+    width: 400px;
+  }
+  .special-width .btn {
+    font-size: 0.8rem;
   }
 `;
 
