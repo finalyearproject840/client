@@ -44,8 +44,11 @@ export const AdminRoutes = {
   adminLogin:`${baseUrl}/admin/login`,
   adminSignup:`${baseUrl}/admin/signup`,
   getSuppliers:`${baseUrl}/admin/all/suppliers`,
+  getUsers:`${baseUrl}/admin/all/users`,
   verifySupplier:`${baseUrl}/admin/verify/supplier`,
+  verifyUser:`${baseUrl}/admin/verify/user`,
   suspendSupplier:`${baseUrl}/admin/suspend/supplier`,
+  suspendUser:`${baseUrl}/admin/suspend/user`,
   adminNotification:`${baseUrl}/admin/all/notifications`,
   loadProducts:`${baseUrl}/admin/all/products`,
   verifyProduct:`${baseUrl}/admin/verify/product`,
@@ -59,6 +62,9 @@ export const AdminRoutes = {
   editCategory:`${baseUrl}/admin/edit/category`,
   loadCategory:`${baseUrl}/admin/category`,
   changeAttribute:`${baseUrl}/admin/edit/product/attribute`,
+  loadUser:`${baseUrl}/admin/user`,
+  loadSupplier:`${baseUrl}/admin/supplier`,
+  deleteUser:`${baseUrl}/admin/delete/user`,
 }
 
 export const SupplierRoutes = {

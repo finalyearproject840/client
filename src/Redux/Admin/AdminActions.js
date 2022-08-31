@@ -25,6 +25,11 @@ const loadAllSuppliers = (payload) => ({
   type: AdminActionTypes.GET_ALL_SUPPLIERS,
   payload: payload,
 });
+//action for loading all users
+const loadAllUsers = (payload) => ({
+  type: AdminActionTypes.GET_ALL_USERS,
+  payload: payload,
+});
 
 //verify Product
 const VerifyProduct = (payload) => ({
@@ -86,8 +91,6 @@ export const loadProductFunc = () => {
       });
   };
 };
-
-
 
 //const admin load notification start
 const loadNotificationStart = () => ({
@@ -333,7 +336,7 @@ export const changeProductAttribute = (options) => {
         if (response.data.success) {
           dispatch(loadProductSuccess(response.data.data));
           notifySuccess("Product changed successfully");
-        }else{
+        } else {
           notifyError("Oops! something went wrong");
         }
       })
@@ -524,7 +527,7 @@ export const editCategoryFunc = (
     //config headers
     var config = {
       method: "put",
-      url: AdminRoutes.editCategory+"/"+form.id,
+      url: AdminRoutes.editCategory + "/" + form.id,
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
@@ -546,6 +549,125 @@ export const editCategoryFunc = (
       })
       .catch(function (error) {
         setSubmitting(false);
+        notifyError("Oops! something went wrong");
+        console.log(error);
+      });
+  };
+};
+
+//function load users function
+export const loadAllUsersFunc = () => {
+  return (dispatch) => {
+    const token = Cookies.get("token");
+    var config = {
+      method: "get",
+      url: AdminRoutes.getUsers,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    axios(config)
+      .then(function (response) {
+        console.log(response.data);
+        dispatch(loadAllUsers(response.data.data));
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+};
+//user verification function
+export const verifyUserFunc = (options) => {
+  return (dispatch) => {
+    const token = Cookies.get("token");
+    var config = {
+      method: "post",
+      url: AdminRoutes.verifyUser,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      data: {
+        id: options.id,
+        verify: options.verify,
+      },
+    };
+
+    axios(config)
+      .then(function (response) {
+        dispatch(loadAllUsers(response.data.data));
+        if (options.verify) {
+          notifySuccess("user has been verified successfully");
+        } else {
+          notifySuccess("user has be  unverified successfully");
+        }
+      })
+      .catch(function (error) {
+        notifyError("Something went wrong");
+        console.log(error);
+      });
+  };
+};
+//user suspension function
+export const suspendUserFunc = (options) => {
+  console.log(options);
+  return (dispatch) => {
+    const token = Cookies.get("token");
+    var config = {
+      method: "post",
+      url: AdminRoutes.suspendUser,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      data: {
+        id: options.id,
+        suspend: options.suspend,
+      },
+    };
+
+    axios(config)
+      .then(function (response) {
+        dispatch(loadAllUsers(response.data.data));
+        if (options.suspend) {
+          notifySuccess("user suspended successfully");
+        } else {
+          notifySuccess("user unsuspend successfully");
+        }
+      })
+      .catch(function (error) {
+        notifyError("Something went wrong");
+        console.log(error);
+      });
+  };
+};
+
+//admin delete user
+export const deleteUserFunc = (data, handleRedirect) => {
+  return (dispatch) => {
+    //for authentication
+    const token = Cookies.get("token");
+    //config headers
+    var config = {
+      method: "delete",
+      url: AdminRoutes.deleteUser + "/" + data._id,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
+    //axios
+    axios(config)
+      .then(function (response) {
+        if (response.data.success) {
+          notifySuccess("User deleted successfully");
+          handleRedirect();
+        } else {
+          notifyError(response.data.msg);
+        }
+      })
+      .catch(function (error) {
         notifyError("Oops! something went wrong");
         console.log(error);
       });

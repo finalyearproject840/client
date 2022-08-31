@@ -5,14 +5,14 @@ import $ from "jquery";
 import { colors, fonts, fontSize } from "../../../DefaultValues";
 import ConfirmModal from "../../../Shared/Components/ConfirmModal";
 import {
-  suspendSupplierFunc,
-  VerifySupplierFunc,
+  suspendUserFunc,
+  verifyUserFunc,
 } from "../../../Redux/Admin/AdminActions";
 import { StyleTitle } from "../../../Styles";
 import { baseUrl } from "../../../DefaultValues";
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
-const AllSupplierSection = () => {
+const AllUsersSection = () => {
   const dispatch = useDispatch();
   const [confirmModalTitle, setConfirmModalTitle] = useState("");
   const [confirmModalFunc, setConfirmModalFunc] = useState(
@@ -23,22 +23,23 @@ const AllSupplierSection = () => {
     //initialize datatable
     $(document).ready(function () {
       setTimeout(function () {
-        $(`#supplierstable`).DataTable();
+        $(`#usertable`).DataTable();
       }, 1000);
     });
   }, []);
 
   const appStore = useSelector((state) => state.AdminState);
-  const { suppliers } = appStore;
+  const { users } = appStore;
+  console.log(users);
 
-  //const function to verfy or unverify supplier
+  //const function to verify or unverify user
   const handleVerify = (options) => {
     //set the title of the confirmation modal
     setConfirmModalTitle(options.msg);
     //create a verification function to be passed into the confirmation modal
     const verifyFunc = () => {
       dispatch(
-        VerifySupplierFunc({
+        verifyUserFunc({
           id: options.id,
           verify: options.type === "verify" ? true : false,
         })
@@ -48,14 +49,14 @@ const AllSupplierSection = () => {
     setConfirmModalFunc(() => () => verifyFunc());
   };
 
-  //const function to suspend or unsuspend supplier
+  //const function to suspend or unsuspend user
   const handleSuspend = (options) => {
     //set the title of the confirmation modal
     setConfirmModalTitle(options.msg);
     //create a Suspension function to be passed into the confirmation modal
     const suspendFunc = () => {
       dispatch(
-        suspendSupplierFunc({
+        suspendUserFunc({
           id: options.id,
           suspend: options.type === "suspend" ? true : false,
         })
@@ -71,7 +72,7 @@ const AllSupplierSection = () => {
         <div className="row">
           {/* column one */}
           <div className="col-12">
-            {suppliers.length > 0 ? (
+            {users.length > 0 ? (
               <StyledTableContainer>
                 <StyleTitle
                   font={fonts.barlow}
@@ -79,12 +80,12 @@ const AllSupplierSection = () => {
                   color={colors.muted}
                   className="text-center"
                 >
-                  All Suppliers
+                  All Users
                 </StyleTitle>
 
                 <div className="table-responsive">
                   <table
-                    id="supplierstable"
+                    id="usertable"
                     className="table table-hover table-bordered"
                   >
                     <thead>
@@ -92,25 +93,22 @@ const AllSupplierSection = () => {
                         <th>View</th>
                         <th>ID</th>
                         <th>Email</th>
-                        <th>Username</th>
-                        <th>Organization</th>
-                        <th>Status</th>
+                        <th>first Name</th>
+                        <th>Last Name</th>
                         <th>Verified</th>
                         <th>Suspended</th>
-                        <th>Rating</th>
-                        <th>License</th>
                         <th>Created At</th>
                         <th>Address</th>
                         <th>Tel</th>
                       </tr>
                     </thead>
                     <tbody className="lead">
-                      {suppliers.map((item) => {
+                      {users.map((item) => {
                         return (
                           <tr key={item._id}>
-                          <td className="td">
+                            <td className="td">
                               <Link
-                                to={`/admin/supplier/${item._id}`}
+                                to={`/admin/user/${item._id}`}
                                 className="btn btn-dark"
                               >
                                 Details
@@ -118,9 +116,8 @@ const AllSupplierSection = () => {
                             </td>
                             <td className="td">{item._id}</td>
                             <td className="td">{item.email}</td>
-                            <td className="td">{item.username}</td>
-                            <td className="td">{item.organisation}</td>
-                            <td className="td">{item.status}</td>
+                            <td className="td">{item.firstname}</td>
+                            <td className="td">{item.lastname}</td>
                             <td className="td">
                               {item.verified ? (
                                 <button
@@ -132,7 +129,7 @@ const AllSupplierSection = () => {
                                   onClick={() =>
                                     handleVerify({
                                       type: "unverify",
-                                      msg: "You  are about to unverify this supplier",
+                                      msg: "You  are about to unverify this user",
                                       id: item._id,
                                     })
                                   }
@@ -149,7 +146,7 @@ const AllSupplierSection = () => {
                                   onClick={() =>
                                     handleVerify({
                                       type: "verify",
-                                      msg: "You are about to verify this supplier",
+                                      msg: "You are about to verify this user",
                                       id: item._id,
                                     })
                                   }
@@ -169,7 +166,7 @@ const AllSupplierSection = () => {
                                   onClick={() =>
                                     handleSuspend({
                                       type: "unsuspend",
-                                      msg: "You are about to unsuspend this supplier",
+                                      msg: "You are about to unsuspend this user",
                                       id: item._id,
                                     })
                                   }
@@ -186,28 +183,13 @@ const AllSupplierSection = () => {
                                   onClick={() =>
                                     handleSuspend({
                                       type: "suspend",
-                                      msg: "You are about to suspend this supplier",
+                                      msg: "You are about to suspend this user",
                                       id: item._id,
                                     })
                                   }
                                 >
                                   Suspend
                                 </button>
-                              )}
-                            </td>
-                            <td className="td">{item.rating}</td>
-                            <td className="td w-25">
-                              {item.supplier_license ? (
-                                <a
-                                  href={`${baseUrl}/${item.supplier_license}`}
-                                  download={true}
-                                  className="btn btn-danger"
-                                  
-                                >
-                                  Download
-                                </a>
-                              ) : (
-                                "unavailable"
                               )}
                             </td>
                             <td className="td">
@@ -224,13 +206,13 @@ const AllSupplierSection = () => {
               </StyledTableContainer>
             ) : (
               <div className="alert alert-light  text-center" role="alert">
-                <b>No Supplier</b>
+                <b>No User</b>
               </div>
             )}
           </div>
         </div>
       </div>
-      {/* this is a modal to firm various actions that will be perform on suppliers */}
+      {/* this is a modal to firm various actions that will be perform on users */}
       <ConfirmModal title={confirmModalTitle} confirm={confirmModalFunc} />
     </StyledTableSection>
   );
@@ -265,4 +247,4 @@ const StyledTableContainer = styled.div`
   }
 `;
 
-export default AllSupplierSection;
+export default AllUsersSection;

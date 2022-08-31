@@ -86,9 +86,9 @@ const AdminCategoriesSection = () => {
                       {data.map((item) => {
                         return (
                           <tr key={item._id}>
-                            <td>{item._id}</td>
-                            <td>{item.category_name}</td>
-                            <td>
+                            <td className="td">{item._id}</td>
+                            <td className="td">{item.category_name}</td>
+                            <td className="td">
                               <button
                                 className="btn btn-danger"
                                 type="button"
@@ -153,8 +153,7 @@ const StyledTableContainer = styled.div`
   .td {
     font-size: ${fontSize.sm};
     color: ${colors.muted};
-    letter-spacing: 1px;
-    font-weight: 500;
+    font-weight: 400;
   }
 `;
 

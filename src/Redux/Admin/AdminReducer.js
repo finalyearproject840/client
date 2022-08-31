@@ -3,6 +3,7 @@ import { AdminActionTypes } from "./AdminActionTypes";
 const initialState = {
   admin: null,
   suppliers: [],
+  users: [],
   products: {
     loading: false,
     data: [],
@@ -34,13 +35,18 @@ export const AdminReducer = (state = initialState, { type, payload }) => {
         ...state,
         admin: payload,
       };
-    //logout admin
+    //load all suppliers
     case AdminActionTypes.GET_ALL_SUPPLIERS:
       return {
         ...state,
         suppliers: payload,
       };
-
+    //load all users
+    case AdminActionTypes.GET_ALL_USERS:
+      return {
+        ...state,
+        users: payload,
+      };
     //verify product
     case AdminActionTypes.VERIFY_PRODUCT:
       return {

@@ -31,6 +31,9 @@ import EditAdminProfile from "../Admin/Pages/EditAdminProfile";
 import AllCategories from "../Admin/Pages/AllCategories";
 import AddCategory from "../Admin/Pages/AddCategory";
 import EditCategory from "../Admin/Pages/EditCategory";
+import AllUsers from "../Admin/Pages/AllUsers";
+import ViewUser from "../Admin/Pages/ViewUser";
+import ViewSupplier from './../Admin/Pages/ViewSupplier';
 
 const AppRoutes = () => {
   return (
@@ -46,6 +49,9 @@ const AppRoutes = () => {
         <Route element={<AdminProtectedRoutes />}>
           <Route element={<AdminDashboard />} path="/admin/dashboard" />
           <Route element={<AllSuppliers />} path="/admin/all/suppliers" />
+          <Route element={<ViewSupplier />} path="/admin/supplier/:id" />
+          <Route element={<AllUsers />} path="/admin/all/users" />
+          <Route element={<ViewUser />} path="/admin/user/:id" />
           <Route element={<AllProducts />} path="/admin/all/products" />
           <Route element={<AdminProductPreview />} path="/admin/product/:id" />
           <Route
@@ -57,6 +63,7 @@ const AppRoutes = () => {
           <Route element={<AllCategories />} path="/admin/all/categories" />
           <Route element={<AddCategory />} path="/admin/add/category" />
           <Route element={<EditCategory />} path="/admin/edit/category/:id" />
+          
         </Route>
 
         {/* supplier protected route */}
