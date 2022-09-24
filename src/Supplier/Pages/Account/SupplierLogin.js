@@ -20,7 +20,8 @@ import { useNavigate } from "react-router-dom";
 import Loading from "../../../Shared/Components/Loading";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
-import { loadSupplierFunc } from "../../../Redux/Supplier/SupplierActions";
+import { googleLoginFunc, loadSupplierFunc } from "../../../Redux/Supplier/SupplierActions";
+import { useGoogleLogin } from '@react-oauth/google';
 const SupplierLogin = () => {
   //usestates to handle various changes
   const [submissionError, setSubmissionError] = useState({
@@ -71,6 +72,22 @@ const SupplierLogin = () => {
         setSubmissionError({ error: true, msg: "Authentication error" });
       });
   };
+
+    //handle login with google
+    function handleGoogleLoginSuccess(tokenResponse) {
+      const accessToken = tokenResponse.access_token;
+      console.log(accessToken);
+      dispatch(
+        googleLoginFunc({ googleAccessToken: accessToken }, () =>
+          navigate("/supplier/dashboard")
+        )
+      );
+    }
+  
+    const signUpWithGoogle = useGoogleLogin({
+      onSuccess: handleGoogleLoginSuccess,
+    });
+  
 
   //write validation schema using Yup library
   const validateSchema = Yup.object({
@@ -168,21 +185,13 @@ const SupplierLogin = () => {
               shadow="none"
               border={`2px solid ${colors.muted}`}
               width="100%"
+              onClick={signUpWithGoogle}
             >
               <FcGoogle size={26} />
               <span className="text-muted ms-2"> Google </span>
             </Button>
           </Link>
-          <Link to="#" className="d-flex align-items-center my-4">
-            <Button
-              background={colors.blue}
-              display="block"
-              shadow="none"
-              width="100%"
-            >
-              <BsFacebook size={26} /> <span className="ms-2"> Facebook </span>
-            </Button>
-          </Link>
+         
         </div>
         {/*alternate link*/}
         <div className="my-3">

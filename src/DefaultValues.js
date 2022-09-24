@@ -36,7 +36,7 @@ export const fonts = {
   righteous: "Righteous",
 };
 //live url
-//export const baseUrl = "http://pharmacybackend.gidcharityfoundation.org/api/pharmacy"
+//export const baseUrl = "https://pharmacybackend.gidcharityfoundation.org/api/pharmacy"
 
 //local url
 export const baseUrl = "http://localhost:5000/api/pharmacy"
@@ -86,6 +86,8 @@ export const SupplierRoutes = {
   updateSupplierDetails:`${baseUrl}/supplier/update/details`,
   updateSupplierLogo:`${baseUrl}/supplier/edit/brandlogo`,
   requestHelp:`${baseUrl}/supplier/request/help`,
-
+  loginWithGoogle:`${baseUrl}/supplier/google/login`,
   loadCategories:`${baseUrl}/supplier/all/categories`,
 }
+
+export const googleClientID = "357744610420-4g70eaul38cqa4pq0ai2qt80bt84gcda.apps.googleusercontent.com" ;

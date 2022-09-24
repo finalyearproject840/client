@@ -6,10 +6,14 @@ import StyledAccount, {
 } from "./AccountStyles";
 import { StyleSubtitle, StyleTitle } from "../../../Styles";
 import Image from "../../../Assets/Images/Design/background/Account_background.jpg";
-import { colors, fonts, fontSize, SupplierRoutes } from "../../../DefaultValues";
+import {
+  colors,
+  fonts,
+  fontSize,
+  SupplierRoutes,
+} from "../../../DefaultValues";
 import { Formik, Form } from "formik";
 import TextField from "../../Components/TextInputs/TextField";
-import { BsFacebook } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 import Button from "../../../Shared/Components/Button";
 import { Link } from "react-router-dom";
@@ -18,8 +22,12 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../../Shared/Components/Loading";
 import { useDispatch } from "react-redux";
-import { loadSupplierFunc } from "../../../Redux/Supplier/SupplierActions";
+import {
+  googleLoginFunc,
+  loadSupplierFunc,
+} from "../../../Redux/Supplier/SupplierActions";
 import Cookies from "js-cookie";
+import { useGoogleLogin } from "@react-oauth/google";
 
 const SupplierSignup = () => {
   //usestates to handle various changes
@@ -70,6 +78,21 @@ const SupplierSignup = () => {
       });
   };
 
+  //handle login with google
+  function handleGoogleLoginSuccess(tokenResponse) {
+    const accessToken = tokenResponse.access_token;
+    console.log(accessToken);
+    dispatch(
+      googleLoginFunc({ googleAccessToken: accessToken }, () =>
+        navigate("/supplier/dashboard")
+      )
+    );
+  }
+
+  const signUpWithGoogle = useGoogleLogin({
+    onSuccess: handleGoogleLoginSuccess,
+  });
+
   //write validation schema using Yup library
   const validateSchema = Yup.object({
     email: Yup.string()
@@ -91,6 +114,7 @@ const SupplierSignup = () => {
       .required()
       .oneOf([Yup.ref("password"), null], "Password must match"),
   });
+ 
 
   return (
     <StyledAccount template="30% 70%">
@@ -197,20 +221,10 @@ const SupplierSignup = () => {
               shadow="none"
               border={`2px solid ${colors.muted}`}
               width="100%"
+              onClick={signUpWithGoogle}
             >
               <FcGoogle size={26} />
               <span className="text-muted ms-2">Google</span>
-            </Button>
-          </Link>
-          <Link to="#" className="d-flex align-items-center my-4">
-            <Button
-              background={colors.blue}
-              display="block"
-              shadow="none"
-              width="100%"
-            >
-              <BsFacebook size={26} />
-              <span className="ms-2">Facebook</span>
             </Button>
           </Link>
         </div>

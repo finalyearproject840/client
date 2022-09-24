@@ -623,3 +623,31 @@ export const supplierHelpFunc = (
       });
   };
 };
+
+export const googleLoginFunc = (form, navigate) => {
+  return (dispatch) => {
+    const config = {
+      method: "POST",
+      url: `${SupplierRoutes.loginWithGoogle}`,
+      data: form,
+    };
+    axios(config)
+      .then((response) => {
+        if (response.data.success) {
+          const { data, token } = response.data;
+          //store token and data inside cookies for future autorization
+          Cookies.set("token", token);
+          Cookies.set("supplier", JSON.stringify(data));
+          dispatch(loadSupplier(data));
+          navigate();
+          notifySuccess("Login Successfully!");
+        } else {
+          notifyError(response.data.msg);
+        }
+      })
+      .catch((error) => {
+        notifyError("something went wrong");
+        console.log(error);
+      });
+  };
+};
