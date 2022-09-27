@@ -9,7 +9,7 @@ const StyledButton = styled.button`
   border: ${(props) => (props.border ? props.border : "none")};
   color: ${(props) => (props.color ? props.color : colors.white)};
   background-color: ${(props) =>
-    props.background ? props.background : colors.voilet};
+    props.background ? props.background : colors.violet};
   font-size: ${(props) => (props.size ? props.size : fontSize.sm)};
   padding: ${(props) => (props.padding ? props.padding : spacing.n)};
   text-transform: ${(props) => (props.case ? props.case : "unset")};

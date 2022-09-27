@@ -76,7 +76,7 @@ const Navbar = () => {
 };
 
 const StyledNavbar = styled.nav`
-background-color: ${colors.voilet};
+background-color: ${colors.violet};
 
 .navbar-brand{
     letter-spacing: 2px;
@@ -94,10 +94,10 @@ background-color: ${colors.voilet};
 }
 .dropdown-item:hover{
     background-color: transparent;
-    background-color: ${colors.voilet};
+    background-color: ${colors.violet};
 }
 .dropdown-menu{
-    background-color: ${colors.voilet};
+    background-color: ${colors.violet};
     box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset,
       rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset,
       rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset,

@@ -193,7 +193,7 @@ const MenuBar = (props) => {
       {/* menu hider */}
       <StyledMenuCloser onClick={() => setShow(!show)} show={show}>
         {show ? (
-          <AiOutlineClose size={24} color={colors.voilet} />
+          <AiOutlineClose size={24} color={colors.violet} />
         ) : (
           <RiMenuUnfoldLine size={24} color={colors.white} />
         )}

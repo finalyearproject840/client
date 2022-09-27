@@ -22,7 +22,7 @@ const StyledCard = styled.div`
     justify-content: space-around;
     min-height: 120px;
     border-right: 3px solid
-      ${(props) => (props.color ? props.color : colors.voilet)};
+      ${(props) => (props.color ? props.color : colors.violet)};
     margin: 1rem 0rem;
   }
 
@@ -33,7 +33,7 @@ const StyledCard = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: ${(props) => (props.color ? props.color : colors.voilet)};
+    background-color: ${(props) => (props.color ? props.color : colors.violet)};
     box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
       rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
       rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
@@ -46,7 +46,7 @@ const StyledCard = styled.div`
     position: absolute;
     width: 2px;
     height: 100%;
-    background-color: ${(props) => (props.color ? props.color : colors.voilet)};
+    background-color: ${(props) => (props.color ? props.color : colors.violet)};
     left: -30px;
   }
 `;

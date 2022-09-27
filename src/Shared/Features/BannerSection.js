@@ -97,7 +97,7 @@ const StyledBannerSection = styled.div`
   .download-btn {
     font-size: ${fontSize.sm};
     width: 150px;
-    background-color: ${colors.voilet};
+    background-color: ${colors.violet};
     color: ${colors.white};
     border-radius: 5px;
     padding: 0.5rem 0.5rem;

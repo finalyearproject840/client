@@ -136,6 +136,15 @@ export const loadProductFunc = (id) => {
       });
   };
 };
+//const supplier load notification start
+const loadSubscribersStart = () => ({
+  type: SupplierActionTypes.GET_ALL_SUBSCRIBERS_START,
+});
+//action for loading all subscribers success
+const loadAllSubscriberSuccess = (payload) => ({
+  type: SupplierActionTypes.GET_ALL_SUBSCRIBERS_SUCCESS,
+  payload: payload,
+});
 
 //function load supplier function
 export const loadSupplierFunc = () => {
@@ -651,3 +660,28 @@ export const googleLoginFunc = (form, navigate) => {
       });
   };
 };
+
+//function load subscribers function
+export const loadAllSubscribersFunc = (supplier_id) => {
+  return (dispatch) => {
+    dispatch(loadSubscribersStart());
+    const token = Cookies.get("token");
+    var config = {
+      method: "get",
+      url: SupplierRoutes.getSubscribers + "/" + supplier_id,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    axios(config)
+      .then(function (response) {
+        if (response.data.success) {
+          dispatch(loadAllSubscriberSuccess(response.data.data));
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+};
+//us

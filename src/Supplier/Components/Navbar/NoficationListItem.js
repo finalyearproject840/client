@@ -8,7 +8,7 @@ const NoficationListItem = (props) => {
   return (
     <StyledItemContainer>
       <div className="icon-box">
-        <AiFillHeart color={colors.voilet} size={22} />
+        <AiFillHeart color={colors.violet} size={22} />
       </div>
       <div className="notification-content">
         <b className="notification-date">{props.date}</b>

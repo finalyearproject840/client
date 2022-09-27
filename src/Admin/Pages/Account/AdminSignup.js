@@ -94,7 +94,7 @@ const AdminSignup = () => {
       <StyledFormContainer className="form-container">
         <StyleTitle
           className="text-center mb-4"
-          color={colors.voilet}
+          color={colors.violet}
           size="1.5rem"
           font={fonts.righteous}
         >

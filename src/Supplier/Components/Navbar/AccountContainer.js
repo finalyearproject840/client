@@ -109,7 +109,7 @@ const StyledAccountContainer = styled.div`
     border: none;
   }
   .account-list-link:hover {
-    color: ${colors.voilet};
+    color: ${colors.violet};
   }
   .account-list-link span {
     margin-left: 1rem;

@@ -107,7 +107,7 @@ const SupplierLogin = () => {
       <StyledFormContainer className="form-container">
         <StyleTitle
           className="text-center mb-4"
-          color={colors.voilet}
+          color={colors.violet}
           size="1.5rem"
           font={fonts.righteous}
         >
@@ -142,14 +142,14 @@ const SupplierLogin = () => {
                 name="email"
                 label="Email Address"
                 placeholder="Email Address"
-                icon={<AiOutlineMail size={24} color={colors.voilet} />}
+                icon={<AiOutlineMail size={24} color={colors.violet} />}
               />
               <TextField
                 type="password"
                 name="password"
                 label="Password"
                 placeholder="Password"
-                icon={<AiOutlineMail size={24} color={colors.voilet} />}
+                icon={<AiOutlineMail size={24} color={colors.violet} />}
               />
               {isSubmitting ? (
                 <div className="d-flex justify-content-center">

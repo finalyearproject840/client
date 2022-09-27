@@ -33,7 +33,7 @@ const ChartSection = () => {
       {
         label: "",
         data: [22, 92, 59, 100, 25, 39, 92],
-        borderColor: colors.voilet,
+        borderColor: colors.violet,
         backgroundColor: colors.blue,
       },
     ],
@@ -70,7 +70,7 @@ const ChartSection = () => {
       {
         label: "",
         data: [22, 92, 59, 100, 25, 39, 92],
-        borderColor: colors.voilet,
+        borderColor: colors.violet,
         backgroundColor: colors.blue,
       },
     ],

@@ -39,8 +39,8 @@ const StyledInput = styled.div`
     padding: 0.8rem;
   }
   .form-control:focus {
-    box-shadow: ${colors.voilet} 0px 0px 0px 1px inset,
-      ${colors.voilet} 0px 0px 0px 1px;
+    box-shadow: ${colors.violet} 0px 0px 0px 1px inset,
+      ${colors.violet} 0px 0px 0px 1px;
     display: block;
   }
   .form-control::placeholder {

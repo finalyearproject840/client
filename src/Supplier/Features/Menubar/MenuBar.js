@@ -69,11 +69,12 @@ const MenuBar = (props) => {
               }
             />
             <MenuListItem
-              text="Customers"
+              text="Subscribers"
+              Link="/supplier/all/subscribers"
               icon={<FaUsers size={23} />}
               active={
                 props.active
-                  ? props.active === "customers"
+                  ? props.active === "subscribers"
                     ? "true"
                     : "false"
                   : "false"
@@ -138,17 +139,6 @@ const MenuBar = (props) => {
               }
             />
             <MenuListItem
-              text="Category"
-              icon={<BiCategory size={23} />}
-              active={
-                props.active
-                  ? props.active === "category"
-                    ? "true"
-                    : "false"
-                  : "false"
-              }
-            />
-            <MenuListItem
               text="Help"
               Link="/supplier/help/"
               icon={<IoMdHelpCircle size={23} />}
@@ -179,7 +169,7 @@ const MenuBar = (props) => {
       {/* menu hider */}
       <StyledMenuCloser onClick={() => setShow(!show)} show={show}>
         {show ? (
-          <AiOutlineClose size={24} color={colors.voilet} />
+          <AiOutlineClose size={24} color={colors.violet} />
         ) : (
           <RiMenuUnfoldLine size={24} color={colors.white} />
         )}

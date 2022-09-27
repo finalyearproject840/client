@@ -28,7 +28,7 @@ const StyledListItem = styled.li`
     height: 5px;
     border-radius: 50%;
     display: block;
-    background-color: ${colors.voilet};
+    background-color: ${colors.violet};
     position: absolute;
     bottom: 10px;
     right: 5px;
@@ -36,11 +36,11 @@ const StyledListItem = styled.li`
 
   .list-link {
     color: ${(props) =>
-      props.active === "true" ? colors.voilet : colors.muted};
+      props.active === "true" ? colors.violet : colors.muted};
     font-weight: 500;
   }
   .list-link:hover {
-    color: ${colors.voilet};
+    color: ${colors.violet};
   }
 `;
 export default MenuListItem;

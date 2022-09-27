@@ -13,7 +13,7 @@ import {useSelector} from "react-redux"
 }
 const CardSection = () => {
   const appStore = useSelector(state=>state.AdminState);
-  const {suppliers, products} = appStore;
+  const {suppliers, products, users} = appStore;
   return (
     <section className="card-section my-3" id="card-section">
       <div className="container">
@@ -26,7 +26,7 @@ const CardSection = () => {
                   <FaUsers color={colors.white} size={25} />
                 </div>
                 <div className="text-container">
-                  <StyleTitle size={fontSize.n} color={colors.voilet}>
+                  <StyleTitle size={fontSize.n} color={colors.violet}>
                     {suppliers.length}
                   </StyleTitle>
                   <StyleSubtitle
@@ -73,7 +73,7 @@ const CardSection = () => {
                 </div>
                 <div className="text-container">
                   <StyleTitle size={fontSize.n} color={colors.green}>
-                    45,399
+                  {users.length}
                   </StyleTitle>
                   <StyleSubtitle
                     size={fontSize.sm}

@@ -34,6 +34,8 @@ import EditCategory from "../Admin/Pages/EditCategory";
 import AllUsers from "../Admin/Pages/AllUsers";
 import ViewUser from "../Admin/Pages/ViewUser";
 import ViewSupplier from './../Admin/Pages/ViewSupplier';
+import AllSubscribers from './../Supplier/Pages/AllSubscribers';
+import AllHelps from "../Admin/Pages/AllHelps";
 
 const AppRoutes = () => {
   return (
@@ -58,6 +60,10 @@ const AppRoutes = () => {
             element={<AllNotification />}
             path="/admin/all/notifications"
           />
+           <Route
+            element={<AllHelps />}
+            path="/admin/requested/help"
+          />
           <Route element={<AdminProfile />} path="/admin/profile" />
           <Route element={<EditAdminProfile />} path="/admin/edit/profile" />
           <Route element={<AllCategories />} path="/admin/all/categories" />
@@ -73,6 +79,8 @@ const AppRoutes = () => {
           <Route element={<UploadProduct />} path="/supplier/product/upload" />
           <Route element={<ProductPreview />} path="/supplier/product/:id" />
           <Route element={<SupplierProducts />} path="/supplier/products" />
+          <Route element={<AllSubscribers />} path="/supplier/all/subscribers" />
+          <Route element={<ViewUser />} path="/supplier/subscriber/:id" />
           <Route element={<EditProduct />} path="/supplier/edit/product/:id" />
           <Route
             element={<EditProductImage />}

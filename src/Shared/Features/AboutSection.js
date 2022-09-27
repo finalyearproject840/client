@@ -49,7 +49,7 @@ background-color: ${colors.light};
     font-size: 3rem;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: 900;
-    color:${colors.voilet};
+    color:${colors.violet};
     text-shadow: 0px 4px 3px rgba(0, 0, 0, 0.241), 0px 8px 13px rgba(0, 0, 0, 0.1),
       0px 18px 23px rgba(0, 0, 0, 0.1);
 }

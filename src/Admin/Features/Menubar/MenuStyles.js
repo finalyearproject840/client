@@ -15,7 +15,7 @@ const StyledMenu = styled.div`
   background-color: #fff;
   .top-bar {
     height: 4rem;
-    background-color: ${colors.voilet};
+    background-color: ${colors.violet};
     text-align: center;
     color: ${colors.white};
     display: flex;
@@ -72,7 +72,7 @@ export const StyledMenuCloser = styled.button`
   position: absolute;
   right: -48px;
   bottom: 40%;
-  background-color: ${(props) => (props.show ? "#fff" : `${colors.voilet}`)};
+  background-color: ${(props) => (props.show ? "#fff" : `${colors.violet}`)};
   height: 50px;
   width: 50px;
   border-top-right-radius: 50%;

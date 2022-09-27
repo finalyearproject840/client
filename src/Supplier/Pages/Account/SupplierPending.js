@@ -10,7 +10,7 @@ const SupplierPending = () => {
       <div className="pending-container">
         <StyleTitle
           font="righteous"
-          color={colors.voilet}
+          color={colors.violet}
           size="2rem"
           className="mb-4"
         >
@@ -23,7 +23,7 @@ const SupplierPending = () => {
         <p className="lead">
           Contact Admin if the review process has exceeded 48 hours
         </p>
-        <Button background={colors.voilet} style={{ letterSpacing: "1px" }}>
+        <Button background={colors.violet} style={{ letterSpacing: "1px" }}>
           Contact Admin
         </Button>
       </div>

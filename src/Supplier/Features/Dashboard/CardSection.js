@@ -27,7 +27,7 @@ const CardSection = () => {
                   <FaUsers color={colors.white} size={25} />
                 </div>
                 <div className="text-container">
-                  <StyleTitle size={fontSize.n} color={colors.voilet}>
+                  <StyleTitle size={fontSize.n} color={colors.violet}>
                     45,399
                   </StyleTitle>
                   <StyleSubtitle

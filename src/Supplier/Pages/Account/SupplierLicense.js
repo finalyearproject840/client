@@ -50,7 +50,7 @@ const SupplierLicense = () => {
         <StyleTitle
           font={fonts.righteous}
           size="2rem"
-          color={colors.voilet}
+          color={colors.violet}
           className="text-center"
         >
           Upload Lincense
@@ -105,7 +105,7 @@ const SupplierLicense = () => {
                 <FaCloudUploadAlt
                   className="upload-icon"
                   size={50}
-                  color={colors.voilet}
+                  color={colors.violet}
                 />
               </div>
 

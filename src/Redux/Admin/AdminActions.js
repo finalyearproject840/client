@@ -106,6 +106,22 @@ const loadNotificationFail = () => ({
   type: AdminActionTypes.ADMIN_LOAD_NOTIFICATION_FAIL,
 });
 
+//const admin load help start
+const loadHelpStart = () => ({
+  type: AdminActionTypes.ADMIN_START_LOAD_HELPS,
+});
+//const admin load help success
+const loadHelpSuccess = (payload) => ({
+  type: AdminActionTypes.ADMIN_LOAD_HELPS_SUCCESS,
+  payload: payload,
+});
+//const admin load help fail
+const loadHelpFail = () => ({
+  type: AdminActionTypes.ADMIN_LOAD_HELPS_FAIL,
+});
+
+
+
 //function load notification function
 export const loadNotificationFunc = () => {
   return (dispatch) => {
@@ -157,6 +173,64 @@ export const readNotificationFunc = (id) => {
       .then(function (response) {
         notifySuccess("Marked as read");
         dispatch(loadNotificationSuccess(response.data.data));
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+};
+
+
+//function load help function
+export const loadHelpFunc = () => {
+  return (dispatch) => {
+    dispatch(loadHelpStart());
+    //for authorization
+    const token = Cookies.get("token");
+    //config headers
+    var config = {
+      method: "get",
+      url: `${AdminRoutes.adminHelps}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    };
+    //axios
+    axios(config)
+      .then(function (response) {
+        if (response.data.success) {
+          dispatch(loadHelpSuccess(response.data.data));
+        } else {
+          dispatch(loadHelpFail());
+        }
+      })
+      .catch(function (error) {
+        console.log("error", error);
+        dispatch(loadHelpFail());
+      });
+  };
+};
+//notification read function
+export const readHelpFunc = (id) => {
+  return (dispatch) => {
+    const token = Cookies.get("token");
+    var config = {
+      method: "post",
+      url: AdminRoutes.readHelp,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      data: {
+        id: id,
+      },
+    };
+
+    axios(config)
+      .then(function (response) {
+        notifySuccess("Marked as read");
+        dispatch(loadHelpSuccess(response.data.data));
       })
       .catch(function (error) {
         console.log(error);

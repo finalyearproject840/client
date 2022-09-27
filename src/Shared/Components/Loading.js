@@ -9,7 +9,7 @@ const Loading = (props) => {
       height={props.height ? props.height : "44"}
       width={props.width ? props.width : "50"}
       radius={props.radius ? props.radius : "9"}
-      color={props.color ? colors.voilet : colors.voilet}
+      color={props.color ? colors.violet : colors.violet}
       wrapperStyle
     />
   );

@@ -1,5 +1,5 @@
 export const colors = {
-  voilet: "#8338ec",
+  violet: "#8338ec",
   white: "#fff",
   light: "#e7ecef",
   blue: "#3B44F6",
@@ -50,9 +50,11 @@ export const AdminRoutes = {
   suspendSupplier:`${baseUrl}/admin/suspend/supplier`,
   suspendUser:`${baseUrl}/admin/suspend/user`,
   adminNotification:`${baseUrl}/admin/all/notifications`,
+  adminHelps:`${baseUrl}/admin/all/helps`,
   loadProducts:`${baseUrl}/admin/all/products`,
   verifyProduct:`${baseUrl}/admin/verify/product`,
   readNotification:`${baseUrl}/admin/read/notification`,
+  readHelp:`${baseUrl}/admin/read/help`,
   updateAdminDetails:`${baseUrl}/admin/update/details`,
   loadProduct:`${baseUrl}/admin/product`,
   deleteProduct:`${baseUrl}/admin/delete/product`,
@@ -78,6 +80,7 @@ export const SupplierRoutes = {
   deleteProductImages:`${baseUrl}/supplier/delete/product/image`,
   editProductImage:`${baseUrl}/supplier/edit/product/image`,
   deleteProduct:`${baseUrl}/supplier/delete/product`,
+  getSubscribers:`${baseUrl}/supplier/all/subscribers`,
 
   supplierNotification:`${baseUrl}/supplier/all/notifications`,
   readNotification:`${baseUrl}/supplier/read/notification`,
@@ -88,6 +91,7 @@ export const SupplierRoutes = {
   requestHelp:`${baseUrl}/supplier/request/help`,
   loginWithGoogle:`${baseUrl}/supplier/google/login`,
   loadCategories:`${baseUrl}/supplier/all/categories`,
+  
 }
 
 export const googleClientID = "357744610420-4g70eaul38cqa4pq0ai2qt80bt84gcda.apps.googleusercontent.com" ;

@@ -99,7 +99,7 @@ const StyledNotiContainer = styled.div`
   transition: all 0.2s ease-in-out;
   transform-origin: top;
   .top {
-    background-color: ${colors.voilet};
+    background-color: ${colors.violet};
     display: flex;
     align-items: center;
     justify-content: center;
@@ -127,7 +127,7 @@ const StyledNotiContainer = styled.div`
   .all-link {
     font-size: ${fontSize.sm};
     font-family: ${fonts.roboto};
-    color: ${colors.voilet};
+    color: ${colors.violet};
     letter-spacing: 1px;
   }
   .notification-list {

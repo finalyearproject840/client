@@ -2,6 +2,10 @@ import { SupplierActionTypes } from "./SupplierActionTypes";
 
 const initialState = {
   supplier: null,
+  subscribers: {
+    loading: true,
+    data: [],
+  },
   products: {
     loading: false,
     data: [],
@@ -57,7 +61,8 @@ export const SupplierReducer = (state = initialState, { type, payload }) => {
           error: true,
         },
       };
-       //start load notification
+
+    //start load notification
     case SupplierActionTypes.SUPPLIER_START_LOAD_NOTIFICATION:
       return {
         ...state,
@@ -86,7 +91,26 @@ export const SupplierReducer = (state = initialState, { type, payload }) => {
           error: true,
         },
       };
-      
+    //load subscribers success
+    case SupplierActionTypes.GET_ALL_SUBSCRIBERS_SUCCESS:
+      return {
+        ...state,
+        subscribers: {
+          ...state.subscribers,
+          data: payload,
+          loading: false,
+        },
+      };
+    // load subscribers start
+    case SupplierActionTypes.GET_ALL_SUBSCRIBERS_START:
+      return {
+        ...state,
+        subscribers: {
+          ...state.subscribers,
+          loading: true,
+        },
+      };
+
     default:
       return state;
   }

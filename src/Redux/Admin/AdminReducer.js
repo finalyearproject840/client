@@ -19,6 +19,11 @@ const initialState = {
     data: [],
     error: false,
   },
+  helps: {
+    loading: false,
+    data: [],
+    error: false,
+  },
 };
 
 export const AdminReducer = (state = initialState, { type, payload }) => {
@@ -128,6 +133,35 @@ export const AdminReducer = (state = initialState, { type, payload }) => {
         ...state,
         notifications: {
           ...state.notifications,
+          loading: false,
+          error: true,
+        },
+      };
+    //start load notification
+    case AdminActionTypes.ADMIN_START_LOAD_HELPS:
+      return {
+        ...state,
+        helps: {
+          ...state.helps,
+          loading: true,
+        },
+      };
+    // load notification success
+    case AdminActionTypes.ADMIN_LOAD_HELPS_SUCCESS:
+      return {
+        ...state,
+        helps: {
+          ...state.helps,
+          loading: false,
+          data: payload,
+        },
+      };
+    // load notification failed
+    case AdminActionTypes.ADMIN_LOAD_HELPS_FAIL:
+      return {
+        ...state,
+        helps: {
+          ...state.helps,
           loading: false,
           error: true,
         },
