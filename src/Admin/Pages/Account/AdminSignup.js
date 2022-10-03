@@ -11,7 +11,7 @@ import { Formik, Form } from "formik";
 import TextField from "../../Components/TextInputs/TextField";
 
 import Button from "../../../Shared/Components/Button";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import * as Yup from "yup";
 
 import axios from "axios";
@@ -47,8 +47,6 @@ const AdminSignup = () => {
         if (response.data.success) {
           setSubmissionError({ error: false, msg: "successful" });
           setSubmitting(false);
-
-          //save userdata in the session
           const { data, token } = response.data;
           //store token and data inside cookies for future autorizations
           Cookies.set("token", token);
@@ -87,10 +85,14 @@ const AdminSignup = () => {
       .oneOf([Yup.ref("password"), null], "Password must match"),
   });
 
+  //redirect from login when the admin has already logged
+  if (Cookies.get("admin")) {
+    return <Navigate to="/admin/dashboard" />;
+  }
+
   return (
     <StyledAccount template="30% 70%">
-      {" "}
-      {/*form container*/}{" "}
+      {/*form container*/}
       <StyledFormContainer className="form-container">
         <StyleTitle
           className="text-center mb-4"
@@ -98,8 +100,8 @@ const AdminSignup = () => {
           size="1.5rem"
           font={fonts.righteous}
         >
-          Administrator{" "}
-        </StyleTitle>{" "}
+          Administrator
+        </StyleTitle>
         <StyleTitle
           className="text-center mb-4"
           color={colors.muted}
@@ -160,9 +162,9 @@ const AdminSignup = () => {
               />
               <StyledDivider>
                 <div className="divider-text">
-                  <span> & </span>{" "}
-                </div>{" "}
-              </StyledDivider>{" "}
+                  <span> & </span>
+                </div>
+              </StyledDivider>
               {isSubmitting ? (
                 <div className="d-flex justify-content-center">
                   <Loading />
@@ -180,17 +182,17 @@ const AdminSignup = () => {
             </Form>
           )}
         </Formik>
-        {/*alternate link*/}{" "}
+        {/*alternate link*/}
         <div className="my-3">
           <p className="lead">
-            I have an account already ? <Link to="/admin/login"> Login </Link>{" "}
-          </p>{" "}
-        </div>{" "}
-      </StyledFormContainer>{" "}
-      {/* Image container */}{" "}
+            I have an account already ? <Link to="/admin/login"> Login </Link>
+          </p>
+        </div>
+      </StyledFormContainer>
+      {/* Image container */}
       <StyledImageContainer className="img-container d-none d-md-block">
         <img src={Image} alt="account" className="account-image" />
-      </StyledImageContainer>{" "}
+      </StyledImageContainer>
     </StyledAccount>
   );
 };

@@ -1,10 +1,36 @@
+import Cookies from "js-cookie";
 import React from "react";
-import { colors, fontSize } from "../../../DefaultValues";
+import { Navigate } from "react-router-dom";
+import { colors } from "../../../DefaultValues";
 import Button from "../../../Shared/Components/Button";
-import { StyleSubtitle, StyleTitle } from "../../../Styles";
+import { StyleTitle } from "../../../Styles";
 import { StyledPending } from "./AccountStyles";
 
 const SupplierPending = () => {
+  //redirect to login when supplier has not logged in
+  if (!Cookies.get("supplier")) {
+    return <Navigate to="/supplier/login" />;
+  }
+
+  //other redirects 
+  if (Cookies.get("supplier")) {
+    let cookieSupplier = JSON.parse(Cookies.get("supplier"));
+    const progress = cookieSupplier.progress;
+    //redirect to add details
+    if (!progress.addedDetails) {
+      return <Navigate to="/supplier/add/details" />;
+    }
+    //redirect to add license
+    if (!progress.addedLicense) {
+      return <Navigate to="/supplier/license" />;
+    }
+    //redirect to supplier dashboard
+    if (progress.addedDetails && progress.addedLicense) {
+      return <Navigate to="/supplier/dashboard" />;
+    }
+  }
+
+  //render content of the pending page
   return (
     <StyledPending>
       <div className="pending-container">

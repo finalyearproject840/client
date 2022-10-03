@@ -8,7 +8,7 @@ import SupplierProfileSection from "../../Features/SupplierProfile/SupplierProfi
 const SupplierProfile = () => {
   return (
     <StyleContainer>
-      {/* divide the container into 2 menubar and the main content */}
+      {/* divide the container into menubar and the main content */}
       <MenuBar active="profile" />
       {/* main content */}
       <div className="main-content">

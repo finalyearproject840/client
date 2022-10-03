@@ -6,33 +6,38 @@ import StyledAccount, {
 } from "./AccountStyles";
 import { StyleSubtitle, StyleTitle } from "../../../Styles";
 import Image from "../../../Assets/Images/Design/background/Account_background.jpg";
-import { colors, fonts, fontSize, SupplierRoutes } from "../../../DefaultValues";
+import {
+  colors,
+  fonts,
+  fontSize,
+  SupplierRoutes,
+} from "../../../DefaultValues";
 import { Formik, Form } from "formik";
 import TextField from "../../Components/TextInputs/TextField";
 import { AiOutlineMail } from "react-icons/ai";
-import { BsFacebook } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 import Button from "../../../Shared/Components/Button";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import * as Yup from "yup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../../Shared/Components/Loading";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
-import { googleLoginFunc, loadSupplierFunc } from "../../../Redux/Supplier/SupplierActions";
-import { useGoogleLogin } from '@react-oauth/google';
+import {
+  googleLoginFunc,
+  loadSupplierFunc,
+} from "../../../Redux/Supplier/SupplierActions";
+import { useGoogleLogin } from "@react-oauth/google";
+
 const SupplierLogin = () => {
-  //usestates to handle various changes
+  //use state to handle various changes
   const [submissionError, setSubmissionError] = useState({
     error: false,
     msg: "",
   });
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  //console.log(process.env);
   //form submission function
   const handleSubmit = (form, setSubmitting) => {
     let config = {
@@ -73,21 +78,19 @@ const SupplierLogin = () => {
       });
   };
 
-    //handle login with google
-    function handleGoogleLoginSuccess(tokenResponse) {
-      const accessToken = tokenResponse.access_token;
-      console.log(accessToken);
-      dispatch(
-        googleLoginFunc({ googleAccessToken: accessToken }, () =>
-          navigate("/supplier/dashboard")
-        )
-      );
-    }
-  
-    const signUpWithGoogle = useGoogleLogin({
-      onSuccess: handleGoogleLoginSuccess,
-    });
-  
+  //handle login with google
+  function handleGoogleLoginSuccess(tokenResponse) {
+    const accessToken = tokenResponse.access_token;
+    dispatch(
+      googleLoginFunc({ googleAccessToken: accessToken }, () =>
+        navigate("/supplier/dashboard")
+      )
+    );
+  }
+
+  const signUpWithGoogle = useGoogleLogin({
+    onSuccess: handleGoogleLoginSuccess,
+  });
 
   //write validation schema using Yup library
   const validateSchema = Yup.object({
@@ -97,6 +100,12 @@ const SupplierLogin = () => {
     password: Yup.string().required("Please enter password before submitting"),
   });
 
+  //redirect from login when the user has already logged
+  if (Cookies.get("supplier")) {
+    return <Navigate to="/supplier/dashboard" />;
+  }
+
+  //render content of the supplier page
   return (
     <StyledAccount template="70% 30%">
       {/* Image container */}
@@ -168,7 +177,7 @@ const SupplierLogin = () => {
             </Form>
           )}
         </Formik>
-        {/* Sign in with goole or other services */}
+        {/* Sign in with google or other services */}
         <div className="otherservice">
           <StyledDivider>
             <div className="divider-text">
@@ -191,7 +200,6 @@ const SupplierLogin = () => {
               <span className="text-muted ms-2"> Google </span>
             </Button>
           </Link>
-         
         </div>
         {/*alternate link*/}
         <div className="my-3">

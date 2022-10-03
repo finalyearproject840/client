@@ -5,6 +5,7 @@
         "datatable",
         "datatables",
         "firstname",
+        "formik",
         "lastname",
         "unverify"
     ]

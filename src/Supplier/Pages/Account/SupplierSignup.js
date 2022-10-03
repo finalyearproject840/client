@@ -16,7 +16,7 @@ import { Formik, Form } from "formik";
 import TextField from "../../Components/TextInputs/TextField";
 import { FcGoogle } from "react-icons/fc";
 import Button from "../../../Shared/Components/Button";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import * as Yup from "yup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -114,8 +114,13 @@ const SupplierSignup = () => {
       .required()
       .oneOf([Yup.ref("password"), null], "Password must match"),
   });
- 
 
+  //redirect from sign up page when the user has already login
+  if (Cookies.get("supplier")) {
+    return <Navigate to="/supplier/dashboard" />;
+  }
+
+  //render content of the supplier sign up page
   return (
     <StyledAccount template="30% 70%">
       {/*form container*/}

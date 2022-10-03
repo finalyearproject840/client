@@ -5,12 +5,12 @@ import StyledAccount, {
 } from "./AccountStyles";
 import { StyleTitle } from "../../../Styles";
 import Image from "../../../Assets/Images/Design/background/admin_account_background.jpg";
-import { colors, fonts , AdminRoutes} from "../../../DefaultValues";
+import { colors, fonts, AdminRoutes } from "../../../DefaultValues";
 import { Formik, Form } from "formik";
 import TextField from "../../Components/TextInputs/TextField";
 import { AiOutlineMail } from "react-icons/ai";
 import Button from "../../../Shared/Components/Button";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import * as Yup from "yup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -47,11 +47,8 @@ const AdminLogin = () => {
             msg: "successful",
           });
           setSubmitting(false);
-
-          //save userdata in the session
           const { data, token } = response.data;
-
-          //store token and data inside cookies for future autorizations
+          //store token and data inside cookies for future autorization
           Cookies.set("token", token);
           Cookies.set("admin", JSON.stringify(data));
           //store admin state in redux
@@ -77,6 +74,10 @@ const AdminLogin = () => {
       });
   };
 
+  //redirect from login when the admin has already logged
+  if (Cookies.get("admin")) {
+    return <Navigate to="/admin/dashboard" />;
+  }
   //write validation schema using Yup library
   const validateSchema = Yup.object({
     email: Yup.string()

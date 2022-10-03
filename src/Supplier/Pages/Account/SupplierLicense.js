@@ -7,10 +7,11 @@ import { FaCloudUploadAlt } from "react-icons/fa";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import Loading from "../../../Shared/Components/Loading";
-
 import { supplierUploadLicenseFunc } from "../../../Redux/Supplier/SupplierActions";
+import Cookies from "js-cookie";
+
 const SupplierLicense = () => {
   const [submissionError, setSubmissionError] = useState({
     error: false,
@@ -44,6 +45,26 @@ const SupplierLicense = () => {
       )
     );
   };
+
+  //redirect from to login page
+  if (!Cookies.get("supplier")) {
+    return <Navigate to="/supplier/login" />;
+  }
+
+  if (Cookies.get("supplier")) {
+    let cookieSupplier = JSON.parse(Cookies.get("supplier"));
+    const progress = cookieSupplier.progress;
+    //redirect to add details page
+    if (!progress.addedDetails) {
+      return <Navigate to="/supplier/add/details" />;
+    }
+    //redirect to dashboard
+    if (progress.addLicense) {
+      return <Navigate to="/supplier/dashboard" />;
+    }
+  }
+
+  //render content of the license page
   return (
     <StyledFileUploader>
       <div className="upload-container">
@@ -53,11 +74,11 @@ const SupplierLicense = () => {
           color={colors.violet}
           className="text-center"
         >
-          Upload Lincense
+          Upload License
         </StyleTitle>
         <p className="lead px-5 text-center">
           As part of the account creation process, you are required to upload
-          your pharmaceutical lincense for review
+          your pharmaceutical License for review
         </p>
         {/* display submission error */}
         {submissionError.error ? (
@@ -84,10 +105,10 @@ const SupplierLicense = () => {
             )
           }
         >
-          {({ isSubmitting, setFieldValue, touched, errors }) => (
+          {({ isSubmitting, setFieldValue }) => (
             <Form encType="multipart/form-data">
               <div className="text-center">
-                <label htmlFor="lincense" className="text-warning lead">
+                <label htmlFor="License" className="text-warning lead">
                   Only pdf is allowed
                 </label>
               </div>

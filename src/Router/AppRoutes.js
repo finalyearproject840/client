@@ -36,6 +36,7 @@ import ViewUser from "../Admin/Pages/ViewUser";
 import ViewSupplier from './../Admin/Pages/ViewSupplier';
 import AllSubscribers from './../Supplier/Pages/AllSubscribers';
 import AllHelps from "../Admin/Pages/AllHelps";
+import AddAccountDetails from "../Supplier/Pages/Account/AddAccountDetails";
 
 const AppRoutes = () => {
   return (
@@ -46,7 +47,7 @@ const AppRoutes = () => {
         <Route element={<SupplierLogin />} path="/supplier/login" />
         <Route element={<SupplierPending />} path="/supplier/pending" />
         <Route element={<SupplierLicense />} path="/supplier/license" />
-
+        <Route element={<AddAccountDetails />} path="/supplier/add/details" />
         {/* admin protected route */}
         <Route element={<AdminProtectedRoutes />}>
           <Route element={<AdminDashboard />} path="/admin/dashboard" />
