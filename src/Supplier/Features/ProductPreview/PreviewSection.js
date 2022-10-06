@@ -110,7 +110,7 @@ const PreviewSection = () => {
                     <b>Price</b>: GHS {data.price}
                   </p>
                   <p className="lead">
-                    <b>Quantity in stock:</b> GHS {data.quantity}
+                    <b>Quantity in stock:</b> {data.quantity}
                   </p>
                   <p className="lead">
                     <b>Discount:</b> {data.discount}%
@@ -134,13 +134,29 @@ const PreviewSection = () => {
                     <b>Tags :</b> {data.tags.join(", ")}
                   </p>
                   <p className="lead">
-                    <b>Manufactured on :</b>{" "}
+                    <b>Manufactured on :</b>
                     {new Date(data.manufactured_date).toDateString()}
                   </p>
                   <p className="lead">
-                    <b>Expires on :</b>{" "}
+                    <b>Expires on :</b>
                     {new Date(data.expiry_date).toDateString()}
                   </p>
+                  {data.delivery.allowed === "true" && (
+                    <>
+                      <p className="lead">
+                        <b>Delivery Available: </b>
+                        Yes
+                      </p>
+                      <p className="lead">
+                        <b>Delivery Fee: </b>
+                        {data.delivery.fee}
+                      </p>
+                      <p className="lead">
+                        <b>Delivery Duration: </b>
+                        {data.delivery.estimation}
+                      </p>
+                    </>
+                  )}
                   <p className="lead">
                     <b>Usage:</b>
                     <br />

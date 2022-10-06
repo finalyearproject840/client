@@ -28,7 +28,7 @@ const AdminSignup = () => {
     msg: "successful",
   });
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   //console.log(process.env);
   //form submission function
@@ -74,11 +74,11 @@ const AdminSignup = () => {
       .email("Please enter a valid email"),
     username: Yup.string()
       .required("Username is required")
-      .min(3, "Username should have atleast 3 characters")
+      .min(3, "Username should have at least 3 characters")
       .max(30, "Username can't be more than 30 characters"),
     password: Yup.string()
       .required("Please enter password before submitting")
-      .min(8, "Password should be atleast 8 characters")
+      .min(8, "Password should be at least 8 characters")
       .max(16, "Password can't be more than 8 characters"),
     confirm: Yup.string()
       .required()

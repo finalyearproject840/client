@@ -19,8 +19,8 @@ const SupplierProtectedRoutes = () => {
     if (!progress.addedLicense) {
       return <Navigate to="/supplier/license" />;
     }
-    if (supplier.verified) {
-      return <Navigate to="/supplier/add/pending" />;
+    if (!supplier.verified) {
+      return <Navigate to="/supplier/pending" />;
     }
     return <Outlet />;
   }

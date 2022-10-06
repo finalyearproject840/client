@@ -12,7 +12,7 @@ import { deleteCategoryFunc } from "../../../Redux/Admin/AdminActions";
 import { StyleTitle } from "../../../Styles";
 import { Link } from "react-router-dom";
 
-const AdminCategoriesSection = () => {
+const SupplierCategoriesSection = () => {
   const dispatch = useDispatch();
   const [confirmModalTitle, setConfirmModalTitle] = useState("");
   const [confirmModalFunc, setConfirmModalFunc] = useState(
@@ -122,7 +122,7 @@ const AdminCategoriesSection = () => {
               </StyledTableContainer>
             ) : (
               <div className="alert alert-light  text-center" role="alert">
-                <b>No Category yet</b>
+                <b>No supplier category available</b>
               </div>
             )}
           </div>
@@ -157,4 +157,4 @@ const StyledTableContainer = styled.div`
   }
 `;
 
-export default AdminCategoriesSection;
+export default SupplierCategoriesSection;

@@ -29,6 +29,13 @@ const UploadFormSection = () => {
 
   //form submission function
   const handleSubmit = (form, setSubmitting, resetForm) => {
+    form = {
+      ...form,
+      country: supplier.location.country,
+      city: supplier.location.city,
+      state: supplier.location.state,
+      locality: supplier.location.locality,
+    };
     dispatch(
       uploadProductFunc(
         form,
@@ -114,13 +121,16 @@ const UploadFormSection = () => {
                 tags: "",
                 images: "",
                 usage: "",
+                deliveryAllowed: "",
+                deliveryFee: "",
+                deliveryEstimation: "",
               }}
               validationSchema={validateSchema}
               onSubmit={(form, { setSubmitting, resetForm }) =>
                 handleSubmit(form, setSubmitting, resetForm)
               }
             >
-              {({ isSubmitting, setFieldValue, touched, errors }) => (
+              {({ isSubmitting, setFieldValue, touched, errors, values }) => (
                 <Form encType="multipart/form-data">
                   <TextField
                     type="text"
@@ -228,7 +238,43 @@ const UploadFormSection = () => {
                         <ErrorMessage name="category" />
                       </StyledErrorText>
                     )}
+                  </div>
+                  <div className="my-3">
+                    <StyledLabel htmlFor="DeliveryAllowed">
+                      Do you offer delivery for this product?
+                    </StyledLabel>
+                    <Field
+                      as="select"
+                      className="form-control"
+                      name="deliveryAllowed"
+                    >
+                      <StyledOption value={false}>No</StyledOption>
+                      <StyledOption value={true}>Yes</StyledOption>
+                    </Field>
+                    {errors.deliveryAllowed && (
+                      <StyledErrorText className="text-danger">
+                        <ErrorMessage name="deliveryAllowed" />
+                      </StyledErrorText>
+                    )}
+                    {values.deliveryAllowed && (
+                      <>
+                        <TextField
+                          type="text"
+                          name="deliveryFee"
+                          label="What fee do you charge for delivery"
+                          placeholder="Enter delivery fee"
+                        />
+                        <TextField
+                          type="text"
+                          name="deliveryEstimation"
+                          label="How long do you take to make delivery"
+                          placeholder="Eg. 2 hours"
+                        />
+                      </>
+                    )}
+
                     <div className="my-3">
+                      <StyledLabel>Enter Product Description</StyledLabel>
                       <Field
                         name="description"
                         as="textarea"
@@ -247,7 +293,6 @@ const UploadFormSection = () => {
                       )}
                     </div>
                   </div>
-
                   {isSubmitting ? (
                     <div className="d-flex justify-content-center">
                       <Loading />

@@ -128,7 +128,7 @@ const AdminProductSection = () => {
                               />
                             </td>
                             <td className="td">{item._id}</td>
-                            <td className="td">{item.supplier.supplier_id}</td>
+                            <td className="td">{item.supplier_id}</td>
                             <td className="td">{item.name}</td>
                             <td className="td ">
                               <div className="d-flex special-width">

@@ -83,7 +83,6 @@ const EditProductSection = () => {
     getCategories();
   }, []);
 
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -160,13 +159,21 @@ const EditProductSection = () => {
                     expiry_date: processDate(data.expiry_date),
                     manufactured_date: processDate(data.manufactured_date),
                     tags: data.tags.join(", "),
+                    deliveryAllowed: data.delivery.allowed,
+                    deliveryFee:data.delivery.fee,
+                    deliveryEstimation: data.delivery.estimation,
                   }}
                   validationSchema={validateSchema}
                   onSubmit={(form, { setSubmitting, resetForm }) =>
                     handleSubmit(form, setSubmitting, resetForm)
                   }
                 >
-                  {({ isSubmitting, setFieldValue, touched, errors }) => (
+                  {({
+                    isSubmitting,
+                    touched,
+                    errors,
+                    values,
+                  }) => (
                     <Form encType="multipart/form-data">
                       <TextField
                         type="text"
@@ -203,13 +210,13 @@ const EditProductSection = () => {
                         type="date"
                         name="manufactured_date"
                         label="Change product manufactured date"
-                        placeholder="Proudct manufactured date"
+                        placeholder="Product manufactured date"
                       />
                       <TextField
                         type="date"
                         name="expiry_date"
                         label="Change product expiry date"
-                        placeholder="Proudct expiry date"
+                        placeholder="Product expiry date"
                       />
                       <div className="my-3">
                         <StyledLabel htmlFor="category">
@@ -222,19 +229,19 @@ const EditProductSection = () => {
                           multiple
                         >
                           {categories.length > 0 ? (
-                        categories.map((item) => (
-                          <StyledOption
-                            key={item._id}
-                            value={item.category_name}
-                          >
-                            {item.category_name}
-                          </StyledOption>
-                        ))
-                      ) : (
-                        <StyledOption value="no-category">
-                          No category
-                        </StyledOption>
-                      )}
+                            categories.map((item) => (
+                              <StyledOption
+                                key={item._id}
+                                value={item.category_name}
+                              >
+                                {item.category_name}
+                              </StyledOption>
+                            ))
+                          ) : (
+                            <StyledOption value="no-category">
+                              No category
+                            </StyledOption>
+                          )}
                         </Field>
                         {errors.category && (
                           <StyledErrorText className="text-danger">
@@ -242,25 +249,58 @@ const EditProductSection = () => {
                           </StyledErrorText>
                         )}
                         <div className="my-3">
-                          <StyledLabel htmlFor="category">
-                            Change Product description
+                          <StyledLabel htmlFor="DeliveryAllowed">
+                            Do you offer delivery for this product?
                           </StyledLabel>
                           <Field
-                            name="description"
-                            as="textarea"
-                            row="10"
-                            className={
-                              touched.description && errors.description
-                                ? "form-control is-invalid p-3"
-                                : `form-control p-3`
-                            }
-                            placeholder="Description"
-                          />
-                          {touched.description && errors.description && (
+                            as="select"
+                            className="form-control"
+                            name="deliveryAllowed"
+                          >
+                            <StyledOption value={false}>No</StyledOption>
+                            <StyledOption value={true}>Yes</StyledOption>
+                          </Field>
+                          {errors.deliveryAllowed && (
                             <StyledErrorText className="text-danger">
-                              <ErrorMessage name="description" />
+                              <ErrorMessage name="deliveryAllowed" />
                             </StyledErrorText>
                           )}
+                          {values.deliveryAllowed ==="true" && (
+                            <>
+                              <TextField
+                                type="text"
+                                name="deliveryFee"
+                                label="What fee do you charge for delivery"
+                                placeholder="Enter delivery fee"
+                              />
+                              <TextField
+                                type="text"
+                                name="deliveryEstimation"
+                                label="How long do you take to make delivery"
+                                placeholder="Eg. 2 hours"
+                              />
+                            </>
+                          )}
+
+                          <div className="my-3">
+                            <StyledLabel>Enter Product Description</StyledLabel>
+                            <Field
+                              name="description"
+                              as="textarea"
+                              row="10"
+                              className={
+                                touched.description && errors.description
+                                  ? "form-control is-invalid p-3"
+                                  : `form-control p-3`
+                              }
+                              placeholder="Description"
+                            />
+                            {touched.description && errors.description && (
+                              <StyledErrorText className="text-danger">
+                                <ErrorMessage name="description" />
+                              </StyledErrorText>
+                            )}
+                          </div>
                         </div>
                       </div>
 

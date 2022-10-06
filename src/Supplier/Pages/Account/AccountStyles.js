@@ -82,6 +82,7 @@ export const StyledPending = styled.div`
       rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
   }
 `;
+//upload license
 export const StyledFileUploader = styled.div`
   display: flex;
   justify-content: center;
@@ -120,4 +121,43 @@ export const StyledFileUploader = styled.div`
   }
 `;
 
+//add details
+export const StyledAddDetailsContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ${colors.light};
+  padding: 1rem;
+  padding-top:2rem;
+
+  .add-container {
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+      rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
+      rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+    padding: ${spacing.l};
+    background-color: ${colors.white};
+  }
+  .input-box {
+    width: 100%;
+    height: 10rem;
+    background-color: ${colors.light};
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
+      rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+    border-radius: 30px;
+  }
+  .form-control {
+    width: 100%;
+    height: 100%;
+  }
+  .lead {
+    font-size: ${fontSize.n};
+  }
+`;
+export const StyledOption = styled.option`
+  text-transform: capitalize;
+`;
 export default StyledAccount;

@@ -20,7 +20,7 @@ const CardSection = () => {
       <div className="container">
         <div className="row">
           {/* Card item */}
-          <CardItem className="col-sm-6 col-lg-3">
+          <CardItem className="col-sm-6 col-lg-6">
             <Link to="#">
               <div className="card-container">
                 <div className="icon-box">
@@ -43,7 +43,7 @@ const CardSection = () => {
             </Link>
           </CardItem>
           {/* Card item */}
-          <CardItem className="col-sm-6 col-lg-3" color={colors.blue}>
+          <CardItem className="col-sm-6 col-lg-6" color={colors.blue}>
             <Link to="/supplier/products">
               <div className="card-container">
                 <div className="icon-box">
@@ -65,52 +65,7 @@ const CardSection = () => {
               </div>
             </Link>
           </CardItem>
-          {/* Card item */}
-          <CardItem className="col-sm-6 col-lg-3" color={colors.gold}>
-            <Link to="#">
-              <div className="card-container">
-                <div className="icon-box">
-                  <MdDeliveryDining color={colors.white} size={25} />
-                </div>
-                <div className="text-container">
-                  <StyleTitle size={fontSize.n} color={colors.gold}>
-                    67
-                  </StyleTitle>
-                  <StyleSubtitle
-                    size={fontSize.sm}
-                    className="text-uppercase"
-                    font={fonts.righteous}
-                    color={colors.muted}
-                  >
-                    New Orders
-                  </StyleSubtitle>
-                </div>
-              </div>
-            </Link>
-          </CardItem>
-          {/* Card item */}
-          <CardItem className="col-sm-6 col-lg-3" color={colors.red}>
-            <Link to="#">
-              <div className="card-container">
-                <div className="icon-box">
-                  <AiFillMedicineBox color={colors.white} size={25} />
-                </div>
-                <div className="text-container">
-                  <StyleTitle size={fontSize.n} color={colors.red}>
-                    67
-                  </StyleTitle>
-                  <StyleSubtitle
-                    size={fontSize.sm}
-                    className="text-uppercase"
-                    font={fonts.righteous}
-                    color={colors.muted}
-                  >
-                    Sold
-                  </StyleSubtitle>
-                </div>
-              </div>
-            </Link>
-          </CardItem>
+          
         </div>
       </div>
     </section>

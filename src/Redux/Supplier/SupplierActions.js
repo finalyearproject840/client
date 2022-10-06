@@ -195,6 +195,13 @@ export const uploadProductFunc = (
     formData.append("tags", form.tags);
     formData.append("description", form.description);
     formData.append("usage", form.usage);
+    formData.append("deliveryAllowed", form.deliveryAllowed);
+    formData.append("deliveryFee", form.deliveryFee);
+    formData.append("deliveryEstimation", form.deliveryEstimation);
+    formData.append("country", form.country);
+    formData.append("city", form.city);
+    formData.append("state", form.state);
+    formData.append("locality", form.locality);
     //for authentication
     const token = Cookies.get("token");
     //config headers
@@ -443,12 +450,11 @@ export const updateProductFunc = (
 export const supplierUploadLicenseFunc = (
   form,
   setSubmitting,
-  resetForm,
   handleNavigate
 ) => {
   return (dispatch) => {
     const formData = new FormData();
-    //process lincense
+    //process license
     for (let i = 0; i < form.license.length; i++) {
       formData.append("license", form.license[i]);
     }
@@ -469,10 +475,12 @@ export const supplierUploadLicenseFunc = (
     axios(config)
       .then(function (response) {
         if (response.data.success) {
+          const { data } = response.data;
+          //store data inside cookies for future autorization
+          Cookies.set("supplier", JSON.stringify(data));
           setSubmitting(false);
-          notifySuccess("License upload successfully");
-          dispatch(loadSupplier(response.data.data));
-          resetForm({});
+          notifySuccess("License uploaded successfully");
+          dispatch(loadSupplier(data))
           handleNavigate();
         } else {
           setSubmitting(false);
@@ -510,7 +518,50 @@ export const updateSupplierFunc = (form, setSubmitting, handleRedirect) => {
           notifySuccess("Profile info update successfully");
           const { data, token } = response.data;
 
-          //store token and data inside cookies for future autorizations
+          //store token and data inside cookies for future autorization
+          Cookies.set("token", token);
+          Cookies.set("supplier", JSON.stringify(data));
+
+          dispatch(loadSupplier(response.data.data));
+          handleRedirect(response.data.data._id);
+        } else {
+          setSubmitting(false);
+          notifyError("response.data.msg");
+          console.log(response.data);
+        }
+      })
+      .catch(function (error) {
+        setSubmitting(false);
+        notifyError("Opps! something went wrong");
+        console.log(error);
+      });
+  };
+};
+
+//add supplier details
+export const addSupplierDetailsFunc = (form, setSubmitting, handleRedirect) => {
+  return (dispatch) => {
+    //for authentication
+    const token = Cookies.get("token");
+    //config headers
+    var config = {
+      method: "post",
+      url: SupplierRoutes.addSupplierDetails + "/" + form.supplier_id,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      data: form,
+    };
+    //axios
+    axios(config)
+      .then(function (response) {
+        if (response.data.success) {
+          setSubmitting(false);
+          notifySuccess("Details added successfully");
+          const { data, token } = response.data;
+
+          //store token and data inside cookies for future autorization
           Cookies.set("token", token);
           Cookies.set("supplier", JSON.stringify(data));
 

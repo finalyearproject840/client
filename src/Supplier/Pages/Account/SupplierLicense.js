@@ -39,8 +39,6 @@ const SupplierLicense = () => {
       supplierUploadLicenseFunc(
         form,
         setSubmitting,
-        resetForm,
-        setSubmissionError,
         handleNavigate
       )
     );
@@ -59,7 +57,7 @@ const SupplierLicense = () => {
       return <Navigate to="/supplier/add/details" />;
     }
     //redirect to dashboard
-    if (progress.addLicense) {
+    if (progress.addedLicense) {
       return <Navigate to="/supplier/dashboard" />;
     }
   }

@@ -4,19 +4,17 @@ import Button from "../../../Shared/Components/Button";
 import StyledMenu, { StyledList, StyledMenuCloser } from "./MenuStyles";
 import { colors } from "../../../DefaultValues";
 import MenuListItem from "./MenuListItem";
-import { BsPatchPlusFill, BsTruck, BsBasket } from "react-icons/bs";
-import { BiCategory, BiHome, BiUserCircle } from "react-icons/bi";
+import { BsPatchPlusFill } from "react-icons/bs";
+import { BiHome, BiUserCircle, BiCategoryAlt } from "react-icons/bi";
 import { AiOutlineClose } from "react-icons/ai";
 import {
   IoMdNotificationsOutline,
   IoMdHelpCircle,
   IoMdSettings,
 } from "react-icons/io";
-import { IoLogOutOutline } from "react-icons/io5";
 import { RiMenuUnfoldLine } from "react-icons/ri";
 import { GiMedicines } from "react-icons/gi";
 import { FaUsers, FaEdit } from "react-icons/fa";
-
 const MenuBar = (props) => {
   const [show, setShow] = useState(true);
   return (
@@ -81,28 +79,6 @@ const MenuBar = (props) => {
               }
             />
             <MenuListItem
-              text="Order"
-              icon={<BsBasket size={23} />}
-              active={
-                props.active
-                  ? props.active === "orders"
-                    ? "true"
-                    : "false"
-                  : "false"
-              }
-            />
-            <MenuListItem
-              text="Delivery"
-              icon={<BsTruck size={23} />}
-              active={
-                props.active
-                  ? props.active === "delivery"
-                    ? "true"
-                    : "false"
-                  : "false"
-              }
-            />
-            <MenuListItem
               text="Notifications"
               Link="/supplier/all/notifications/"
               icon={<IoMdNotificationsOutline size={23} />}
@@ -133,6 +109,19 @@ const MenuBar = (props) => {
               active={
                 props.active
                   ? props.active === "editprofile"
+                    ? "true"
+                    : "false"
+                  : "false"
+              }
+            />
+             
+             <MenuListItem
+              text="My Categories"
+              Link="/supplier/categories"
+              icon={<BiCategoryAlt size={23} />}
+              active={
+                props.active
+                  ? props.active === "category"
                     ? "true"
                     : "false"
                   : "false"

@@ -98,7 +98,7 @@ const PreviewSection = () => {
                     <b>Price</b>: GHS {data.price}
                   </p>
                   <p className="lead">
-                    <b>Quantity in stock:</b> GHS {data.quantity}
+                    <b>Quantity in stock:</b> {data.quantity}
                   </p>
                   <p className="lead">
                     <b>Discount:</b> {data.discount}%

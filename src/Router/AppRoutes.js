@@ -37,6 +37,8 @@ import ViewSupplier from './../Admin/Pages/ViewSupplier';
 import AllSubscribers from './../Supplier/Pages/AllSubscribers';
 import AllHelps from "../Admin/Pages/AllHelps";
 import AddAccountDetails from "../Supplier/Pages/Account/AddAccountDetails";
+import AllSupplierCategories from "../Supplier/Pages/AllSupplierCategories";
+import AddSupplierCategory from "../Supplier/Pages/AddSupplierCategory";
 
 const AppRoutes = () => {
   return (
@@ -78,6 +80,8 @@ const AppRoutes = () => {
           <Route element={<SupplierDashboard />} path="/supplier/dashboard" />
           <Route element={<SupplierProfile />} path="/supplier/profile" />
           <Route element={<UploadProduct />} path="/supplier/product/upload" />
+          <Route element={<AllSupplierCategories />} path="/supplier/categories" />
+          <Route element={<AddSupplierCategory />} path="/add/supplier/category" />
           <Route element={<ProductPreview />} path="/supplier/product/:id" />
           <Route element={<SupplierProducts />} path="/supplier/products" />
           <Route element={<AllSubscribers />} path="/supplier/all/subscribers" />

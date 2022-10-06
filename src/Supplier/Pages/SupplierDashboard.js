@@ -8,15 +8,12 @@ import MenuBar from "../Features/Menubar/MenuBar";
 import "datatables.net-bs5/js/dataTables.bootstrap5";
 import "datatables.net-bs5/css/dataTables.bootstrap5.min.css";
 import TableSection from "../Features/Dashboard/TableSection";
-import ChartSection from "../Features/Dashboard/ChartSection";
 import { useDispatch, useSelector } from "react-redux";
 import { loadProductFunc } from "../../Redux/Supplier/SupplierActions";
 const SupplierDashboard = () => {
-  
   const dispatch = useDispatch();
   const appStore = useSelector((state) => state.SupplierState);
   const { supplier } = appStore;
-
 
   useEffect(() => {
     if (supplier) {
@@ -37,8 +34,6 @@ const SupplierDashboard = () => {
           <CardSection />
           {/* table section*/}
           <TableSection />
-          {/*Chart Section */}
-          <ChartSection />
         </StyledMainContainer>
       </div>
     </StyleContainer>
