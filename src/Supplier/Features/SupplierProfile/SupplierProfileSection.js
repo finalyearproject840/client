@@ -113,6 +113,26 @@ const SupplierProfileSection = () => {
                     {data.email}
                   </p>
                   <p className="lead">
+                    <b>Country:</b>
+                    <br />
+                    {data.location.country}
+                  </p>
+                  <p className="lead">
+                    <b>State/Region:</b>
+                    <br />
+                    {data.location.state}
+                  </p>
+                  <p className="lead">
+                    <b>City:</b>
+                    <br />
+                    {data.location.city}
+                  </p>
+                  <p className="lead">
+                    <b>Locality:</b>
+                    <br />
+                    {data.location.locality}
+                  </p>
+                  <p className="lead">
                     <b>Address:</b>
                     <br />
                     {data.address.join(";")}

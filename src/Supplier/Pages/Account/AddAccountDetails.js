@@ -1,57 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { colors, fonts } from "../../../DefaultValues";
 import Button from "../../../Shared/Components/Button";
 import { StyleTitle } from "../../../Styles";
-import {
-  StyledAddDetailsContainer,
-  StyledOption,
-} from "./AccountStyles";
+import { StyledAddDetailsContainer, StyledOption } from "./AccountStyles";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import Loading from "../../../Shared/Components/Loading";
-import { addSupplierDetailsFunc, supplierUploadLicenseFunc } from "../../../Redux/Supplier/SupplierActions";
+import { addSupplierDetailsFunc } from "../../../Redux/Supplier/SupplierActions";
 import Cookies from "js-cookie";
 import TextField, {
   StyledErrorText,
 } from "../../Components/TextInputs/TextField";
-import { Country, State, City } from "country-state-city";
 import { StyledLabel } from "./../../../Admin/Components/TextInputs/TextField";
+import { Constituencies, Regions } from "../../../Utils/BigGhana";
 
 const AddAccountDetails = () => {
-  const [submissionError, setSubmissionError] = useState({
-    error: false,
-    msg: "",
-  });
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const SupplierState = useSelector((state) => state.SupplierState);
-  const [countries] = useState(Country.getAllCountries());
   const [cities, setCities] = useState([]);
-  const [states, setStates] = useState([]);
 
   const { supplier } = SupplierState;
-
-  const getStates = (countryName) => {
-    setStates(
-      State.getStatesOfCountry(
-        countries.find((item) => item.name === countryName).isoCode
-      )
-    );
-  };
-  const getCities = (countryName) => {
-    setCities(
-      City.getCitiesOfCountry(
-        countries.find((item) => item.name === countryName).isoCode
-      )
-    );
+  const getCities = (state) => {
+    setCities(Constituencies[state]);
   };
 
   //validation schema using Yup library for form validation
   const validateSchema = Yup.object({
-    country: Yup.mixed().required("Select country"),
     state: Yup.mixed().required("State is required"),
     city: Yup.mixed().required("City is required"),
     locality: Yup.mixed().required("locality is required"),
@@ -66,14 +43,12 @@ const AddAccountDetails = () => {
   //this is the function that handles the form submit action
   const handleSubmit = (form, setSubmitting, resetForm) => {
     console.log(form);
-    dispatch(
-      addSupplierDetailsFunc(
-        form,
-        setSubmitting,
-        handleNavigate
-      )
-    );
+    dispatch(addSupplierDetailsFunc(form, setSubmitting, handleNavigate));
   };
+
+  useEffect(() => {
+    getCities("ASHANTI");
+  }, []);
 
   //redirect from to login page
   if (!Cookies.get("supplier")) {
@@ -106,26 +81,15 @@ const AddAccountDetails = () => {
           Add additional details to your account to enable customers around you
           find
         </p>
-        {/* display submission error */}
-        {submissionError.error ? (
-          <div
-            className="alert alert-danger text-center text-capitalize"
-            role="alert"
-          >
-            <b> {submissionError.msg}</b>
-          </div>
-        ) : (
-          ""
-        )}
 
         {/* Forms with formik */}
         <Formik
           initialValues={{
-            country: "",
+            country: "Ghana",
             state: "",
             city: "",
             locality: "",
-            tel:"",
+            tel: "",
           }}
           validationSchema={validateSchema}
           onSubmit={(form, { setSubmitting, resetForm }) =>
@@ -149,45 +113,35 @@ const AddAccountDetails = () => {
                   as="select"
                   className="form-control"
                   name="country"
+                  disabled={true}
                   onChange={(e) => {
-                    getStates(e.currentTarget.value);
-                    getCities(e.currentTarget.value);
                     setFieldValue("country", e.currentTarget.value);
                   }}
                 >
-                  {countries.length > 0 ? (
-                    countries.map((item) => (
-                      <StyledOption key={item.isoCode} value={item.name}>
-                        {item.name}
-                      </StyledOption>
-                    ))
-                  ) : (
-                    <StyledOption value="no-country">No country</StyledOption>
-                  )}
+                  <StyledOption value="Ghana">Ghana</StyledOption>
                 </Field>
-                {errors.country && (
-                  <StyledErrorText className="text-danger">
-                    <ErrorMessage name="country" />
-                  </StyledErrorText>
-                )}
               </div>
               {/*state */}
               <div className="my-3">
                 <div>
                   <StyledLabel htmlFor="State" className="lead mb-2">
-                    Select State
+                    Select State/Region
                   </StyledLabel>
                 </div>
-                <Field as="select" className="form-control" name="state">
-                  {states.length > 0 ? (
-                    states.map((item) => (
-                      <StyledOption key={item.name} value={item.name}>
-                        {item.name}
-                      </StyledOption>
-                    ))
-                  ) : (
-                    <StyledOption value="no-state">State</StyledOption>
-                  )}
+                <Field
+                  as="select"
+                  className="form-control"
+                  name="state"
+                  onChange={(e) => {
+                    getCities(e.currentTarget.value);
+                    setFieldValue("state", e.currentTarget.value);
+                  }}
+                >
+                  {Regions.map((item) => (
+                    <StyledOption key={item.name} value={item.name}>
+                      {item.name}
+                    </StyledOption>
+                  ))}
                 </Field>
                 {errors.state && (
                   <StyledErrorText className="text-danger">
@@ -199,7 +153,7 @@ const AddAccountDetails = () => {
               <div className="my-3">
                 <div>
                   <StyledLabel htmlFor="City" className="lead mb-2">
-                    Select City
+                    Select City/District
                   </StyledLabel>
                 </div>
                 <Field as="select" className="form-control" name="city">
@@ -226,11 +180,7 @@ const AddAccountDetails = () => {
                     Enter locality
                   </StyledLabel>
                 </div>
-                <TextField
-                  type="text"
-                  name="locality"
-                  placeholder="locality"
-                />
+                <TextField type="text" name="locality" placeholder="locality" />
               </div>
               {/*Telephone */}
               <div className="my-3">
@@ -239,11 +189,7 @@ const AddAccountDetails = () => {
                     Enter Phone
                   </StyledLabel>
                 </div>
-                <TextField
-                  type="text"
-                  name="tel"
-                  placeholder="Telephone"
-                />
+                <TextField type="text" name="tel" placeholder="Telephone" />
               </div>
               {isSubmitting ? (
                 <div className="d-flex justify-content-center">
