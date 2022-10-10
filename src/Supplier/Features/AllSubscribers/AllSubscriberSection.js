@@ -94,14 +94,9 @@ const AllSubscriberSection = () => {
                     <thead>
                       <tr className="tr">
                         <th>View</th>
-                        <th>ID</th>
                         <th>Email</th>
                         <th>first Name</th>
                         <th>Last Name</th>
-                        <th>Verified</th>
-                        <th>Suspended</th>
-                        <th>Created At</th>
-                        <th>Address</th>
                         <th>Tel</th>
                       </tr>
                     </thead>
@@ -117,89 +112,10 @@ const AllSubscriberSection = () => {
                                 Details
                               </Link>
                             </td>
-                            <td className="td">{item._id}</td>
-                            <td className="td">{item.email}</td>
-                            <td className="td">{item.firstname}</td>
-                            <td className="td">{item.lastname}</td>
-                            <td className="td">
-                              {item.verified ? (
-                                <button
-                                  className="btn btn-secondary btn"
-                                  type="button"
-                                  data-bs-toggle="modal"
-                                  data-bs-target="#exampleModal"
-                                  data-backdrop="false"
-                                  onClick={() =>
-                                    handleVerify({
-                                      type: "unverify",
-                                      msg: "You  are about to unverify this user",
-                                      id: item._id,
-                                    })
-                                  }
-                                >
-                                  Unverify
-                                </button>
-                              ) : (
-                                <button
-                                  className="btn btn-secondary btn"
-                                  type="button"
-                                  data-bs-toggle="modal"
-                                  data-bs-target="#exampleModal"
-                                  data-backdrop="false"
-                                  onClick={() =>
-                                    handleVerify({
-                                      type: "verify",
-                                      msg: "You are about to verify this user",
-                                      id: item._id,
-                                    })
-                                  }
-                                >
-                                  Verify
-                                </button>
-                              )}
-                            </td>
-                            <td className="td">
-                              {item.suspended ? (
-                                <button
-                                  className="btn btn-secondary btn"
-                                  type="button"
-                                  data-bs-toggle="modal"
-                                  data-bs-target="#exampleModal"
-                                  data-backdrop="false"
-                                  onClick={() =>
-                                    handleSuspend({
-                                      type: "unsuspend",
-                                      msg: "You are about to unsuspend this user",
-                                      id: item._id,
-                                    })
-                                  }
-                                >
-                                  Unsuspend
-                                </button>
-                              ) : (
-                                <button
-                                  className="btn btn-secondary btn"
-                                  type="button"
-                                  data-bs-toggle="modal"
-                                  data-bs-target="#exampleModal"
-                                  data-backdrop="false"
-                                  onClick={() =>
-                                    handleSuspend({
-                                      type: "suspend",
-                                      msg: "You are about to suspend this user",
-                                      id: item._id,
-                                    })
-                                  }
-                                >
-                                  Suspend
-                                </button>
-                              )}
-                            </td>
-                            <td className="td">
-                              {new Date(item.created_at).toDateString()}
-                            </td>
-                            <td className="td">{item.address.join(",")}</td>
-                            <td className="td">{item.tel.join(",")}</td>
+                            <td className="td">{item.user.email}</td>
+                            <td className="td">{item.user.firstname}</td>
+                            <td className="td">{item.user.lastname}</td>
+                            <td className="td">{item.user.tel.join(",")}</td>
                           </tr>
                         );
                       })}
