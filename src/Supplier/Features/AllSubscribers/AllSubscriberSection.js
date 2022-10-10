@@ -106,7 +106,7 @@ const AllSubscriberSection = () => {
                           <tr key={item._id}>
                             <td className="td">
                               <Link
-                                to={`/admin/user/${item._id}`}
+                                to={"#"}
                                 className="btn btn-dark"
                               >
                                 Details
