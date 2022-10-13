@@ -60,6 +60,7 @@ const SupplierProductSection = () => {
                     <thead>
                       <tr className="tr">
                         <th>View</th>
+                        <th>Offers</th>
                         <th>Image</th>
                         <th>ID</th>
                         <th>name</th>
@@ -80,6 +81,7 @@ const SupplierProductSection = () => {
                         return (
                           <tr key={item._id}>
                             <td className="td"><Link to={`/supplier/product/${item._id}`} className="btn btn-dark">Details</Link></td>
+                            <td className="td"><Link to={`/supplier/offers/${item._id}`} className="btn btn-dark">Offers</Link></td>
                             <td className="td">
                               <img
                                 src={`${baseUrl}/${item.product_images[0].location}`}

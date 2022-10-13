@@ -35,6 +35,8 @@ const UploadFormSection = () => {
       city: supplier.location.city,
       state: supplier.location.state,
       locality: supplier.location.locality,
+      supplier_name:supplier.username,
+      organisation:supplier.organisation,
     };
     dispatch(
       uploadProductFunc(

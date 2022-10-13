@@ -92,6 +92,8 @@ export const SupplierRoutes = {
   requestHelp:`${baseUrl}/supplier/request/help`,
   loginWithGoogle:`${baseUrl}/supplier/google/login`,
   loadCategories:`${baseUrl}/supplier/all/categories`,
+  loadProductOffers:`${baseUrl}/supplier/get/offers/product`,
+
   
 }
 

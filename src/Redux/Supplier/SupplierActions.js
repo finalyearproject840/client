@@ -190,7 +190,8 @@ export const uploadProductFunc = (
     formData.append("expiry_date", form.expiry_date);
     formData.append("manufactured_date", form.manufactured_date);
     formData.append("category", form.category);
-    formData.append("supplier_name", supplier.organisation);
+    formData.append("supplier_name", form.supplier_name);
+    formData.append("organisation", form.organisation);
     formData.append("supplier_id", supplier._id);
     formData.append("tags", form.tags);
     formData.append("description", form.description);
