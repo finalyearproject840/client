@@ -114,7 +114,7 @@ const AllRequestedHelp = () => {
               </StyledTableContainer>
             ) : (
               <div className="alert alert-light  text-center" role="alert">
-                <b>No Notification yet</b>
+                <b>No Requested Help</b>
               </div>
             )}
           </div>

@@ -40,6 +40,8 @@ import AddAccountDetails from "../Supplier/Pages/Account/AddAccountDetails";
 import AllSupplierCategories from "../Supplier/Pages/AllSupplierCategories";
 import AddSupplierCategory from "../Supplier/Pages/AddSupplierCategory";
 import ProductOffers from "../Supplier/Pages/ProductOffers";
+import AllPrescription from "../Admin/Pages/AllPrescriptions";
+import PrescriptionResponse from "../Admin/Pages/PrescriptionResponse";
 
 const AppRoutes = () => {
   return (
@@ -73,7 +75,8 @@ const AppRoutes = () => {
           <Route element={<AllCategories />} path="/admin/all/categories" />
           <Route element={<AddCategory />} path="/admin/add/category" />
           <Route element={<EditCategory />} path="/admin/edit/category/:id" />
-          
+          <Route element={<AllPrescription />} path="/admin/all/prescription" />
+          <Route element={<PrescriptionResponse />} path="/admin/respond/prescription/:id" />
         </Route>
 
         {/* supplier protected route */}

@@ -19,6 +19,11 @@ const initialState = {
     data: [],
     error: false,
   },
+  prescriptions: {
+    loading: false,
+    data: [],
+    error: false,
+  },
   helps: {
     loading: false,
     data: [],
@@ -162,6 +167,36 @@ export const AdminReducer = (state = initialState, { type, payload }) => {
         ...state,
         helps: {
           ...state.helps,
+          loading: false,
+          error: true,
+        },
+      };
+
+    //start load prescription
+    case AdminActionTypes.ADMIN_START_LOAD_PRESCRIPTIONS:
+      return {
+        ...state,
+        prescriptions: {
+          ...state.prescriptions,
+          loading: true,
+        },
+      };
+    // load prescription success
+    case AdminActionTypes.ADMIN_LOAD_PRESCRIPTIONS_SUCCESS:
+      return {
+        ...state,
+        prescriptions: {
+          ...state.prescriptions,
+          loading: false,
+          data: payload,
+        },
+      };
+    // load prescription failed
+    case AdminActionTypes.ADMIN_LOAD_PRESCRIPTIONS_FAIL:
+      return {
+        ...state,
+        prescriptions: {
+          ...state.prescriptions,
           loading: false,
           error: true,
         },

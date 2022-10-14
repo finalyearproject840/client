@@ -11,6 +11,7 @@ import {
 import { StyleTitle } from "../../../Styles";
 import { baseUrl } from "../../../DefaultValues";
 import { Link } from "react-router-dom";
+import moment from "moment/moment";
 
 const AllSupplierSection = () => {
   const dispatch = useDispatch();
@@ -108,7 +109,7 @@ const AllSupplierSection = () => {
                       {suppliers.map((item) => {
                         return (
                           <tr key={item._id}>
-                          <td className="td">
+                            <td className="td">
                               <Link
                                 to={`/admin/supplier/${item._id}`}
                                 className="btn btn-dark"
@@ -202,7 +203,6 @@ const AllSupplierSection = () => {
                                   href={`${baseUrl}/${item.supplier_license}`}
                                   download={true}
                                   className="btn btn-danger"
-                                  
                                 >
                                   Download
                                 </a>
@@ -211,7 +211,7 @@ const AllSupplierSection = () => {
                               )}
                             </td>
                             <td className="td">
-                              {new Date(item.created_at).toDateString()}
+                              {moment(new Date(item.created_at)).fromNow()}
                             </td>
                             <td className="td">{item.address.join(",")}</td>
                             <td className="td">{item.tel.join(",")}</td>

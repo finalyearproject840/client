@@ -2,59 +2,26 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import $ from "jquery";
-import { colors, fonts, fontSize, SupplierRoutes } from "../../../DefaultValues";
-import ConfirmModal from "../../../Shared/Components/ConfirmModal";
-import {
-  suspendUserFunc,
-  verifyUserFunc,
-} from "../../../Redux/Admin/AdminActions";
+import { baseUrl, colors, fonts, fontSize } from "../../../DefaultValues";
+import {} from "../../../Redux/Admin/AdminActions";
 import { StyleTitle } from "../../../Styles";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import Loading from "./../../../Shared/Components/Loading";
-import Cookies from "js-cookie";
-import axios from "axios";
+import { Link } from "react-router-dom";
 import moment from "moment/moment";
+import Loading from "../../../Shared/Components/Loading";
 
-const ProductOfferSection = () => {
-  const [loading, setLoading] = useState(true);
-  const [data, setData] = useState(null);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+const AllPrescriptionsSection = () => {
+  //get suppliers keys for table columns
+  useEffect(() => {
+    //initialize datatable
+    $(document).ready(function () {
+      setTimeout(function () {
+        $(`#data_table`).DataTable();
+      }, 1000);
+    });
+  }, []);
 
-  const id = useParams().id;
-  const getData = (id) => {
-    setLoading(true);
-    //for authentication
-    const token = Cookies.get("token");
-    //config headers
-    var config = {
-      method: "get",
-      url: `${SupplierRoutes.loadProductOffers}/${id}`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    };
-    //axios
-    axios(config)
-      .then(function (response) {
-        if (response.data.success) {
-          setLoading(false);
-          setData(response.data.data);
-          console.log(response.data.data)
-        } else {
-          setLoading(false);
-        }
-      })
-      .catch(function (error) {
-        setLoading(false);
-        console.log(error);
-      });
-  };
-
-  useEffect(()=>{
-    getData(id)
-  },[])
+  const appStore = useSelector((state) => state.AdminState);
+  const { data, loading, error } = appStore.prescriptions;
 
   return (
     <StyledTableSection>
@@ -74,34 +41,51 @@ const ProductOfferSection = () => {
                   color={colors.muted}
                   className="text-center"
                 >
-                  Product Offers
+                  Prescriptions
                 </StyleTitle>
 
                 <div className="table-responsive">
                   <table
-                    id="usertable"
+                    id="data_table"
                     className="table table-hover table-bordered"
                   >
                     <thead>
                       <tr className="tr">
-                        <th>From</th>
-                        <th>Message</th>
-                        <th>Amount</th>
-                        <th>Call on</th>
-                        <th>Location</th>
-                        <th>Date</th>
+                        <th>View</th>
+                        <th>User ID</th>
+                        <th>Requested At</th>
+                        <th>Recommended Drugs</th>
+                        <th>Download Prescription</th>
                       </tr>
                     </thead>
                     <tbody className="lead">
                       {data.map((item) => {
                         return (
                           <tr key={item._id}>
-                            <td className="td">{item.firstname} {item.lastname}</td>
-                            <td className="td">{item.message}</td>
-                            <td className="td">{item.amount}</td>
-                            <td className="td"><a href={`tel:${item.user_tel}`}>{item.user_tel}</a></td>
-                            <td className="td">{item.location.state}, {item.location.city}, {item.location.locality}</td>
-                            <td className="td">{moment(new Date(item.date)).fromNow()}</td>
+                            <td className="td">
+                              <Link
+                                to={`/admin/respond/prescription/${item._id}`}
+                                className="btn btn-dark"
+                              >
+                                Respond
+                              </Link>
+                            </td>
+                            <td className="td">{item.user_id}</td>
+                            <td className="td">
+                              {moment(new Date(item.requested_on)).fromNow()}
+                            </td>
+                            <td className="td">
+                              {item.recommendations.join(", ")}
+                            </td>
+                            <td className="td text-center">
+                              <a
+                                href={`${baseUrl}/${item.prescription_image}`}
+                                download={true}
+                                className="btn btn-danger"
+                              >
+                                Download
+                              </a>
+                            </td>
                           </tr>
                         );
                       })}
@@ -111,7 +95,7 @@ const ProductOfferSection = () => {
               </StyledTableContainer>
             ) : (
               <div className="alert alert-light  text-center" role="alert">
-                <b>No Offers Yet</b>
+                <b>No Requested Prescription</b>
               </div>
             )}
           </div>
@@ -150,4 +134,4 @@ const StyledTableContainer = styled.div`
   }
 `;
 
-export default ProductOfferSection;
+export default AllPrescriptionsSection;

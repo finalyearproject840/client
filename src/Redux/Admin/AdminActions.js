@@ -120,7 +120,19 @@ const loadHelpFail = () => ({
   type: AdminActionTypes.ADMIN_LOAD_HELPS_FAIL,
 });
 
-
+//const admin load prescription start
+const loadPrescriptionsStart = () => ({
+  type: AdminActionTypes.ADMIN_START_LOAD_PRESCRIPTIONS,
+});
+//const admin load prescription success
+const loadPrescriptionsSuccess = (payload) => ({
+  type: AdminActionTypes.ADMIN_LOAD_PRESCRIPTIONS_SUCCESS,
+  payload: payload,
+});
+//const admin prescription fail
+const loadPrescriptionsFail = () => ({
+  type: AdminActionTypes.ADMIN_LOAD_PRESCRIPTIONS_FAIL,
+});
 
 //function load notification function
 export const loadNotificationFunc = () => {
@@ -179,7 +191,6 @@ export const readNotificationFunc = (id) => {
       });
   };
 };
-
 
 //function load help function
 export const loadHelpFunc = () => {
@@ -344,11 +355,15 @@ export const VerifySupplierFunc = (options) => {
 
     axios(config)
       .then(function (response) {
-        dispatch(loadAllSuppliers(response.data.data));
-        if (options.verify) {
-          notifySuccess("Supplier has been verified successfully");
+        if (response.data.success) {
+          dispatch(loadAllSuppliers(response.data.data));
+          if (options.verify) {
+            notifySuccess("Supplier has been verified successfully");
+          } else {
+            notifySuccess("Supplier has be  unverified successfully");
+          }
         } else {
-          notifySuccess("Supplier has be  unverified successfully");
+          notifySuccess("Oops! error occurred");
         }
       })
       .catch(function (error) {
@@ -669,11 +684,15 @@ export const verifyUserFunc = (options) => {
 
     axios(config)
       .then(function (response) {
-        dispatch(loadAllUsers(response.data.data));
-        if (options.verify) {
-          notifySuccess("user has been verified successfully");
+        if (response.data.success) {
+          dispatch(loadAllUsers(response.data.data));
+          if (options.verify) {
+            notifySuccess("user has been verified successfully");
+          } else {
+            notifySuccess("user has be  unverified successfully");
+          }
         } else {
-          notifySuccess("user has be  unverified successfully");
+          notifyError("Something went wrong");
         }
       })
       .catch(function (error) {
@@ -742,6 +761,71 @@ export const deleteUserFunc = (data, handleRedirect) => {
         }
       })
       .catch(function (error) {
+        notifyError("Oops! something went wrong");
+        console.log(error);
+      });
+  };
+};
+
+//function load prescription function
+export const loadPrescriptionsFunc = () => {
+  return (dispatch) => {
+    dispatch(loadPrescriptionsStart());
+    //for authorization
+    const token = Cookies.get("token");
+    //config headers
+    var config = {
+      method: "get",
+      url: `${AdminRoutes.loadPrescriptions}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    };
+    //axios
+    axios(config)
+      .then(function (response) {
+        if (response.data.success) {
+          dispatch(loadPrescriptionsSuccess(response.data.data));
+        } else {
+          dispatch(loadPrescriptionsFail());
+        }
+      })
+      .catch(function (error) {
+        console.log("error", error);
+        dispatch(loadPrescriptionsFail());
+      });
+  };
+};
+//admin add category
+export const respondToPrescription = (form, setSubmitting, handleRedirect) => {
+  return (dispatch) => {
+    //for authentication
+    const token = Cookies.get("token");
+    //config headers
+    var config = {
+      method: "post",
+      url: AdminRoutes.respondPrescription + "/" + form.id,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      data: form,
+    };
+    //axios
+    axios(config)
+      .then(function (response) {
+        if (response.data.success) {
+          setSubmitting(false);
+          notifySuccess("Recommendation sent successfully");
+          handleRedirect();
+        } else {
+          setSubmitting(false);
+          notifyError(response.data.msg);
+        }
+      })
+      .catch(function (error) {
+        setSubmitting(false);
         notifyError("Oops! something went wrong");
         console.log(error);
       });

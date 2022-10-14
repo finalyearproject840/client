@@ -1,34 +1,28 @@
 import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
+import { loadProductFunc } from "../../Redux/Admin/AdminActions";
 import { StyleContainer } from "../../Styles";
 import Navbar from "../Components/Navbar/Navbar";
+import PrescriptionResponseSection from "../Features/AllPrescriptions/PrescriptionResponseSection";
 import MenuBar from "../Features/Menubar/MenuBar";
-import { useDispatch } from "react-redux";
-import AllRequestedHelp from './../Features/AllRequestedHelp/AllRequestedHelp';
-import { loadHelpFunc } from './../../Redux/Admin/AdminActions';
 
-
-
-
-const AllHelps = () => {
-
+const PrescriptionResponse = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(loadHelpFunc());
+    dispatch(loadProductFunc());
   }, []);
-
-
   return (
     <StyleContainer>
       {/* divide the container into 2 menubar and the main content */}
-      <MenuBar active="help" />
+      <MenuBar active="Prescription" />
       {/* main content */}
       <div className="main-content">
         {/* Navbar */}
         <Navbar />
         {/* Main container */}
         <StyledMainContainer>
-          <AllRequestedHelp />
+          <PrescriptionResponseSection />
         </StyledMainContainer>
       </div>
     </StyleContainer>
@@ -41,4 +35,4 @@ const StyledMainContainer = styled.div`
   padding-bottom: 6rem;
 `;
 
-export default AllHelps;
+export default PrescriptionResponse;

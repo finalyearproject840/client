@@ -67,6 +67,8 @@ export const AdminRoutes = {
   loadUser:`${baseUrl}/admin/user`,
   loadSupplier:`${baseUrl}/admin/supplier`,
   deleteUser:`${baseUrl}/admin/delete/user`,
+  loadPrescriptions:`${baseUrl}/admin/all/prescriptions`,
+  respondPrescription:`${baseUrl}/admin/respond/prescription`
 }
 
 export const SupplierRoutes = {

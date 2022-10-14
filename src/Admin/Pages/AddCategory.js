@@ -9,7 +9,7 @@ const AddCategory = () => {
   return (
     <StyleContainer>
       {/* divide the container into 2 menubar and the main content */}
-      <MenuBar active="category" />
+      <MenuBar active="add-category" />
       {/* main content */}
       <div className="main-content">
         {/* Navbar */}

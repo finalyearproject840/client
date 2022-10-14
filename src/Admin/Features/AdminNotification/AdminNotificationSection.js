@@ -9,14 +9,18 @@ import Loading from "../../../Shared/Components/Loading";
 import "datatables.net-bs5/js/dataTables.bootstrap5";
 import "datatables.net-bs5/css/dataTables.bootstrap5.min.css";
 import { Link } from "react-router-dom";
-import { readNotificationFunc, VerifyProductFunc } from "../../../Redux/Admin/AdminActions";
+import {
+  readNotificationFunc,
+  VerifyProductFunc,
+} from "../../../Redux/Admin/AdminActions";
 import { StyleTitle } from "../../../Styles";
+import moment from "moment/moment";
 
 const AdminNotificationSection = () => {
   const dispatch = useDispatch();
 
   const appStore = useSelector((state) => state.AdminState);
-  const { loading, error, data } = appStore.notifications;
+  const { loading, data } = appStore.notifications;
 
   //const function to mark notification as read
   const handleMarkAsRead = (id) => {
@@ -66,7 +70,6 @@ const AdminNotificationSection = () => {
                         <th>Read</th>
                         <th>From</th>
                         <th>Form ID</th>
-                        
                         <th>Created At</th>
                       </tr>
                     </thead>
@@ -75,7 +78,11 @@ const AdminNotificationSection = () => {
                         return (
                           <tr
                             key={item._id}
-                            className={item.read ? "" : "bg-secondary text-light bg-gradient"}
+                            className={
+                              item.read
+                                ? ""
+                                : "bg-secondary text-light bg-gradient"
+                            }
                           >
                             <td>{item._id}</td>
                             <td>{item.title}</td>
@@ -91,7 +98,7 @@ const AdminNotificationSection = () => {
                                   data-bs-target="#exampleModal"
                                   data-backdrop="false"
                                   onClick={() => handleMarkAsRead(item._id)}
-                                  style={{ width:"150px" }}
+                                  style={{ width: "150px" }}
                                 >
                                   Mark as read
                                 </button>
@@ -100,7 +107,7 @@ const AdminNotificationSection = () => {
                             <td>{item.entityType}</td>
                             <td>{item.entityID}</td>
                             <td className="td">
-                              {new Date(item.created_at).toDateString()}
+                              {moment(new Date(item.created_at)).fromNow()}
                             </td>
                           </tr>
                         );
@@ -145,7 +152,7 @@ const StyledTableContainer = styled.div`
     font-weight: 500;
     font-family: ${fonts.roboto};
   }
-  .lead{
+  .lead {
     font-size: ${fontSize.n};
   }
 `;

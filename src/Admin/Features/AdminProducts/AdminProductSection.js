@@ -9,8 +9,12 @@ import Loading from "../../../Shared/Components/Loading";
 import "datatables.net-bs5/js/dataTables.bootstrap5";
 import "datatables.net-bs5/css/dataTables.bootstrap5.min.css";
 import { Link } from "react-router-dom";
-import { changeProductAttribute, VerifyProductFunc } from "../../../Redux/Admin/AdminActions";
+import {
+  changeProductAttribute,
+  VerifyProductFunc,
+} from "../../../Redux/Admin/AdminActions";
 import { StyleTitle } from "../../../Styles";
+import moment from "moment";
 
 const AdminProductSection = () => {
   const dispatch = useDispatch();
@@ -40,15 +44,13 @@ const AdminProductSection = () => {
     setConfirmModalFunc(() => () => verifyFunc());
   };
 
-   //const function to verify or Un-verify supplier
-   const handleSetAttribute = (options) => {
+  //const function to verify or Un-verify supplier
+  const handleSetAttribute = (options) => {
     //set the title of the confirmation modal
     setConfirmModalTitle(options.msg);
     //create a verification function to be passed into the confirmation modal
     const verifyFunc = () => {
-      dispatch(
-        changeProductAttribute(options)
-      );
+      dispatch(changeProductAttribute(options));
     };
     //parse the verifyFunc to the confirmationModal to call it when admin confirm
     setConfirmModalFunc(() => () => verifyFunc());
@@ -101,8 +103,6 @@ const AdminProductSection = () => {
                         <th>Status</th>
                         <th>Verified</th>
                         <th>Quantity</th>
-                        <th>Rating</th>
-                        <th>Reviews</th>
                         <th>Created At</th>
                         <th>Expiry Date</th>
                         <th>Manufactured Date</th>
@@ -143,10 +143,9 @@ const AdminProductSection = () => {
                                     handleSetAttribute({
                                       msg: "Change product's attribute to none",
                                       id: item._id,
-                                      special_attributes:"none"
+                                      special_attributes: "none",
                                     })
                                   }
-                                  
                                 >
                                   mark as none
                                 </button>
@@ -163,7 +162,7 @@ const AdminProductSection = () => {
                                     handleSetAttribute({
                                       msg: "Change product's attribute to popular",
                                       id: item._id,
-                                      special_attributes:"popular"
+                                      special_attributes: "popular",
                                     })
                                   }
                                 >
@@ -182,7 +181,7 @@ const AdminProductSection = () => {
                                     handleSetAttribute({
                                       msg: "Change product's attribute to latest",
                                       id: item._id,
-                                      special_attributes:"latest"
+                                      special_attributes: "latest",
                                     })
                                   }
                                 >
@@ -233,16 +232,16 @@ const AdminProductSection = () => {
                               )}
                             </td>
                             <td className="td">{item.quantity}</td>
-                            <td className="td">{item.totalRating}</td>
-                            <td className="td">{item.totalReviews}</td>
                             <td className="td">
-                              {new Date(item.created_at).toDateString()}
+                              {moment(new Date(item.created_at)).fromNow()}
                             </td>
                             <td className="td">
-                              {new Date(item.expiry_date).toDateString()}
+                              {moment(new Date(item.expiry_date)).fromNow()}
                             </td>
                             <td className="td">
-                              {new Date(item.manufactured_date).toDateString()}
+                              {moment(
+                                new Date(item.manufactured_date)
+                              ).fromNow()}
                             </td>
                           </tr>
                         );

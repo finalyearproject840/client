@@ -1,8 +1,8 @@
 import React from "react";
 import CardItem from "../../Components/CardItem/CardItem";
 import { AiFillMedicineBox } from "react-icons/ai";
-import { FaUsers } from "react-icons/fa";
-import { MdDeliveryDining } from "react-icons/md";
+import { FaUsers,FaPrescriptionBottleAlt } from "react-icons/fa";
+import { MdOutlineNotificationsNone } from "react-icons/md";
 import { StyleSubtitle, StyleTitle } from "../../../Styles";
 import { colors, fonts, fontSize } from "../../../DefaultValues";
 import { Link } from "react-router-dom";
@@ -13,7 +13,7 @@ import {useSelector} from "react-redux"
 }
 const CardSection = () => {
   const appStore = useSelector(state=>state.AdminState);
-  const {suppliers, products, users} = appStore;
+  const {suppliers, products, users, prescriptions, notifications} = appStore;
   return (
     <section className="card-section my-3" id="card-section">
       <div className="container">
@@ -88,15 +88,15 @@ const CardSection = () => {
             </Link>
           </CardItem>
           {/* Card item */}
-          <CardItem className="col-sm-6 col-lg-3" color={colors.gold}>
-            <Link to="#">
+          <CardItem className="col-sm-6 col-lg-3" color={colors.red}>
+            <Link to="/admin/all/prescription">
               <div className="card-container">
                 <div className="icon-box">
-                  <MdDeliveryDining color={colors.white} size={25} />
+                  <FaPrescriptionBottleAlt color={colors.white} size={25} />
                 </div>
                 <div className="text-container">
-                  <StyleTitle size={fontSize.n} color={colors.gold}>
-                    67
+                  <StyleTitle size={fontSize.n} color={colors.red}>
+                    {prescriptions.data.length}
                   </StyleTitle>
                   <StyleSubtitle
                     size={fontSize.sm}
@@ -104,7 +104,30 @@ const CardSection = () => {
                     font={fonts.righteous}
                     color={colors.muted}
                   >
-                    New Orders
+                  Prescriptions
+                  </StyleSubtitle>
+                </div>
+              </div>
+            </Link>
+          </CardItem>
+          {/* Card item */}
+          <CardItem className="col-sm-6 col-lg-3" color={colors.gold}>
+            <Link to="/admin/all/notifications">
+              <div className="card-container">
+                <div className="icon-box">
+                  <MdOutlineNotificationsNone color={colors.white} size={25} />
+                </div>
+                <div className="text-container">
+                  <StyleTitle size={fontSize.n} color={colors.gold}>
+                    {notifications.data.length}
+                  </StyleTitle>
+                  <StyleSubtitle
+                    size={fontSize.sm}
+                    className="text-uppercase"
+                    font={fonts.righteous}
+                    color={colors.muted}
+                  >
+                  Notifications
                   </StyleSubtitle>
                 </div>
               </div>

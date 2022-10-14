@@ -4,18 +4,19 @@ import Button from "../../../Shared/Components/Button";
 import StyledMenu, { StyledList, StyledMenuCloser } from "./MenuStyles";
 import { colors } from "../../../DefaultValues";
 import MenuListItem from "./MenuListItem";
-import { BsPatchPlusFill, BsTruck, BsBasket } from "react-icons/bs";
-import { BiCategory, BiHome, BiUserCircle } from "react-icons/bi";
+import { BsPatchPlusFill} from "react-icons/bs";
+import { BiCategory, BiHome, BiUserCircle, BiStore } from "react-icons/bi";
 import { AiOutlineClose } from "react-icons/ai";
 import {
   IoMdNotificationsOutline,
   IoMdHelpCircle,
   IoMdSettings,
 } from "react-icons/io";
-import { IoLogOutOutline } from "react-icons/io5";
+
 import { RiMenuUnfoldLine } from "react-icons/ri";
 import { GiMedicines } from "react-icons/gi";
-import { FaUsers, FaEdit } from "react-icons/fa";
+import { FaUsers, FaEdit, FaPrescriptionBottleAlt } from "react-icons/fa";
+import {HiViewGridAdd} from "react-icons/hi"
 
 const MenuBar = (props) => {
   const [show, setShow] = useState(true);
@@ -71,7 +72,7 @@ const MenuBar = (props) => {
             <MenuListItem
               text="Suppliers"
               Link="/admin/all/suppliers"
-              icon={<FaUsers size={23} />}
+              icon={<BiStore size={23} />}
               active={
                 props.active
                   ? props.active === "suppliers"
@@ -93,34 +94,24 @@ const MenuBar = (props) => {
               }
             />
             <MenuListItem
-              text="Orders"
-              icon={<BsBasket size={23} />}
-              active={
-                props.active
-                  ? props.active === "orders"
-                    ? "true"
-                    : "false"
-                  : "false"
-              }
-            />
-            <MenuListItem
-              text="Delivery"
-              icon={<BsTruck size={23} />}
-              active={
-                props.active
-                  ? props.active === "delivery"
-                    ? "true"
-                    : "false"
-                  : "false"
-              }
-            />
-            <MenuListItem
               text="Notifications"
               Link="/admin/all/notifications/"
               icon={<IoMdNotificationsOutline size={23} />}
               active={
                 props.active
                   ? props.active === "notifications"
+                    ? "true"
+                    : "false"
+                  : "false"
+              }
+            />
+            <MenuListItem
+              text="Prescriptions"
+              Link="/admin/all/prescription/"
+              icon={<FaPrescriptionBottleAlt size={23} />}
+              active={
+                props.active
+                  ? props.active === "prescriptions"
                     ? "true"
                     : "false"
                   : "false"
@@ -163,7 +154,19 @@ const MenuBar = (props) => {
               }
             />
             <MenuListItem
-              text="Request Help"
+              text="Add Category"
+              icon={<HiViewGridAdd size={23} />}
+              Link="/admin/add/category"
+              active={
+                props.active
+                  ? props.active === "add-category"
+                    ? "true"
+                    : "false"
+                  : "false"
+              }
+            />
+            <MenuListItem
+              text="Requested Help"
               Link="/admin/requested/help"
               icon={<IoMdHelpCircle size={23} />}
               active={

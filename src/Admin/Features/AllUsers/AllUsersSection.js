@@ -10,7 +10,8 @@ import {
 } from "../../../Redux/Admin/AdminActions";
 import { StyleTitle } from "../../../Styles";
 import { baseUrl } from "../../../DefaultValues";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import moment from "moment/moment";
 
 const AllUsersSection = () => {
   const dispatch = useDispatch();
@@ -193,7 +194,7 @@ const AllUsersSection = () => {
                               )}
                             </td>
                             <td className="td">
-                              {new Date(item.created_at).toDateString()}
+                              {moment(new Date(item.created_at)).fromNow()}
                             </td>
                             <td className="td">{item.address.join(",")}</td>
                             <td className="td">{item.tel.join(",")}</td>
