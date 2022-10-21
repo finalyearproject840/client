@@ -39,7 +39,7 @@ const PrescriptionResponseSection = () => {
             <Formik
               initialValues={{
                 recommendations: "",
-                id
+                id,
               }}
               onSubmit={(form, { setSubmitting, resetForm }) =>
                 handleSubmit(form, setSubmitting, resetForm)
@@ -78,14 +78,11 @@ const PrescriptionResponseSection = () => {
                       <Loading />
                     </div>
                   ) : (
-                    <Button
-                      display="block"
-                      width="100%"
-                      case="uppercase"
-                      type="submit"
-                    >
-                      Upload
-                    </Button>
+                    <div className="d-flex justify-content-center">
+                      <Button case="uppercase" type="submit">
+                        Upload
+                      </Button>
+                    </div>
                   )}
                 </Form>
               )}

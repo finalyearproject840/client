@@ -19,12 +19,12 @@ const AllSupplierSection = () => {
   const [confirmModalFunc, setConfirmModalFunc] = useState(
     () => () => console.log("hello")
   );
-  //get suppliers keys for table columns
+ 
   useEffect(() => {
     //initialize datatable
     $(document).ready(function () {
       setTimeout(function () {
-        $(`#supplierstable`).DataTable();
+        $(`#suppliers`).DataTable({ retrieve: true, order: [[1, "desc"]] });
       }, 1000);
     });
   }, []);
@@ -85,11 +85,11 @@ const AllSupplierSection = () => {
 
                 <div className="table-responsive">
                   <table
-                    id="supplierstable"
+                    id="suppliers"
                     className="table table-hover table-bordered"
                   >
                     <thead>
-                      <tr className="tr">
+                      <tr className="tr text-dark">
                         <th>View</th>
                         <th>ID</th>
                         <th>Email</th>
@@ -98,15 +98,13 @@ const AllSupplierSection = () => {
                         <th>Status</th>
                         <th>Verified</th>
                         <th>Suspended</th>
-                        <th>Rating</th>
                         <th>License</th>
                         <th>Created At</th>
-                        <th>Address</th>
                         <th>Tel</th>
                       </tr>
                     </thead>
                     <tbody className="lead">
-                      {suppliers.map((item) => {
+                      {suppliers.reverse().map((item) => {
                         return (
                           <tr key={item._id}>
                             <td className="td">
@@ -125,7 +123,7 @@ const AllSupplierSection = () => {
                             <td className="td">
                               {item.verified ? (
                                 <button
-                                  className="btn btn-secondary btn"
+                                  className="btn btn-secondary"
                                   type="button"
                                   data-bs-toggle="modal"
                                   data-bs-target="#exampleModal"
@@ -142,7 +140,7 @@ const AllSupplierSection = () => {
                                 </button>
                               ) : (
                                 <button
-                                  className="btn btn-secondary btn"
+                                  className="btn btn-dark"
                                   type="button"
                                   data-bs-toggle="modal"
                                   data-bs-target="#exampleModal"
@@ -162,7 +160,7 @@ const AllSupplierSection = () => {
                             <td className="td">
                               {item.suspended ? (
                                 <button
-                                  className="btn btn-secondary btn"
+                                  className="btn btn-secondary"
                                   type="button"
                                   data-bs-toggle="modal"
                                   data-bs-target="#exampleModal"
@@ -179,7 +177,7 @@ const AllSupplierSection = () => {
                                 </button>
                               ) : (
                                 <button
-                                  className="btn btn-secondary btn"
+                                  className="btn btn-dark"
                                   type="button"
                                   data-bs-toggle="modal"
                                   data-bs-target="#exampleModal"
@@ -196,7 +194,6 @@ const AllSupplierSection = () => {
                                 </button>
                               )}
                             </td>
-                            <td className="td">{item.rating}</td>
                             <td className="td w-25">
                               {item.supplier_license ? (
                                 <a
@@ -213,8 +210,9 @@ const AllSupplierSection = () => {
                             <td className="td">
                               {moment(new Date(item.created_at)).fromNow()}
                             </td>
-                            <td className="td">{item.address.join(",")}</td>
-                            <td className="td">{item.tel.join(",")}</td>
+                            <td className="td">
+                              <a href={`tel:${item.tel[0]}`}>{item.tel[0]}</a>
+                            </td>
                           </tr>
                         );
                       })}

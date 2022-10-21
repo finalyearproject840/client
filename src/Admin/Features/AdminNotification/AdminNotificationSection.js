@@ -3,21 +3,20 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import $ from "jquery";
 import { colors, fonts, fontSize } from "../../../DefaultValues";
-import ConfirmModal from "../../../Shared/Components/ConfirmModal";
 import Loading from "../../../Shared/Components/Loading";
 //datatables
 import "datatables.net-bs5/js/dataTables.bootstrap5";
 import "datatables.net-bs5/css/dataTables.bootstrap5.min.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   readNotificationFunc,
-  VerifyProductFunc,
 } from "../../../Redux/Admin/AdminActions";
 import { StyleTitle } from "../../../Styles";
 import moment from "moment/moment";
 
 const AdminNotificationSection = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const appStore = useSelector((state) => state.AdminState);
   const { loading, data } = appStore.notifications;
@@ -27,15 +26,33 @@ const AdminNotificationSection = () => {
     dispatch(readNotificationFunc(id));
   };
 
-  //get suppliers keys for table columns
   useEffect(() => {
     //initialize datatable
     $(document).ready(function () {
       setTimeout(function () {
-        $(`#productTable`).DataTable();
+        $(`#productTable`).DataTable({ retrieve: true, order: [[0, "desc"]] });
       }, 1000);
     });
-  }, []);
+  }, [data]);
+
+  const notificationLinkTo = (linkInfo, id) => {
+    handleMarkAsRead(id);
+    if (linkInfo.to === "product") {
+      return navigate(`/admin/product/${linkInfo.link}`);
+    }
+    if (linkInfo.to === "supplier") {
+      return navigate(`/admin/supplier/${linkInfo.link}`);
+    }
+    if (linkInfo.to === "user") {
+      return navigate(`/admin/user/${linkInfo.link}`);
+    }
+    if (linkInfo.to === "help") {
+      return navigate(`/admin/help/${linkInfo.link}`);
+    }
+    if (linkInfo.to === "contact message") {
+      return navigate(`/admin/contact/message/${linkInfo.link}`);
+    }
+  };
 
   return (
     <StyledTableSection>
@@ -63,28 +80,31 @@ const AdminNotificationSection = () => {
                     className="table table-hover table-bordered"
                   >
                     <thead>
-                      <tr className="tr">
-                        <th>Notification ID</th>
+                      <tr className="tr text-dark">
+                        <th>View</th>
                         <th>Title</th>
                         <th>Message</th>
                         <th>Read</th>
                         <th>From</th>
-                        <th>Form ID</th>
-                        <th>Created At</th>
+                        <th>Received</th>
                       </tr>
                     </thead>
                     <tbody className="lead">
                       {data.map((item) => {
                         return (
-                          <tr
-                            key={item._id}
-                            className={
-                              item.read
-                                ? ""
-                                : "bg-secondary text-light bg-gradient"
-                            }
-                          >
-                            <td>{item._id}</td>
+                          <tr key={item._id}>
+                            <td className="position-relative">
+                              <button
+                                onClick={() =>
+                                  notificationLinkTo(item.links[0], item._id)
+                                }
+                                to={"#"}
+                                className="btn btn-dark"
+                              >
+                                View
+                              </button>
+                              {item.read || <span className="dot"></span>}
+                            </td>
                             <td>{item.title}</td>
                             <td className="text-justify">{item.message}</td>
                             <td className="td" width={100}>
@@ -105,7 +125,7 @@ const AdminNotificationSection = () => {
                               )}
                             </td>
                             <td>{item.entityType}</td>
-                            <td>{item.entityID}</td>
+
                             <td className="td">
                               {moment(new Date(item.created_at)).fromNow()}
                             </td>
@@ -154,6 +174,15 @@ const StyledTableContainer = styled.div`
   }
   .lead {
     font-size: ${fontSize.n};
+  }
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: ${colors.green};
+    position: absolute;
+    right: 10px;
+    top: 20px;
   }
 `;
 

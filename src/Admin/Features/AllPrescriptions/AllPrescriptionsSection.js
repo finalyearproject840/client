@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import $ from "jquery";
 import { baseUrl, colors, fonts, fontSize } from "../../../DefaultValues";
@@ -10,18 +10,18 @@ import moment from "moment/moment";
 import Loading from "../../../Shared/Components/Loading";
 
 const AllPrescriptionsSection = () => {
-  //get suppliers keys for table columns
+ 
   useEffect(() => {
     //initialize datatable
     $(document).ready(function () {
       setTimeout(function () {
-        $(`#data_table`).DataTable();
+        $(`#data_table`).DataTable({ retrieve: true, order: [[1, "desc"]] });
       }, 1000);
     });
   }, []);
 
   const appStore = useSelector((state) => state.AdminState);
-  const { data, loading, error } = appStore.prescriptions;
+  const { data, loading } = appStore.prescriptions;
 
   return (
     <StyledTableSection>
@@ -50,8 +50,9 @@ const AllPrescriptionsSection = () => {
                     className="table table-hover table-bordered"
                   >
                     <thead>
-                      <tr className="tr">
+                      <tr className="tr text-dark">
                         <th>View</th>
+                        <th>Prescription ID</th>
                         <th>User ID</th>
                         <th>Requested At</th>
                         <th>Recommended Drugs</th>
@@ -59,7 +60,7 @@ const AllPrescriptionsSection = () => {
                       </tr>
                     </thead>
                     <tbody className="lead">
-                      {data.map((item) => {
+                      {data.reverse().map((item) => {
                         return (
                           <tr key={item._id}>
                             <td className="td">
@@ -70,6 +71,7 @@ const AllPrescriptionsSection = () => {
                                 Respond
                               </Link>
                             </td>
+                            <td className="td">{item._id}</td>
                             <td className="td">{item.user_id}</td>
                             <td className="td">
                               {moment(new Date(item.requested_on)).fromNow()}
@@ -80,7 +82,8 @@ const AllPrescriptionsSection = () => {
                             <td className="td text-center">
                               <a
                                 href={`${baseUrl}/${item.prescription_image}`}
-                                download={true}
+                                download
+                                target={"_blank"}
                                 className="btn btn-danger"
                               >
                                 Download

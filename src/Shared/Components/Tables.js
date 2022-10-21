@@ -3,6 +3,7 @@ import $ from "jquery";
 import styled from "styled-components";
 import { colors, fonts, fontSize } from "../../DefaultValues";
 import { StyleTitle } from "../../Styles";
+import moment from "moment/moment";
 const Tables = (props) => {
   const [id, setId] = useState(props.id);
   useEffect(() => {
@@ -18,41 +19,45 @@ const Tables = (props) => {
       <StyleTitle font={fonts.righteous} size={fontSize.n} color={colors.blue}>
         {props.title || ""}
       </StyleTitle>
-      <div className="table-responsive">
-        <table id={props.id} className="table table-hover table-bordered">
-          <thead>
-            <tr className="tr">
-              {props.columnName ? (
-                props.columnName.map((item, index) => (
-                  <th key={index}>{item}</th>
-                ))
-              ) : (
-                <>
-                  <th>id</th>
-                  <th>Email</th>
-                  <th>Name</th>
-                </>
-              )}
-            </tr>
-          </thead>
-          <tbody>
-            {props.data.map((result) => {
-              const id = result.id || result._id;
-              return (
-                <tr key={id}>
-                  {props.columns.map((column) => {
-                    return (
-                      <td key={column} className="td">
-                        {result[column].toString()}
-                      </td>
-                    );
-                  })}
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+      {props.data && (
+        <div className="table-responsive">
+          <table id={props.id} className="table table-hover table-bordered">
+            <thead>
+              <tr className="tr">
+                {props.columnName ? (
+                  props.columnName.map((item, index) => (
+                    <th key={index}>{item}</th>
+                  ))
+                ) : (
+                  <>
+                    <th>id</th>
+                    <th>Email</th>
+                    <th>Name</th>
+                  </>
+                )}
+              </tr>
+            </thead>
+            <tbody>
+              {props.data.map((result) => {
+                const id = result.id || result._id;
+                return (
+                  <tr key={id}>
+                    {props.columns.map((column) => {
+                      return (
+                        <td key={column} className="td">
+                          {column === "created_at"
+                            ? moment(new Date(result["created_at"])).fromNow()
+                            : result[column]}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
     </StyledTableContainer>
   );
 };

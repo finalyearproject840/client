@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import $ from "jquery";
@@ -9,26 +9,26 @@ import Loading from "../../../Shared/Components/Loading";
 import "datatables.net-bs5/js/dataTables.bootstrap5";
 import "datatables.net-bs5/css/dataTables.bootstrap5.min.css";
 import { Link } from "react-router-dom";
-import { readHelpFunc } from "../../../Redux/Admin/AdminActions";
+import { readContactMessageFunc, } from "../../../Redux/Admin/AdminActions";
 import { StyleTitle } from "../../../Styles";
 import moment from "moment/moment";
 
-const AllRequestedHelp = () => {
+const ContactMessageSection = () => {
   const dispatch = useDispatch();
 
   const appStore = useSelector((state) => state.AdminState);
-  const { loading, data } = appStore.helps;
+  const { loading, data } = appStore.contactMessages;
 
   //const function to mark notification as read
   const handleMarkAsRead = (id) => {
-    dispatch(readHelpFunc(id));
+    dispatch(readContactMessageFunc(id));
   };
 
   useEffect(() => {
     //initialize datatable
     $(document).ready(function () {
       setTimeout(function () {
-        $(`#requests`).DataTable({ retrieve: true, order: [[0, "desc"]] });
+        $(`#messages`).DataTable({ retrieve: true, order: [[0, "desc"]] });
       }, 1000);
     });
   }, []);
@@ -51,36 +51,32 @@ const AllRequestedHelp = () => {
                   color={colors.muted}
                   className="text-center"
                 >
-                  All Helps
+                  Contact Messages
                 </StyleTitle>
                 <div className="table-responsive">
                   <table
-                    id="requests"
+                    id="messages"
                     className="table table-hover table-bordered"
                   >
                     <thead>
-                      <tr className="tr">
-                        <th>Help ID</th>
+                      <tr className="tr text-dark">
+                        <th>ID</th>
                         <th>Subject</th>
                         <th>Message</th>
                         <th>Read</th>
                         <th>From</th>
-                        <th>Form ID</th>
+                        <th>Email</th>
                         <th>Created At</th>
                       </tr>
                     </thead>
                     <tbody className="lead">
-                      {data.map((item) => {
+                      {data.reverse().map((item) => {
                         return (
-                          <tr
-                            key={item._id}
-                            className={
-                              item.read
-                                ? ""
-                                : "bg-secondary text-light bg-gradient"
-                            }
-                          >
-                            <td>{item._id}</td>
+                          <tr key={item._id}>
+                            <td className="position-relative">
+                              {item._id}
+                              {item.read || <span className="dot"></span>}
+                            </td>
                             <td>{item.subject}</td>
                             <td className="text-justify">{item.message}</td>
                             <td className="td" width={100}>
@@ -100,10 +96,10 @@ const AllRequestedHelp = () => {
                                 </button>
                               )}
                             </td>
-                            <td>{item.entityType}</td>
-                            <td>{item.entityID}</td>
+                            <td>{item.name}</td>
+                            <td>{item.email}</td>
                             <td className="td">
-                              {moment(new Date(item.created_at)).fromNow()}
+                              {moment(new Date(item.date)).fromNow()}
                             </td>
                           </tr>
                         );
@@ -114,7 +110,7 @@ const AllRequestedHelp = () => {
               </StyledTableContainer>
             ) : (
               <div className="alert alert-light  text-center" role="alert">
-                <b>No Requested Help</b>
+                <b>No Contact Message</b>
               </div>
             )}
           </div>
@@ -151,6 +147,15 @@ const StyledTableContainer = styled.div`
   .lead {
     font-size: ${fontSize.n};
   }
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: ${colors.violet};
+    position: absolute;
+    right: 10px;
+    top: 20px;
+  }
 `;
 
-export default AllRequestedHelp;
+export default ContactMessageSection;

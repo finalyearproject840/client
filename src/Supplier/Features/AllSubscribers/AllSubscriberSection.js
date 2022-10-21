@@ -18,7 +18,7 @@ const AllSubscriberSection = () => {
   const [confirmModalFunc, setConfirmModalFunc] = useState(
     () => () => console.log("hello")
   );
-  //get suppliers keys for table columns
+ 
   useEffect(() => {
     //initialize datatable
     $(document).ready(function () {

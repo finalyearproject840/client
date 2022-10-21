@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { deleteUserFunc } from "../../../Redux/Admin/AdminActions";
 import No_Image from "../../../Assets/Images/no_image.jpg";
 import ConfirmModal from "../../../Shared/Components/ConfirmModal";
+import moment from "moment/moment";
 const ViewUserSection = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
@@ -131,7 +132,27 @@ const ViewUserSection = () => {
                   <p className="lead">
                     <b>Created On:</b>
                     <br />
-                    {new Date(data.created_at).toDateString()}
+                    {moment(new Date(data.created_at)).fromNow()}
+                  </p>
+                  <p className="lead">
+                    <b>Country:</b>
+                    <br />
+                    {data.location.country}
+                  </p>
+                  <p className="lead">
+                    <b>State:</b>
+                    <br />
+                    {data.location.state}
+                  </p>
+                  <p className="lead">
+                    <b>City:</b>
+                    <br />
+                    {data.location.city}
+                  </p>
+                  <p className="lead">
+                    <b>Locality:</b>
+                    <br />
+                    {data.location.locality}
                   </p>
                   {/* Delete product button */}
                   <div className="text-center mt-3">
@@ -150,6 +171,14 @@ const ViewUserSection = () => {
                       }
                     >
                       Delete User
+                    </button>
+                  </div>
+                  <div className="d-flex justify-content-center mt-3">
+                    <button
+                      className="btn btn-dark"
+                      onClick={() => navigate(-1)}
+                    >
+                      Back
                     </button>
                   </div>
                 </div>

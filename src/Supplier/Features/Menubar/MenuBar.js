@@ -12,7 +12,7 @@ import {
   IoMdHelpCircle,
   IoMdSettings,
 } from "react-icons/io";
-import { RiMenuUnfoldLine } from "react-icons/ri";
+import { RiLockPasswordLine, RiMenuUnfoldLine } from "react-icons/ri";
 import { GiMedicines } from "react-icons/gi";
 import { FaUsers, FaEdit } from "react-icons/fa";
 const MenuBar = (props) => {
@@ -145,6 +145,18 @@ const MenuBar = (props) => {
               active={
                 props.active
                   ? props.active === "settings"
+                    ? "true"
+                    : "false"
+                  : "false"
+              }
+            />
+             <MenuListItem
+              text="Change Password"
+              Link="/supplier/change/password"
+              icon={<RiLockPasswordLine size={23} />}
+              active={
+                props.active
+                  ? props.active === "change password"
                     ? "true"
                     : "false"
                   : "false"

@@ -131,7 +131,7 @@ const SupplierSignup = () => {
           size="1.5rem"
           font={fonts.righteous}
         >
-          Create an Account
+          Supplier <br />Create an Account
         </StyleTitle>
 
         {/* display authentication error */}

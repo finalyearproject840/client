@@ -4,32 +4,26 @@ import { StyleContainer } from "../../Styles";
 import Navbar from "../Components/Navbar/Navbar";
 import MenuBar from "../Features/Menubar/MenuBar";
 import { useDispatch } from "react-redux";
-import { loadProductFunc } from "../../Redux/Admin/AdminActions";
-import AdminProductSection from "../Features/AdminProducts/AdminProductSection";
-import "datatables.net-bs5/js/dataTables.bootstrap5";
-import "datatables.net-bs5/css/dataTables.bootstrap5.min.css";
+import { loadHelpFunc } from "./../../Redux/Admin/AdminActions";
+import ViewHelpSection from "../Features/AllRequestedHelp/ViewHelpSection";
 
-
-
-const AllProducts = () => {
-
+const HelpView = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(loadProductFunc());
+    dispatch(loadHelpFunc());
   }, []);
-
 
   return (
     <StyleContainer>
       {/* divide the container into 2 menubar and the main content */}
-      <MenuBar active="medicine" />
+      <MenuBar active="help" />
       {/* main content */}
       <div className="main-content">
         {/* Navbar */}
         <Navbar />
         {/* Main container */}
         <StyledMainContainer>
-          <AdminProductSection />
+          <ViewHelpSection />
         </StyledMainContainer>
       </div>
     </StyleContainer>
@@ -42,4 +36,4 @@ const StyledMainContainer = styled.div`
   padding-bottom: 6rem;
 `;
 
-export default AllProducts;
+export default HelpView;

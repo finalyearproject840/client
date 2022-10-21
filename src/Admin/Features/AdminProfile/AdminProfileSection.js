@@ -6,10 +6,8 @@ import No_Image from "../../../Assets/Images/no_image.jpg";
 import { useSelector } from "react-redux";
 
 const AdminProfileSection = () => {
-
   const AdminState = useSelector((state) => state.AdminState);
   const { admin: data } = AdminState;
-
 
   return (
     <div className="container">
@@ -18,28 +16,15 @@ const AdminProfileSection = () => {
           <StyledProductPreviewSection>
             {data ? (
               <div className="my-4 bg-light py-3">
-                {/* Product images */}
-                <div className="text-center">
-                  <div className="my-4">
-                    <img
-                      className="w-50 img img-thumbnail"
-                      src={No_Image}
-                      alt="profile pic"
-                    />
-                  </div>
-                </div>
                 <div
                   className="my-2
                        bg-light p-3"
-                >
-                  
-                </div>
+                ></div>
                 <div className="p-3">
                   <p className="lead">
                     <b className="display-6">Name</b>
                     <br />
                     <span className="text-uppercase">{data.username}</span>
-                    
                   </p>
                   <p className="lead">
                     <b className="display-6">Email</b>
@@ -47,11 +32,8 @@ const AdminProfileSection = () => {
                     {data.email}
                   </p>
                   <div className="text-center">
-                    <Link
-                      to={`/admin/edit/profile/`}
-                      className="btn btn-dark"
-                    >
-                      Edit Product Information
+                    <Link to={`/admin/edit/profile/`} className="btn btn-dark">
+                      Edit Admin Info
                     </Link>
                   </div>
                 </div>

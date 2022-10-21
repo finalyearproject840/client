@@ -120,6 +120,20 @@ const loadHelpFail = () => ({
   type: AdminActionTypes.ADMIN_LOAD_HELPS_FAIL,
 });
 
+//const admin load contact messages start
+const loadContactMessagesStart = () => ({
+  type: AdminActionTypes.ADMIN_START_LOAD_CONTACT_MESSAGES,
+});
+//const admin load contact messages success
+const loadContactMessagesSuccess = (payload) => ({
+  type: AdminActionTypes.ADMIN_LOAD_CONTACT_MESSAGES_SUCCESS,
+  payload: payload,
+});
+//const admin load contacts messages fail
+const loadContactMessagesFail = () => ({
+  type: AdminActionTypes.ADMIN_LOAD_CONTACT_MESSAGES_FAIL,
+});
+
 //const admin load prescription start
 const loadPrescriptionsStart = () => ({
   type: AdminActionTypes.ADMIN_START_LOAD_PRESCRIPTIONS,
@@ -314,6 +328,42 @@ export const updateAdminFunc = (form, setSubmitting, handleRedirect) => {
       });
   };
 };
+//change admin password
+export const changePassword = (form, setSubmitting, resetForm) => {
+  return () => {
+    //for authentication
+    const token = Cookies.get("token");
+    //config headers
+    var config = {
+      method: "post",
+      url: AdminRoutes.changePassword + "/" + form.id,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      data: form,
+    };
+    //axios
+    axios(config)
+      .then(function (response) {
+        if (response.data.success) {
+          setSubmitting(false);
+          notifySuccess("Password successfully updated");
+          resetForm({});
+        } else {
+          setSubmitting(false);
+          notifyError(response.data.msg);
+          resetForm({});
+        }
+      })
+      .catch(function (error) {
+        setSubmitting(false);
+        notifyError("Oops! something went wrong");
+        resetForm({});
+        console.log(error);
+      });
+  };
+};
 
 //function load admin function
 export const loadAllSuppliersFunc = () => {
@@ -362,6 +412,9 @@ export const VerifySupplierFunc = (options) => {
           } else {
             notifySuccess("Supplier has be  unverified successfully");
           }
+          if (options.singlePage !== undefined) {
+            options.getSupplier();
+          }
         } else {
           notifySuccess("Oops! error occurred");
         }
@@ -393,12 +446,15 @@ export const VerifyProductFunc = (options) => {
     axios(config)
       .then(function (response) {
         if (response.data.success) {
-          dispatch(VerifyProduct(response.data.data));
           if (options.verify) {
             notifySuccess("Product verified successfully");
           } else {
             notifySuccess("Product unverified successfully");
           }
+          if (options.singlePage !== undefined) {
+            options.getProduct();
+          }
+          dispatch(VerifyProduct(response.data.data));
         }
       })
       .catch(function (error) {
@@ -827,6 +883,62 @@ export const respondToPrescription = (form, setSubmitting, handleRedirect) => {
       .catch(function (error) {
         setSubmitting(false);
         notifyError("Oops! something went wrong");
+        console.log(error);
+      });
+  };
+};
+
+//function load help function
+export const loadContactMessagesFunc = () => {
+  return (dispatch) => {
+    dispatch(loadContactMessagesStart());
+    //for authorization
+    const token = Cookies.get("token");
+    //config headers
+    var config = {
+      method: "get",
+      url: `${AdminRoutes.contactMessages}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    };
+    //axios
+    axios(config)
+      .then(function (response) {
+        if (response.data.success) {
+          dispatch(loadContactMessagesSuccess(response.data.data));
+        } else {
+          dispatch(loadContactMessagesFail());
+        }
+      })
+      .catch(function (error) {
+        console.log("error", error);
+        dispatch(loadContactMessagesFail());
+      });
+  };
+};
+//contact messages read function
+export const readContactMessageFunc = (id) => {
+  return (dispatch) => {
+    const token = Cookies.get("token");
+    var config = {
+      method: "post",
+      url: AdminRoutes.readContactMessage,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      data: {
+        id: id,
+      },
+    };
+    axios(config)
+      .then(function (response) {
+        notifySuccess("Marked as read");
+        dispatch(loadContactMessagesSuccess(response.data.data));
+      })
+      .catch(function (error) {
         console.log(error);
       });
   };

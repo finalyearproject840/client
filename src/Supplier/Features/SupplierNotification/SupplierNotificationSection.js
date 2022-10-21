@@ -22,7 +22,7 @@ const SupplierNotificationSection = () => {
     dispatch(readNotificationFunc(id));
   };
 
-  //get suppliers keys for table columns
+ 
   useEffect(() => {
     //initialize datatable
     $(document).ready(function () {

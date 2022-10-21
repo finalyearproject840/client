@@ -42,6 +42,11 @@ import AddSupplierCategory from "../Supplier/Pages/AddSupplierCategory";
 import ProductOffers from "../Supplier/Pages/ProductOffers";
 import AllPrescription from "../Admin/Pages/AllPrescriptions";
 import PrescriptionResponse from "../Admin/Pages/PrescriptionResponse";
+import ChangeAdminPassword from "../Admin/Pages/Account/ChangePassword";
+import ChangeSupplierPassword from "../Supplier/Pages/Account/ChangePassword";
+import ContactMessages from "../Admin/Pages/ContactMessages";
+import HelpView from "../Admin/Pages/HelpView";
+import ViewContactMessage from './../Admin/Pages/ViewContactMessage';
 
 const AppRoutes = () => {
   return (
@@ -70,12 +75,22 @@ const AppRoutes = () => {
             element={<AllHelps />}
             path="/admin/requested/help"
           />
+          <Route
+            element={<ContactMessages />}
+            path="/admin/contact/messages"
+          />
+           <Route
+            element={<ViewContactMessage />}
+            path="/admin/contact/message/:id"
+          />
+          <Route element={<ChangeAdminPassword />} path="/admin/change/password" />
           <Route element={<AdminProfile />} path="/admin/profile" />
           <Route element={<EditAdminProfile />} path="/admin/edit/profile" />
           <Route element={<AllCategories />} path="/admin/all/categories" />
           <Route element={<AddCategory />} path="/admin/add/category" />
           <Route element={<EditCategory />} path="/admin/edit/category/:id" />
           <Route element={<AllPrescription />} path="/admin/all/prescription" />
+          <Route element={<HelpView />} path="/admin/help/:id" />
           <Route element={<PrescriptionResponse />} path="/admin/respond/prescription/:id" />
         </Route>
 
@@ -97,6 +112,7 @@ const AppRoutes = () => {
             path="/supplier/edit/product/images/:id"
           />
           <Route element={<EditProfile />} path="/supplier/edit/profile" />
+          <Route element={<ChangeSupplierPassword />} path="/supplier/change/password" />
           <Route element={<SupplierHelp />} path="/supplier/help/" />
           <Route
             element={<SupplierNotification />}

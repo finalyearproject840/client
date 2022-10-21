@@ -15,7 +15,7 @@ const PrescriptionResponse = () => {
   return (
     <StyleContainer>
       {/* divide the container into 2 menubar and the main content */}
-      <MenuBar active="Prescription" />
+      <MenuBar active="prescriptions" />
       {/* main content */}
       <div className="main-content">
         {/* Navbar */}

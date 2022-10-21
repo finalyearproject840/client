@@ -15,7 +15,6 @@ const AddCategoryFormSection = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-
   //function to redirect to all categories
   const handleRedirect = () => {
     navigate(`/admin/all/categories/`);
@@ -30,7 +29,7 @@ const AddCategoryFormSection = () => {
   const validateSchema = Yup.object({
     category_name: Yup.string()
       .required("category_name is required")
-      .min(1, "category_name should have at least 1 character")
+      .min(1, "category_name should have at least 1 character"),
   });
 
   return (
@@ -42,7 +41,6 @@ const AddCategoryFormSection = () => {
             <Formik
               initialValues={{
                 category_name: "",
-               
               }}
               validationSchema={validateSchema}
               onSubmit={(form, { setSubmitting, resetForm }) =>
@@ -57,20 +55,17 @@ const AddCategoryFormSection = () => {
                     label="Enter category name"
                     placeholder="Category Name"
                   />
-                  
+
                   {isSubmitting ? (
                     <div className="d-flex justify-content-center">
                       <Loading />
                     </div>
                   ) : (
-                    <Button
-                      display="block"
-                      width="100%"
-                      case="uppercase"
-                      type="submit"
-                    >
-                      Upload
-                    </Button>
+                    <div className="text-center">
+                      <Button case="uppercase" type="submit">
+                        Add Category
+                      </Button>
+                    </div>
                   )}
                 </Form>
               )}

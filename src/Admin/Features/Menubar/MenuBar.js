@@ -4,19 +4,18 @@ import Button from "../../../Shared/Components/Button";
 import StyledMenu, { StyledList, StyledMenuCloser } from "./MenuStyles";
 import { colors } from "../../../DefaultValues";
 import MenuListItem from "./MenuListItem";
-import { BsPatchPlusFill} from "react-icons/bs";
-import { BiCategory, BiHome, BiUserCircle, BiStore } from "react-icons/bi";
+import { BsPatchPlusFill } from "react-icons/bs";
+import { BiCategory, BiHome, BiUserCircle, BiStore,BiMessageSquareDots } from "react-icons/bi";
 import { AiOutlineClose } from "react-icons/ai";
 import {
   IoMdNotificationsOutline,
   IoMdHelpCircle,
-  IoMdSettings,
 } from "react-icons/io";
 
-import { RiMenuUnfoldLine } from "react-icons/ri";
+import { RiMenuUnfoldLine, RiLockPasswordLine } from "react-icons/ri";
 import { GiMedicines } from "react-icons/gi";
 import { FaUsers, FaEdit, FaPrescriptionBottleAlt } from "react-icons/fa";
-import {HiViewGridAdd} from "react-icons/hi"
+import { HiViewGridAdd } from "react-icons/hi";
 
 const MenuBar = (props) => {
   const [show, setShow] = useState(true);
@@ -81,7 +80,7 @@ const MenuBar = (props) => {
                   : "false"
               }
             />
-             <MenuListItem
+            <MenuListItem
               text="Users"
               Link="/admin/all/users"
               icon={<FaUsers size={23} />}
@@ -117,7 +116,7 @@ const MenuBar = (props) => {
                   : "false"
               }
             />
-             <MenuListItem
+            <MenuListItem
               text="Profile"
               Link="/admin/profile"
               icon={<BiUserCircle size={23} />}
@@ -177,18 +176,30 @@ const MenuBar = (props) => {
                   : "false"
               }
             />
-            <MenuListItem
-              text="Settings"
-              icon={<IoMdSettings size={23} />}
+             <MenuListItem
+              text="Contact Messages"
+              Link="/admin/contact/messages"
+              icon={<BiMessageSquareDots size={23} />}
               active={
                 props.active
-                  ? props.active === "settings"
+                  ? props.active === "contact messages"
                     ? "true"
                     : "false"
                   : "false"
               }
             />
-            
+            <MenuListItem
+              text="Change Password"
+              Link="/admin/change/password"
+              icon={<RiLockPasswordLine size={23} />}
+              active={
+                props.active
+                  ? props.active === "change password"
+                    ? "true"
+                    : "false"
+                  : "false"
+              }
+            />
           </StyledList>
         </div>
       </div>

@@ -29,14 +29,14 @@ const Navbar = () => {
                             </Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="#">
+                            <a className="nav-link" href="#about">
                                 About
-                            </Link>
+                            </a>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="#">
+                            <a className="nav-link" href="#contact">
                                 Contact us
-                            </Link>
+                            </a>
                         </li>
                         <li className="nav-item dropdown">
                             <Link

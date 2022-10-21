@@ -5,16 +5,17 @@ import Cookies from "js-cookie";
 import { AdminRoutes, baseUrl, fontSize } from "../../../DefaultValues";
 import styled from "styled-components";
 import Loading from "../../../Shared/Components/Loading";
-import { useDispatch } from "react-redux";
-import { deleteUserFunc } from "../../../Redux/Admin/AdminActions";
 import No_Image from "../../../Assets/Images/no_image.jpg";
 import ConfirmModal from "../../../Shared/Components/ConfirmModal";
+import moment from "moment/moment";
+import { useDispatch } from "react-redux";
+import { VerifySupplierFunc } from "../../../Redux/Admin/AdminActions";
+
 const ViewSupplierSection = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const [confirmModalTitle, setConfirmModalTitle] = useState("");
   const [confirmModalFunc, setConfirmModalFunc] = useState(
     () => () => console.log("hello")
@@ -50,26 +51,28 @@ const ViewSupplierSection = () => {
       });
   };
 
-  //handle redirect after delete
-  const handleRedirect = () => {
-    navigate("/admin/suppliers/users");
-  };
+  useEffect(() => {
+    getData(id);
+  }, []);
 
-  //const function to delete user
-  const handleDelete = (options) => {
+  //const function to verify or unverify supplier
+  const handleVerify = (options) => {
     //set the title of the confirmation modal
     setConfirmModalTitle(options.msg);
     //create a verification function to be passed into the confirmation modal
     const verifyFunc = () => {
-      dispatch(dispatch(deleteUserFunc(data, handleRedirect)));
+      dispatch(
+        VerifySupplierFunc({
+          id: options.id,
+          verify: options.type === "verify" ? true : false,
+          singlePage: true,
+          getSupplier: () => getData(id),
+        })
+      );
     };
     //parse the verifyFunc to the confirmationModal to call it when admin confirm
     setConfirmModalFunc(() => () => verifyFunc());
   };
-
-  useEffect(() => {
-    getData(id);
-  }, []);
 
   return (
     <div className="container">
@@ -131,35 +134,97 @@ const ViewSupplierSection = () => {
                   <p className="lead">
                     <b>Created On:</b>
                     <br />
-                    {new Date(data.created_at).toDateString()}
+                    {moment(new Date(data.created_at)).fromNow()}
                   </p>
-                  {/* Delete product button
-                  <div className="text-center mt-3">
+                  <p className="lead">
+                    <b>Country:</b>
+                    <br />
+                    {data.location.country}
+                  </p>
+                  <p className="lead">
+                    <b>State:</b>
+                    <br />
+                    {data.location.state}
+                  </p>
+                  <p className="lead">
+                    <b>City:</b>
+                    <br />
+                    {data.location.city}
+                  </p>
+                  <p className="lead">
+                    <b>Locality:</b>
+                    <br />
+                    {data.location.locality}
+                  </p>
+                  <div>
+                    <p className="lead">
+                      <b>Supplier License</b>
+                    </p>
+                    {data.supplier_license ? (
+                      <a
+                        href={`${baseUrl}/${data.supplier_license}`}
+                        download={true}
+                        className="btn btn-danger"
+                      >
+                        Download License
+                      </a>
+                    ) : (
+                      "unavailable"
+                    )}
+                  </div>
+                  <div className="mt-3">
+                    {data.verified ? (
+                      <button
+                        className="btn btn-secondary"
+                        type="button"
+                        data-bs-toggle="modal"
+                        data-bs-target="#exampleModal"
+                        data-backdrop="false"
+                        onClick={() =>
+                          handleVerify({
+                            type: "unverify",
+                            msg: "You  are about to unverify this supplier",
+                            id: data._id,
+                          })
+                        }
+                      >
+                        Unverify
+                      </button>
+                    ) : (
+                      <button
+                        className="btn btn-dark"
+                        type="button"
+                        data-bs-toggle="modal"
+                        data-bs-target="#exampleModal"
+                        data-backdrop="false"
+                        onClick={() =>
+                          handleVerify({
+                            type: "verify",
+                            msg: "You are about to verify this supplier",
+                            id: data._id,
+                          })
+                        }
+                      >
+                        Verify
+                      </button>
+                    )}
+                  </div>
+                  <div className="d-flex justify-content-center">
                     <button
-                      className="btn btn-danger"
-                      type="button"
-                      data-bs-toggle="modal"
-                      data-bs-target="#exampleModal"
-                      data-backdrop="false"
-                      onClick={() =>
-                        handleDelete({
-                          msg: "You  are about to delete this user",
-                          id: data._id,
-                          profile_image: data.profile_image,
-                        })
-                      }
+                      className="btn btn-dark"
+                      onClick={() => navigate(-1)}
                     >
-                      Delete User
+                      Back
                     </button>
-                  </div> */}
+                  </div>
                 </div>
               </div>
             ) : (
               <div className="alert alert-light text-center my-4" role="alert">
-                <b>Opps! User Not found</b>
+                <b>Opps! Supplier Not found</b>
               </div>
             )}
-            {/* this is a modal to firm various actions that will be perform on users */}
+            {/* this is a modal to firm various actions that will be perform on suppliers */}
             <ConfirmModal
               title={confirmModalTitle}
               confirm={confirmModalFunc}

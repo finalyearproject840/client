@@ -30,7 +30,7 @@ const SupplierProductSection = () => {
     }
   }, [supplier]);
 
-  //get suppliers keys for table columns
+ 
   useEffect(() => {
     //initialize datatable
     $(document).ready(function () {

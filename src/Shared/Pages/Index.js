@@ -6,6 +6,7 @@ import HeaderSection from "../Features/HeaderSection";
 import AboutSection from "../Features/AboutSection";
 import Contact from "../Features/Contact/Contact";
 import CopyrightFooter from "../Features/CopyrightFooter";
+import BecomeSupplierSection from "../Features/BecomeSupplierSection";
 
 /*This is the landing page of the platform*/
 function Index() {
@@ -14,6 +15,7 @@ function Index() {
       <HeaderSection />
       <main>
         <AboutSection />
+        <BecomeSupplierSection />
         <Contact />
         <CopyrightFooter />
       </main>

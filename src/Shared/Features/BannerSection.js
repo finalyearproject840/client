@@ -3,7 +3,6 @@ import styled from "styled-components";
 import BackgroundImage from "../../Assets/Images/Design/background/home_banner.jpg";
 import PhoneImage from "../../Assets/Images/Design/phone_image.png";
 import { colors, fonts, fontSize } from "../../DefaultValues";
-import Button from "../Components/Button";
 import { IoLogoGooglePlaystore } from "react-icons/io5";
 import { AiFillApple } from "react-icons/ai";
 import { StyleSubtitle, StyleTitle } from "../../Styles";

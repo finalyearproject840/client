@@ -4,32 +4,30 @@ import { StyleContainer } from "../../Styles";
 import Navbar from "../Components/Navbar/Navbar";
 import MenuBar from "../Features/Menubar/MenuBar";
 import { useDispatch } from "react-redux";
-import { loadProductFunc } from "../../Redux/Admin/AdminActions";
-import AdminProductSection from "../Features/AdminProducts/AdminProductSection";
-import "datatables.net-bs5/js/dataTables.bootstrap5";
-import "datatables.net-bs5/css/dataTables.bootstrap5.min.css";
+import { loadContactMessagesFunc } from './../../Redux/Admin/AdminActions';
+import ContactMessageSection from "../Features/ContactMessages/ContactMessageSection";
+import ViewContactMessageSection from "../Features/ContactMessages/ViewContactMessageSection";
 
 
-
-const AllProducts = () => {
+const ViewContactMessage = () => {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(loadProductFunc());
+    dispatch(loadContactMessagesFunc());
   }, []);
 
 
   return (
     <StyleContainer>
       {/* divide the container into 2 menubar and the main content */}
-      <MenuBar active="medicine" />
+      <MenuBar active="contact messages" />
       {/* main content */}
       <div className="main-content">
         {/* Navbar */}
         <Navbar />
         {/* Main container */}
         <StyledMainContainer>
-          <AdminProductSection />
+          <ViewContactMessageSection />
         </StyledMainContainer>
       </div>
     </StyleContainer>
@@ -42,4 +40,4 @@ const StyledMainContainer = styled.div`
   padding-bottom: 6rem;
 `;
 
-export default AllProducts;
+export default ViewContactMessage;

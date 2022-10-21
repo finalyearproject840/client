@@ -36,10 +36,10 @@ export const fonts = {
   righteous: "Righteous",
 };
 //live url
-export const baseUrl = "https://pharmacybackend.gidcharityfoundation.org/api/pharmacy"
+//export const baseUrl = "https://pharmacybackend.gidcharityfoundation.org/api/pharmacy"
 
 //local url
-//export const baseUrl = "http://localhost:5000/api/pharmacy"
+export const baseUrl = "http://localhost:5000/api/pharmacy"
 export const AdminRoutes = {
   adminLogin:`${baseUrl}/admin/login`,
   adminSignup:`${baseUrl}/admin/signup`,
@@ -51,6 +51,7 @@ export const AdminRoutes = {
   suspendUser:`${baseUrl}/admin/suspend/user`,
   adminNotification:`${baseUrl}/admin/all/notifications`,
   adminHelps:`${baseUrl}/admin/all/helps`,
+  adminSingleHelp:`${baseUrl}/admin/single/help`,
   loadProducts:`${baseUrl}/admin/all/products`,
   verifyProduct:`${baseUrl}/admin/verify/product`,
   readNotification:`${baseUrl}/admin/read/notification`,
@@ -68,7 +69,11 @@ export const AdminRoutes = {
   loadSupplier:`${baseUrl}/admin/supplier`,
   deleteUser:`${baseUrl}/admin/delete/user`,
   loadPrescriptions:`${baseUrl}/admin/all/prescriptions`,
-  respondPrescription:`${baseUrl}/admin/respond/prescription`
+  respondPrescription:`${baseUrl}/admin/respond/prescription`,
+  changePassword:`${baseUrl}/admin/change/password`,
+  contactMessages:`${baseUrl}/admin/contact/messages`,
+  readContactMessage:`${baseUrl}/admin/read/contact/message`,
+  contactMessage:`${baseUrl}/admin/single/message`,
 }
 
 export const SupplierRoutes = {
@@ -95,7 +100,7 @@ export const SupplierRoutes = {
   loginWithGoogle:`${baseUrl}/supplier/google/login`,
   loadCategories:`${baseUrl}/supplier/all/categories`,
   loadProductOffers:`${baseUrl}/supplier/get/offers/product`,
-
+  changePassword:`${baseUrl}/supplier/change/password`,
   
 }
 

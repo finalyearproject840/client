@@ -120,6 +120,7 @@ const SupplierLogin = () => {
           size="1.5rem"
           font={fonts.righteous}
         >
+        Supplier <br />
           Login in to your account
         </StyleTitle>
         {/* display authentication error */}

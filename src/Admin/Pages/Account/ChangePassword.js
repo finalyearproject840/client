@@ -1,31 +1,32 @@
 import React from "react";
 import styled from "styled-components";
-import { StyleContainer } from "../../Styles";
-import Navbar from "../Components/Navbar/Navbar";
-import MenuBar from "../Features/Menubar/MenuBar";
-import PreviewSection from "../Features/ProductPreview/PreviewSection";
+import { StyleContainer } from "../../../Styles";
+import NavBar from "../../Components/Navbar/Navbar";
+import ChangePasswordSection from "../../Features/EditProfile/ChangePasswordSection";
+import MenuBar from "../../Features/Menubar/MenuBar";
 
-const AdminProductPreview = () => {
+const ChangeAdminPassword = () => {
   return (
     <StyleContainer>
       {/* divide the container into 2 menubar and the main content */}
-      <MenuBar active="medicine" />
+      <MenuBar active="change password" />
       {/* main content */}
       <div className="main-content">
         {/* Navbar */}
-        <Navbar />
+        <NavBar />
         {/* Main container */}
         <StyledMainContainer>
-            <PreviewSection />
+          <ChangePasswordSection />
         </StyledMainContainer>
       </div>
     </StyleContainer>
   );
 };
+
 const StyledMainContainer = styled.div`
   height: 100vh;
   overflow-y: scroll;
   padding-bottom: 6rem;
 `;
 
-export default AdminProductPreview;
+export default ChangeAdminPassword;

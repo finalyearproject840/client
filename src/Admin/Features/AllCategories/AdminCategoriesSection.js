@@ -38,7 +38,7 @@ const AdminCategoriesSection = () => {
     //initialize datatable
     $(document).ready(function () {
       setTimeout(function () {
-        $(`#productTable`).DataTable();
+        $(`#productTable`).DataTable({retrieve:true, order:[[0, "desc"]]});
       }, 1000);
     });
   }, []);
@@ -75,7 +75,7 @@ const AdminCategoriesSection = () => {
                     className="table table-hover table-bordered"
                   >
                     <thead>
-                      <tr className="tr">
+                      <tr className="tr text-dark">
                         <th>ID</th>
                         <th>Category Name</th>
                         <th>Delete</th>
@@ -87,7 +87,7 @@ const AdminCategoriesSection = () => {
                         return (
                           <tr key={item._id}>
                             <td className="td">{item._id}</td>
-                            <td className="td">{item.category_name}</td>
+                            <td className="td text-capitalize">{item.category_name}</td>
                             <td className="td">
                               <button
                                 className="btn btn-danger"

@@ -3,38 +3,30 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import TextField from "../../Components/TextInputs/TextField";
 import Button from "../../../Shared/Components/Button";
 import * as Yup from "yup";
-import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Loading from "../../../Shared/Components/Loading";
 import styled from "styled-components";
 import { colors } from "../../../DefaultValues";
-import { updateAdminFunc } from "../../../Redux/Admin/AdminActions";
+import { changePassword } from "./../../../Redux/Admin/AdminActions";
 
-const EditProfileSection = () => {
+const ChangePasswordSection = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const AdminState = useSelector((state) => state.AdminState);
   const { admin } = AdminState;
 
-  //function to redirect to product priview after upload succes
-  const handleRedirect = (id) => {
-    navigate(`/admin/profile`);
-  };
   //form submission function
   const handleSubmit = (form, setSubmitting, resetForm) => {
     console.log(form);
-    dispatch(updateAdminFunc(form, setSubmitting, handleRedirect));
+    dispatch(changePassword(form, setSubmitting, resetForm));
   };
 
   //write validation schema using Yup library
   const validateSchema = Yup.object({
-    email: Yup.string()
-      .required("Please enter an email before submitting")
-      .email("Please enter a valid email"),
-    username: Yup.string()
-      .required("Username is required")
-      .min(3, "Username should have atleast 3 characters")
-      .max(30, "Username can't be more than 30 characters"),
+    old_password: Yup.string().required("Old Password is required"),
+    new_password: Yup.string()
+      .required("New password is required")
+      .min(8, "Password should have at least 8 characters")
+      .max(16, "Password can't be more than 16 characters"),
   });
 
   return (
@@ -47,8 +39,8 @@ const EditProfileSection = () => {
               {admin ? (
                 <Formik
                   initialValues={{
-                    username: admin.username,
-                    email: admin.email,
+                    old_password: "",
+                    new_password: "",
                     id: admin._id,
                   }}
                   validationSchema={validateSchema}
@@ -59,17 +51,16 @@ const EditProfileSection = () => {
                   {({ isSubmitting, touched, errors }) => (
                     <Form encType="multipart/form-data">
                       <TextField
-                        type="text"
-                        name="username"
-                        label="Change admin username"
-                        placeholder="Admin Username"
+                        type="password"
+                        name="old_password"
+                        label="Enter Old Password"
+                        placeholder="Old Password"
                       />
                       <TextField
-                        type="email"
-                        name="email"
-                        label="Change admin email"
-                        placeholder="Admin Email"
-                        disabled={true}
+                        type="password"
+                        name="new_password"
+                        label="Enter New Password"
+                        placeholder="New Password"
                       />
 
                       <div className="d-flex justify-content-center">
@@ -79,7 +70,7 @@ const EditProfileSection = () => {
                           </div>
                         ) : (
                           <Button case="uppercase" type="submit">
-                            Update Admin
+                            Update Password
                           </Button>
                         )}
                       </div>
@@ -101,4 +92,4 @@ const StyledContainer = styled.div`
   padding: 1rem;
   margin: 3rem 0rem;
 `;
-export default EditProfileSection;
+export default ChangePasswordSection;

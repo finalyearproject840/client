@@ -9,7 +9,6 @@ import {
   verifyUserFunc,
 } from "../../../Redux/Admin/AdminActions";
 import { StyleTitle } from "../../../Styles";
-import { baseUrl } from "../../../DefaultValues";
 import { Link } from "react-router-dom";
 import moment from "moment/moment";
 
@@ -19,19 +18,18 @@ const AllUsersSection = () => {
   const [confirmModalFunc, setConfirmModalFunc] = useState(
     () => () => console.log("hello")
   );
-  //get suppliers keys for table columns
+
   useEffect(() => {
     //initialize datatable
     $(document).ready(function () {
       setTimeout(function () {
-        $(`#usertable`).DataTable();
+        $(`#users`).DataTable({ retrieve: true, order: [[1, "desc"]] });
       }, 1000);
     });
   }, []);
 
   const appStore = useSelector((state) => state.AdminState);
   const { users } = appStore;
-  console.log(users);
 
   //const function to verify or unverify user
   const handleVerify = (options) => {
@@ -86,7 +84,7 @@ const AllUsersSection = () => {
 
                 <div className="table-responsive">
                   <table
-                    id="usertable"
+                    id="users"
                     className="table table-hover table-bordered"
                   >
                     <thead>
@@ -99,12 +97,11 @@ const AllUsersSection = () => {
                         <th>Verified</th>
                         <th>Suspended</th>
                         <th>Created At</th>
-                        <th>Address</th>
                         <th>Tel</th>
                       </tr>
                     </thead>
                     <tbody className="lead">
-                      {users.map((item) => {
+                      {users.reverse().map((item) => {
                         return (
                           <tr key={item._id}>
                             <td className="td">
@@ -139,7 +136,7 @@ const AllUsersSection = () => {
                                 </button>
                               ) : (
                                 <button
-                                  className="btn btn-secondary btn"
+                                  className="btn btn-dark"
                                   type="button"
                                   data-bs-toggle="modal"
                                   data-bs-target="#exampleModal"
@@ -159,7 +156,7 @@ const AllUsersSection = () => {
                             <td className="td">
                               {item.suspended ? (
                                 <button
-                                  className="btn btn-secondary btn"
+                                  className="btn btn-secondary"
                                   type="button"
                                   data-bs-toggle="modal"
                                   data-bs-target="#exampleModal"
@@ -176,7 +173,7 @@ const AllUsersSection = () => {
                                 </button>
                               ) : (
                                 <button
-                                  className="btn btn-secondary btn"
+                                  className="btn btn-dark"
                                   type="button"
                                   data-bs-toggle="modal"
                                   data-bs-target="#exampleModal"
@@ -196,8 +193,9 @@ const AllUsersSection = () => {
                             <td className="td">
                               {moment(new Date(item.created_at)).fromNow()}
                             </td>
-                            <td className="td">{item.address.join(",")}</td>
-                            <td className="td">{item.tel.join(",")}</td>
+                            <td className="td">
+                              <a href={`tel:${item.tel[0]}`}>{item.tel[0]}</a>
+                            </td>
                           </tr>
                         );
                       })}

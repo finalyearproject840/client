@@ -7,7 +7,12 @@ import styled from "styled-components";
 import Loading from "../../../Shared/Components/Loading";
 import { StyleSubtitle, StyleTitle } from "../../../Styles";
 import { useDispatch } from "react-redux";
-import { deleteProductFunc } from "../../../Redux/Admin/AdminActions";
+import {
+  deleteProductFunc,
+  VerifyProductFunc,
+} from "../../../Redux/Admin/AdminActions";
+import moment from "moment/moment";
+import ConfirmModal from "../../../Shared/Components/ConfirmModal";
 
 const PreviewSection = () => {
   const [loading, setLoading] = useState(true);
@@ -55,6 +60,30 @@ const PreviewSection = () => {
     dispatch(deleteProductFunc(data, handleRedirect));
   };
 
+  const [confirmModalTitle, setConfirmModalTitle] = useState("");
+  const [confirmModalFunc, setConfirmModalFunc] = useState(
+    () => () => console.log("hello")
+  );
+
+  //const function to verify or Un-verify supplier
+  const handleVerify = (options) => {
+    //set the title of the confirmation modal
+    setConfirmModalTitle(options.msg);
+    //create a verification function to be passed into the confirmation modal
+    const verifyFunc = () => {
+      dispatch(
+        VerifyProductFunc({
+          id: options.id,
+          verify: options.type === "verify" ? true : false,
+          singlePage: true,
+          getProduct: () => getData(id),
+        })
+      );
+    };
+    //parse the verifyFunc to the confirmationModal to call it when admin confirm
+    setConfirmModalFunc(() => () => verifyFunc());
+  };
+
   useEffect(() => {
     getData(id);
   }, []);
@@ -79,7 +108,6 @@ const PreviewSection = () => {
                 </StyleTitle>
                 {/* Product images */}
                 <div className="text-center">
-                  <StyleSubtitle>Product images</StyleSubtitle>
                   {data.product_images.map((item, index) => (
                     <div key={index} className="my-4">
                       <img
@@ -98,13 +126,13 @@ const PreviewSection = () => {
                     <b>Price</b>: GHS {data.price}
                   </p>
                   <p className="lead">
+                    <b>Price After Discount</b>: GHS {data.priceAfterDiscount}
+                  </p>
+                  <p className="lead">
                     <b>Quantity in stock:</b> {data.quantity}
                   </p>
                   <p className="lead">
                     <b>Discount:</b> {data.discount}%
-                  </p>
-                  <p className="lead">
-                    <b>Status :</b> {data.status}
                   </p>
                   <p className="lead">
                     <b>Verified :</b> {data.verified ? "Yes" : "No"}
@@ -113,27 +141,69 @@ const PreviewSection = () => {
                     <b>Category :</b> {data.category.join(", ")}
                   </p>
                   <p className="lead">
-                    <b>Total Reviews :</b> {data.totalReviews}
+                    <b>Total Reviews : </b> {data.totalReviews}
                   </p>
                   <p className="lead">
-                    <b>Total Ratings :</b> {data.totalRating}
+                    <b>Tags : </b> {data.tags.join(", ")}
                   </p>
                   <p className="lead">
-                    <b>Tags :</b> {data.tags.join(", ")}
+                    <b>Manufactured on : </b>
+                    {moment(new Date(data.manufactured_date)).fromNow()}
                   </p>
                   <p className="lead">
-                    <b>Manufactured on :</b>{" "}
-                    {new Date(data.manufactured_date).toDateString()}
+                    <b>Expires in : </b>
+                    {moment(new Date(data.expiry_date)).fromNow()}
                   </p>
                   <p className="lead">
-                    <b>Expires on :</b>{" "}
-                    {new Date(data.expiry_date).toDateString()}
+                    <b>Uploaded by : </b>
+                    {data.supplier_name}
                   </p>
                   <p className="lead">
-                    <b>Description:</b>
+                    <b>Uploaded on : </b>
+                    {moment(new Date(data.created_at)).fromNow()}
+                  </p>
+                  <p className="lead">
+                    <b>Description: </b>
                     <br />
                     {data.description}
                   </p>
+                  <div className="mb-3 text-center">
+                    {data.verified ? (
+                      <button
+                        className="btn btn-secondary"
+                        type="button"
+                        data-bs-toggle="modal"
+                        data-bs-target="#exampleModal"
+                        data-backdrop="false"
+                        onClick={() =>
+                          handleVerify({
+                            type: "unverify",
+                            msg: "You  are about to unverify this product",
+                            id: data._id,
+                          })
+                        }
+                      >
+                        Unverify
+                      </button>
+                    ) : (
+                      <button
+                        className="btn btn-dark"
+                        type="button"
+                        data-bs-toggle="modal"
+                        data-bs-target="#exampleModal"
+                        data-backdrop="false"
+                        onClick={() =>
+                          handleVerify({
+                            type: "verify",
+                            msg: "You are about to verify this product",
+                            id: data._id,
+                          })
+                        }
+                      >
+                        Verify
+                      </button>
+                    )}
+                  </div>
                   {/* Delete product button */}
                   <div className="text-center mt-3">
                     <button
@@ -150,6 +220,11 @@ const PreviewSection = () => {
                 <b>Opps! product not found</b>
               </div>
             )}
+            {/* this is a modal to firm various actions that will be perform on suppliers */}
+            <ConfirmModal
+              title={confirmModalTitle}
+              confirm={confirmModalFunc}
+            />
           </StyledProductPreviewSection>
         </div>
       </div>

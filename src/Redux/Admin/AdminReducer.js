@@ -29,6 +29,11 @@ const initialState = {
     data: [],
     error: false,
   },
+  contactMessages: {
+    loading: false,
+    data: [],
+    error: false,
+  },
 };
 
 export const AdminReducer = (state = initialState, { type, payload }) => {
@@ -142,7 +147,7 @@ export const AdminReducer = (state = initialState, { type, payload }) => {
           error: true,
         },
       };
-    //start load notification
+    //start load help
     case AdminActionTypes.ADMIN_START_LOAD_HELPS:
       return {
         ...state,
@@ -151,7 +156,7 @@ export const AdminReducer = (state = initialState, { type, payload }) => {
           loading: true,
         },
       };
-    // load notification success
+    // load help success
     case AdminActionTypes.ADMIN_LOAD_HELPS_SUCCESS:
       return {
         ...state,
@@ -161,7 +166,7 @@ export const AdminReducer = (state = initialState, { type, payload }) => {
           data: payload,
         },
       };
-    // load notification failed
+    // load help failed
     case AdminActionTypes.ADMIN_LOAD_HELPS_FAIL:
       return {
         ...state,
@@ -202,6 +207,35 @@ export const AdminReducer = (state = initialState, { type, payload }) => {
         },
       };
 
+    //start load contact messages
+    case AdminActionTypes.ADMIN_START_LOAD_CONTACT_MESSAGES:
+      return {
+        ...state,
+        contactMessage: {
+          ...state.contactMessages,
+          loading: true,
+        },
+      };
+    // load help success
+    case AdminActionTypes.ADMIN_LOAD_CONTACT_MESSAGES_SUCCESS:
+      return {
+        ...state,
+        contactMessages: {
+          ...state.contactMessages,
+          loading: false,
+          data: payload,
+        },
+      };
+    // load contact messages failed
+    case AdminActionTypes.ADMIN_LOAD_CONTACT_MESSAGES_FAIL:
+      return {
+        ...state,
+        contactMessages: {
+          ...state.contactMessages,
+          loading: false,
+          error: true,
+        },
+      };
     default:
       return state;
   }

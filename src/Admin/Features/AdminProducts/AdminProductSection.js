@@ -5,9 +5,7 @@ import $ from "jquery";
 import { baseUrl, colors, fonts, fontSize } from "../../../DefaultValues";
 import ConfirmModal from "../../../Shared/Components/ConfirmModal";
 import Loading from "../../../Shared/Components/Loading";
-//datatables
-import "datatables.net-bs5/js/dataTables.bootstrap5";
-import "datatables.net-bs5/css/dataTables.bootstrap5.min.css";
+
 import { Link } from "react-router-dom";
 import {
   changeProductAttribute,
@@ -44,7 +42,7 @@ const AdminProductSection = () => {
     setConfirmModalFunc(() => () => verifyFunc());
   };
 
-  //const function to verify or Un-verify supplier
+  //const change product attribute
   const handleSetAttribute = (options) => {
     //set the title of the confirmation modal
     setConfirmModalTitle(options.msg);
@@ -55,12 +53,12 @@ const AdminProductSection = () => {
     //parse the verifyFunc to the confirmationModal to call it when admin confirm
     setConfirmModalFunc(() => () => verifyFunc());
   };
-  //get suppliers keys for table columns
+ 
   useEffect(() => {
     //initialize datatable
     $(document).ready(function () {
       setTimeout(function () {
-        $(`#productTable`).DataTable();
+        $(`#productTable`).DataTable({ retrieve: true, order: [[2, "desc"]] });
       }, 1000);
     });
   }, []);
@@ -91,25 +89,23 @@ const AdminProductSection = () => {
                     className="table table-hover table-bordered"
                   >
                     <thead>
-                      <tr className="tr">
+                      <tr className="tr text-dark">
                         <th>View</th>
                         <th>image</th>
                         <th>Product ID</th>
-                        <th>Supplier ID</th>
+                        <th>Supplier</th>
                         <th>name</th>
                         <th>Special Attributes</th>
                         <th>categories</th>
                         <th>Price</th>
-                        <th>Status</th>
                         <th>Verified</th>
-                        <th>Quantity</th>
                         <th>Created At</th>
                         <th>Expiry Date</th>
                         <th>Manufactured Date</th>
                       </tr>
                     </thead>
                     <tbody className="lead">
-                      {data.map((item) => {
+                      {data.reverse().map((item) => {
                         return (
                           <tr key={item._id}>
                             <td className="td">
@@ -128,7 +124,7 @@ const AdminProductSection = () => {
                               />
                             </td>
                             <td className="td">{item._id}</td>
-                            <td className="td">{item.supplier_id}</td>
+                            <td className="td">{item.supplier_name}</td>
                             <td className="td">{item.name}</td>
                             <td className="td ">
                               <div className="d-flex special-width">
@@ -193,11 +189,10 @@ const AdminProductSection = () => {
                               {item.category.join(", ")}
                             </td>
                             <td className="td">{item.price}</td>
-                            <td className="td">{item.status}</td>
                             <td className="td">
                               {item.verified ? (
                                 <button
-                                  className="btn btn-secondary btn"
+                                  className="btn btn-secondary"
                                   type="button"
                                   data-bs-toggle="modal"
                                   data-bs-target="#exampleModal"
@@ -214,7 +209,7 @@ const AdminProductSection = () => {
                                 </button>
                               ) : (
                                 <button
-                                  className="btn btn-secondary btn"
+                                  className="btn btn-dark"
                                   type="button"
                                   data-bs-toggle="modal"
                                   data-bs-target="#exampleModal"
@@ -231,7 +226,6 @@ const AdminProductSection = () => {
                                 </button>
                               )}
                             </td>
-                            <td className="td">{item.quantity}</td>
                             <td className="td">
                               {moment(new Date(item.created_at)).fromNow()}
                             </td>

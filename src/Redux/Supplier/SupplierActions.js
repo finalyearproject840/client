@@ -538,6 +538,42 @@ export const updateSupplierFunc = (form, setSubmitting, handleRedirect) => {
       });
   };
 };
+//change Supplier password
+export const changePassword = (form, setSubmitting, resetForm) => {
+  return () => {
+    //for authentication
+    const token = Cookies.get("token");
+    //config headers
+    var config = {
+      method: "post",
+      url: SupplierRoutes.changePassword + "/" + form.id,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      data: form,
+    };
+    //axios
+    axios(config)
+      .then(function (response) {
+        if (response.data.success) {
+          setSubmitting(false);
+          notifySuccess("Password successfully updated");
+          resetForm({});
+        } else {
+          setSubmitting(false);
+          notifyError(response.data.msg);
+          resetForm({});
+        }
+      })
+      .catch(function (error) {
+        setSubmitting(false);
+        notifyError("Oops! something went wrong");
+        resetForm({});
+        console.log(error);
+      });
+  };
+};
 
 //add supplier details
 export const addSupplierDetailsFunc = (form, setSubmitting, handleRedirect) => {
