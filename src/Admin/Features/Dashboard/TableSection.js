@@ -12,7 +12,7 @@ const TableSection = () => {
       <div className="container">
         <div className="row">
           {/* column one */}
-          <div className="col-lg-6">
+          <div className="col-lg-12">
             <Tables
               data={products.data.slice(0, 11)}
               columns={["name", "supplier_name", "created_at"]}
@@ -22,7 +22,7 @@ const TableSection = () => {
             />
           </div>
           {/* column two */}
-          <div className="col-lg-6">
+          <div className="col-lg-12">
             <Tables
               data={suppliers.slice(0, 11)}
               columns={["organisation", "username", "created_at"]}

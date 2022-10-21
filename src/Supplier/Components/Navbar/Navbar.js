@@ -74,20 +74,7 @@ const NavBar = () => {
   ];
   return (
     <StyledNavbar className="nav-bar" id="navbar">
-      <form method="get" className="form nav-bar-form">
-        <div className="input-group d-flex align-items-center">
-          <input
-            type="text"
-            className="form-control search-input"
-            name="search"
-            id="name"
-            placeholder="Search..."
-          />
-          <span className="input-group-btn">
-            <IoSearchCircleSharp className="icon search-icon" size={34} />
-          </span>
-        </div>
-      </form>
+      <h6 className="text-uppercase h6">Supplier Dashboard</h6>
       <div className="navbar-second">
         {/* Notifcation area */}
         <div className="notification-area d-flex">

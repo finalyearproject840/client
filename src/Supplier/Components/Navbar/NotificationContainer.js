@@ -82,7 +82,9 @@ const NotificationContainer = (props) => {
             <Link to="#" key={item._id} onClick={() => props.setShow()}>
               <NoficationListItem
                 title={item.title}
-                date={new Date(item.created_at).toDateString()}
+                read={item.read}
+                id={item._id}
+                date={new Date(item.created_at)}
               />
             </Link>
           ))
@@ -90,7 +92,7 @@ const NotificationContainer = (props) => {
       </div>
       {/* Notification container bottom */}
       <div className="bottom">
-        <Link to="/supplier/notifications" className="all-link">
+        <Link to="/supplier/all/notifications" className="all-link">
           {data.length > 0
             ? `${
                 data.filter((item) => item.read === false).length

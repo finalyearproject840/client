@@ -1,4 +1,4 @@
-import React, { useEffect, } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import $ from "jquery";
@@ -10,24 +10,24 @@ import "datatables.net-bs5/css/dataTables.bootstrap5.min.css";
 import { Link } from "react-router-dom";
 import { StyleTitle } from "../../../Styles";
 import { readNotificationFunc } from "../../../Redux/Supplier/SupplierActions";
+import moment from "moment/moment";
 
 const SupplierNotificationSection = () => {
   const dispatch = useDispatch();
 
   const appStore = useSelector((state) => state.SupplierState);
-  const { loading, error, data } = appStore.notifications;
+  const { loading, data } = appStore.notifications;
 
   //const function to mark notification as read
   const handleMarkAsRead = (id) => {
     dispatch(readNotificationFunc(id));
   };
 
- 
   useEffect(() => {
     //initialize datatable
     $(document).ready(function () {
       setTimeout(function () {
-        $(`#productTable`).DataTable();
+        $(`#notification`).DataTable({ retrieve: true, order: [[0, "desc"]] });
       }, 1000);
     });
   }, []);
@@ -40,7 +40,7 @@ const SupplierNotificationSection = () => {
           <div className="col-12">
             {loading ? (
               <div className="d-flex justify-content-center">
-                <Loading width={100} />
+                <Loading width={50} />
               </div>
             ) : data.length > 0 ? (
               <StyledTableContainer>
@@ -54,29 +54,30 @@ const SupplierNotificationSection = () => {
                 </StyleTitle>
                 <div className="table-responsive">
                   <table
-                    id="productTable"
+                    id="notification"
                     className="table table-hover table-bordered"
                   >
                     <thead>
-                      <tr className="tr">
-                        <th>Notification ID</th>
+                      <tr className="tr text-dark">
+                        <th>View</th>
                         <th>Title</th>
                         <th>Message</th>
                         <th>Read</th>
                         <th>From</th>
                         <th>Form ID</th>
-                        
                         <th>Created At</th>
                       </tr>
                     </thead>
                     <tbody className="lead">
-                      {data.map((item) => {
+                      {data.reverse().map((item) => {
                         return (
-                          <tr
-                            key={item._id}
-                            className={item.read ? "" : "bg-secondary text-light bg-gradient"}
-                          >
-                            <td>{item._id}</td>
+                          <tr key={item._id}>
+                            <td className="position-relative">
+                              <button to={"#"} className="btn btn-dark">
+                                View
+                              </button>
+                              {item.read || <span className="dot"></span>}
+                            </td>
                             <td>{item.title}</td>
                             <td className="text-justify">{item.message}</td>
                             <td className="td" width={100}>
@@ -87,7 +88,7 @@ const SupplierNotificationSection = () => {
                                   className="btn btn-light"
                                   type="button"
                                   onClick={() => handleMarkAsRead(item._id)}
-                                  style={{ width:"150px" }}
+                                  style={{ width: "150px" }}
                                 >
                                   Mark as read
                                 </button>
@@ -96,7 +97,7 @@ const SupplierNotificationSection = () => {
                             <td>{item.entityType}</td>
                             <td>{item.entityID}</td>
                             <td className="td">
-                              {new Date(item.created_at).toDateString()}
+                              {moment(new Date(item.created_at)).fromNow()}
                             </td>
                           </tr>
                         );
@@ -141,8 +142,17 @@ const StyledTableContainer = styled.div`
     font-weight: 500;
     font-family: ${fonts.roboto};
   }
-  .lead{
+  .lead {
     font-size: ${fontSize.n};
+  }
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: ${colors.green};
+    position: absolute;
+    right: 10px;
+    top: 20px;
   }
 `;
 

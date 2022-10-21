@@ -88,6 +88,7 @@ export const SupplierRoutes = {
   editProductImage:`${baseUrl}/supplier/edit/product/image`,
   deleteProduct:`${baseUrl}/supplier/delete/product`,
   getSubscribers:`${baseUrl}/supplier/all/subscribers`,
+  getSubscriber:`${baseUrl}/supplier/user`,
 
   supplierNotification:`${baseUrl}/supplier/all/notifications`,
   readNotification:`${baseUrl}/supplier/read/notification`,

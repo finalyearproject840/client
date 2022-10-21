@@ -60,6 +60,7 @@ const StyledMenu = styled.div`
   @media screen and (min-width: 768px) {
     position: unset;
     width: unset;
+    transform: unset;
   }
   @media screen and (min-width: 1024px) {
     .menu-container {

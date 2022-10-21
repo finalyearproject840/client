@@ -47,6 +47,7 @@ import ChangeSupplierPassword from "../Supplier/Pages/Account/ChangePassword";
 import ContactMessages from "../Admin/Pages/ContactMessages";
 import HelpView from "../Admin/Pages/HelpView";
 import ViewContactMessage from './../Admin/Pages/ViewContactMessage';
+import ViewSubscriber from './../Supplier/Pages/ViewSubscriber';
 
 const AppRoutes = () => {
   return (
@@ -104,7 +105,7 @@ const AppRoutes = () => {
           <Route element={<ProductPreview />} path="/supplier/product/:id" />
           <Route element={<SupplierProducts />} path="/supplier/products" />
           <Route element={<AllSubscribers />} path="/supplier/all/subscribers" />
-          <Route element={<ViewUser />} path="/supplier/subscriber/:id" />
+          <Route element={<ViewSubscriber />} path="/supplier/subscriber/:id" />
           <Route element={<EditProduct />} path="/supplier/edit/product/:id" />
           <Route element={<ProductOffers />} path="/supplier/offers/:id" />
           <Route
@@ -118,6 +119,7 @@ const AppRoutes = () => {
             element={<SupplierNotification />}
             path="/supplier/all/notifications/"
           />
+          
         </Route>
 
         {/* Admin route */}

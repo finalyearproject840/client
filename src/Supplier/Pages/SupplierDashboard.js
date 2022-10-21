@@ -9,7 +9,7 @@ import "datatables.net-bs5/js/dataTables.bootstrap5";
 import "datatables.net-bs5/css/dataTables.bootstrap5.min.css";
 import TableSection from "../Features/Dashboard/TableSection";
 import { useDispatch, useSelector } from "react-redux";
-import { loadProductFunc } from "../../Redux/Supplier/SupplierActions";
+import { loadAllSubscribersFunc, loadNotificationFunc, loadProductFunc } from "../../Redux/Supplier/SupplierActions";
 const SupplierDashboard = () => {
   const dispatch = useDispatch();
   const appStore = useSelector((state) => state.SupplierState);
@@ -18,6 +18,8 @@ const SupplierDashboard = () => {
   useEffect(() => {
     if (supplier) {
       dispatch(loadProductFunc(supplier._id));
+      dispatch(loadNotificationFunc(supplier._id));
+      dispatch(loadAllSubscribersFunc(supplier._id));
     }
   }, [supplier]);
   return (

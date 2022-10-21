@@ -35,7 +35,7 @@ const SupplierProductSection = () => {
     //initialize datatable
     $(document).ready(function () {
       setTimeout(function () {
-        $(`#productTable`).DataTable();
+        $(`#productTable`).DataTable({ retrieve: true, order: [[3, "desc"]] });
       }, 1000);
     });
   }, []);
@@ -48,7 +48,7 @@ const SupplierProductSection = () => {
           <div className="col-12">
             {loading ? (
               <div className="d-flex justify-content-center">
-                <Loading width={100} />
+                <Loading width={50} />
               </div>
             ) : data.length > 0 ? (
               <StyledTableContainer>
@@ -77,7 +77,7 @@ const SupplierProductSection = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {data.map((item) => {
+                      {data.reverse().map((item) => {
                         return (
                           <tr key={item._id}>
                             <td className="td"><Link to={`/supplier/product/${item._id}`} className="btn btn-dark">Details</Link></td>

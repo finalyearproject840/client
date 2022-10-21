@@ -16,7 +16,7 @@ import { RiLockPasswordLine, RiMenuUnfoldLine } from "react-icons/ri";
 import { GiMedicines } from "react-icons/gi";
 import { FaUsers, FaEdit } from "react-icons/fa";
 const MenuBar = (props) => {
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
   return (
     <StyledMenu show={show}>
       {/* Menu log area */}
@@ -114,37 +114,13 @@ const MenuBar = (props) => {
                   : "false"
               }
             />
-             
-             <MenuListItem
-              text="My Categories"
-              Link="/supplier/categories"
-              icon={<BiCategoryAlt size={23} />}
-              active={
-                props.active
-                  ? props.active === "category"
-                    ? "true"
-                    : "false"
-                  : "false"
-              }
-            />
             <MenuListItem
-              text="Help"
+              text="Request Help"
               Link="/supplier/help/"
               icon={<IoMdHelpCircle size={23} />}
               active={
                 props.active
                   ? props.active === "help"
-                    ? "true"
-                    : "false"
-                  : "false"
-              }
-            />
-            <MenuListItem
-              text="Settings"
-              icon={<IoMdSettings size={23} />}
-              active={
-                props.active
-                  ? props.active === "settings"
                     ? "true"
                     : "false"
                   : "false"

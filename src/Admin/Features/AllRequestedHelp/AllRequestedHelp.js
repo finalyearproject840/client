@@ -41,7 +41,7 @@ const AllRequestedHelp = () => {
           <div className="col-12">
             {loading ? (
               <div className="d-flex justify-content-center">
-                <Loading width={100} />
+                <Loading width={50} />
               </div>
             ) : data.length > 0 ? (
               <StyledTableContainer>
@@ -60,7 +60,7 @@ const AllRequestedHelp = () => {
                   >
                     <thead>
                       <tr className="tr">
-                        <th>Help ID</th>
+                        <th>View</th>
                         <th>Subject</th>
                         <th>Message</th>
                         <th>Read</th>
@@ -72,15 +72,11 @@ const AllRequestedHelp = () => {
                     <tbody className="lead">
                       {data.map((item) => {
                         return (
-                          <tr
-                            key={item._id}
-                            className={
-                              item.read
-                                ? ""
-                                : "bg-secondary text-light bg-gradient"
-                            }
-                          >
-                            <td>{item._id}</td>
+                          <tr key={item._id}>
+                            <td className="position-relative">
+                              <Link to={`/admin/help/${item._id}`}><button className="btn btn-dark">View</button></Link>
+                              {item.read || <span className="dot"></span>}
+                            </td>
                             <td>{item.subject}</td>
                             <td className="text-justify">{item.message}</td>
                             <td className="td" width={100}>
@@ -150,6 +146,15 @@ const StyledTableContainer = styled.div`
   }
   .lead {
     font-size: ${fontSize.n};
+  }
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: ${colors.green};
+    position: absolute;
+    right: 10px;
+    top: 20px;
   }
 `;
 

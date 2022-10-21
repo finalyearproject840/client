@@ -79,7 +79,7 @@ const ViewUserSection = () => {
           <StyledProductPreviewSection>
             {loading ? (
               <div className="d-flex justify-content-center align-items-center my-5">
-                <Loading width={100} />
+                <Loading width={50} />
               </div>
             ) : data ? (
               <div className="my-4 bg-light py-3">
@@ -98,10 +98,10 @@ const ViewUserSection = () => {
                   </div>
                 </div>
                 <div className="p-3">
-                  <p className="lead">
+                  <p className="lead text-capitalize">
                     <b>First Name</b>: {data.firstname}
                   </p>
-                  <p className="lead">
+                  <p className="lead text-capitalize">
                     <b>Last Name</b>: {data.lastname}
                   </p>
                   <p className="lead">

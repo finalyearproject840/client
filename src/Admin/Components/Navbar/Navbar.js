@@ -80,20 +80,6 @@ const NavBar = () => {
   ];
   return (
     <StyledNavbar className="nav-bar" id="navbar">
-      <form method="get" className="form nav-bar-form">
-        <div className="input-group d-flex align-items-center">
-          <input
-            type="text"
-            className="form-control search-input"
-            name="search"
-            id="name"
-            placeholder="Search..."
-          />
-          <span className="input-group-btn">
-            <IoSearchCircleSharp className="icon search-icon" size={34} />
-          </span>
-        </div>
-      </form>
       <div className="navbar-second">
         {/* Notifcation area */}
         <div className="notification-area d-flex">
@@ -148,7 +134,7 @@ const StyledNavbar = styled.div`
   height: 4rem;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   padding: 0rem 1rem;
   background-color: #fff;

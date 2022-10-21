@@ -7,13 +7,11 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import { useEffect } from "react";
 import moment from "moment/moment";
-import { BiPhoneCall } from "react-icons/bi";
 import { MdOutlineMail } from "react-icons/md";
 
 const ViewContactMessageSection = () => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
-  const [supplierInfo, setSupplierInfo] = useState(null);
 
   const id = useParams().id;
   const getData = (id) => {
@@ -64,12 +62,7 @@ const ViewContactMessageSection = () => {
                   {data.subject}
                 </h5>
                 <p className="py-5">{data.message}</p>
-                <div>
-                  By{" "}
-                  <Link to={`/admin/supplier/${data.entityID}`}>
-                    {data.name}
-                  </Link>
-                </div>
+                <div>By {data.name}</div>
                 <div>
                   Sent{" "}
                   <span className="text-secondary">

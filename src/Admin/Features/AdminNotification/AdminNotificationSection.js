@@ -52,6 +52,9 @@ const AdminNotificationSection = () => {
     if (linkInfo.to === "contact message") {
       return navigate(`/admin/contact/message/${linkInfo.link}`);
     }
+    if (linkInfo.to === "prescription") {
+      return navigate(`/admin/all/prescription`);
+    }
   };
 
   return (
@@ -62,7 +65,7 @@ const AdminNotificationSection = () => {
           <div className="col-12">
             {loading ? (
               <div className="d-flex justify-content-center">
-                <Loading width={100} />
+                <Loading width={50} />
               </div>
             ) : data.length > 0 ? (
               <StyledTableContainer>

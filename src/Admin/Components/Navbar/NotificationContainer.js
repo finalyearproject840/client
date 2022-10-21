@@ -1,9 +1,11 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { AdminRoutes, colors, fonts, fontSize } from "../../../DefaultValues";
+import { readNotificationFunc } from "../../../Redux/Admin/AdminActions";
 import { StyleTitle } from "../../../Styles";
 import NoficationListItem from "./NoficationListItem";
 
@@ -11,6 +13,13 @@ const NotificationContainer = (props) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const navigate = useNavigate();
+
+  const dispatch = useDispatch()
+  //const function to mark notification as read
+  const handleMarkAsRead = (id) => {
+    dispatch(readNotificationFunc(id));
+  };
 
   const getData = () => {
     setLoading(true);
@@ -48,6 +57,28 @@ const NotificationContainer = (props) => {
     getData();
   }, []);
 
+  const notificationLinkTo = (linkInfo,id) => {
+    handleMarkAsRead(id)
+    if (linkInfo.to === "product") {
+      return navigate(`/admin/product/${linkInfo.link}`);
+    }
+    if (linkInfo.to === "supplier") {
+      return navigate(`/admin/supplier/${linkInfo.link}`);
+    }
+    if (linkInfo.to === "user") {
+      return navigate(`/admin/user/${linkInfo.link}`);
+    }
+    if (linkInfo.to === "help") {
+      return navigate(`/admin/help/${linkInfo.link}`);
+    }
+    if (linkInfo.to === "contact message") {
+      return navigate(`/admin/contact/message/${linkInfo.link}`);
+    }
+    if (linkInfo.to === "prescription") {
+      return navigate(`/admin/all/prescription`);
+    }
+  };
+
   return (
     <StyledNotiContainer className="notification-container" show={props.show}>
       {/* Notification container top */}
@@ -68,16 +99,29 @@ const NotificationContainer = (props) => {
           <div>loading....</div>
         ) : (
           data.map((item) => (
-            <Link to="#" key={item._id} onClick={() => props.setShow()}>
-              <NoficationListItem title={item.title} date={new Date(item.created_at).toDateString()} />
-            </Link>
+            <span
+              className="span-link"
+              key={item._id}
+              onClick={() => notificationLinkTo(item.links[0], item._id)}
+            >
+              <NoficationListItem
+                title={item.title}
+                read={item.read}
+                id={item._id}
+                date={new Date(item.created_at)}
+              />
+            </span>
           ))
         )}
       </div>
       {/* Notification container bottom */}
       <div className="bottom">
-        <Link to="/supplier/notifications" className="all-link">
-         {data.length > 0? `${data.filter(item=>item.read === false).length} unread messages`: "No unread messages"}
+        <Link to="/admin/all/notifications" className="all-link">
+          {data.length > 0
+            ? `${
+                data.filter((item) => item.read === false).length
+              } unread messages`
+            : "No unread messages"}
         </Link>
       </div>
     </StyledNotiContainer>
@@ -106,6 +150,9 @@ const StyledNotiContainer = styled.div`
     height: 2rem;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
+  }
+  .span-link {
+    cursor: pointer;
   }
   .bottom {
     position: absolute;

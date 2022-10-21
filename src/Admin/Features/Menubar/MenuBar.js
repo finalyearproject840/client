@@ -18,7 +18,7 @@ import { FaUsers, FaEdit, FaPrescriptionBottleAlt } from "react-icons/fa";
 import { HiViewGridAdd } from "react-icons/hi";
 
 const MenuBar = (props) => {
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
   return (
     <StyledMenu show={show}>
       {/* Menu log area */}

@@ -22,7 +22,7 @@ const AccountContainer = (props) => {
       <ul className="account-list">
         <li className="account-list-item">
           <Link
-            to="#"
+            to="/admin/profile"
             className="account-list-link"
             onClick={() => props.setShow()}
           >
@@ -32,32 +32,12 @@ const AccountContainer = (props) => {
         </li>
         <li className="account-list-item">
           <Link
-            to="#"
-            className="account-list-link"
-            onClick={() => props.setShow()}
-          >
-            <HiOutlineCog className="icon" />
-            <span className="link-text"> Settings </span>
-          </Link>
-        </li>
-        <li className="account-list-item">
-          <Link
-            to="#"
-            className="account-list-link"
-            onClick={() => props.setShow()}
-          >
-            <AiTwotoneHeart className="icon" />
-            <span className="link-text"> Subscribers </span>
-          </Link>
-        </li>
-        <li className="account-list-item">
-          <Link
-            to="#"
+            to="/admin/requested/help"
             className="account-list-link"
             onClick={() => props.setShow()}
           >
             <MdLiveHelp className="icon" />
-            <span className="link-text"> Help </span>
+            <span className="link-text"> Requested Help </span>
           </Link>
         </li>
         <hr />
@@ -74,7 +54,7 @@ const AccountContainer = (props) => {
 
 const StyledAccountContainer = styled.div`
   box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
-  height: 210px;
+  height: 160px;
   width: 150px;
   position: absolute;
   top: 45px;

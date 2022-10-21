@@ -78,7 +78,7 @@ const ViewSubscriberSection = () => {
           <StyledProductPreviewSection>
             {loading ? (
               <div className="d-flex justify-content-center align-items-center my-5">
-                <Loading width={100} />
+                <Loading width={50} />
               </div>
             ) : data ? (
               <div className="my-4 bg-light py-3">

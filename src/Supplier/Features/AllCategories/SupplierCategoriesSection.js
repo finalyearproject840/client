@@ -51,7 +51,7 @@ const SupplierCategoriesSection = () => {
           <div className="col-12">
             {loading ? (
               <div className="d-flex justify-content-center">
-                <Loading width={100} />
+                <Loading width={50} />
               </div>
             ) : data.length > 0 ? (
               <StyledTableContainer>

@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import $ from "jquery";
 import { colors, fonts, fontSize } from "../../../DefaultValues";
-import ConfirmModal from "../../../Shared/Components/ConfirmModal";
 import Loading from "../../../Shared/Components/Loading";
 //datatables
 import "datatables.net-bs5/js/dataTables.bootstrap5";
@@ -41,7 +40,7 @@ const ContactMessageSection = () => {
           <div className="col-12">
             {loading ? (
               <div className="d-flex justify-content-center">
-                <Loading width={100} />
+                <Loading width={50} />
               </div>
             ) : data.length > 0 ? (
               <StyledTableContainer>
@@ -73,8 +72,8 @@ const ContactMessageSection = () => {
                       {data.reverse().map((item) => {
                         return (
                           <tr key={item._id}>
-                            <td className="position-relative">
-                              {item._id}
+                          <td className="position-relative">
+                              <Link to={`/admin/contact/message/${item._id}`}><button className="btn btn-dark">View</button></Link>
                               {item.read || <span className="dot"></span>}
                             </td>
                             <td>{item.subject}</td>
@@ -151,7 +150,7 @@ const StyledTableContainer = styled.div`
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background-color: ${colors.violet};
+    background-color: ${colors.green};
     position: absolute;
     right: 10px;
     top: 20px;
