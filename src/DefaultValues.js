@@ -36,10 +36,10 @@ export const fonts = {
   righteous: "Righteous",
 };
 //live url
-//export const baseUrl = "https://pharmacybackend.gidcharityfoundation.org/api/pharmacy"
+export const baseUrl = "https://pharmacybackend.gidcharityfoundation.org/api/pharmacy"
 
 //local url
-export const baseUrl = "http://localhost:5000/api/pharmacy"
+//export const baseUrl = "http://localhost:5000/api/pharmacy"
 export const AdminRoutes = {
   adminLogin:`${baseUrl}/admin/login`,
   adminSignup:`${baseUrl}/admin/signup`,
