@@ -98,11 +98,6 @@ const SupplierProfileSection = () => {
                     <b>Name</b>: {data.username}
                   </p>
                   <p className="lead">
-                    <b>Description:</b>
-                    <br />
-                    {data.description}
-                  </p>
-                  <p className="lead">
                     <b>Brand Name:</b>
                     <br />
                     {data.organisation}
@@ -142,6 +137,16 @@ const SupplierProfileSection = () => {
                     <br />
                     {data.tel.join(",")}
                   </p>
+                  <p className="lead">
+                    <b>Verified:</b>
+                    <br />
+                    {data.verified?"Yes":"No"}
+                  </p>
+                  <p className="lead">
+                    <b>Description:</b>
+                    <br />
+                    {data.description}
+                  </p>
                   <div className="text-center">
                     <Link
                       to={`/supplier/edit/profile/`}
@@ -149,6 +154,9 @@ const SupplierProfileSection = () => {
                     >
                       Edit Product Information
                     </Link>
+                  </div>
+                  <div className="text-center my-5">
+                    <button className="btn btn-dark w-25" onClick={()=>navigate(-1)}>Back</button>
                   </div>
                 </div>
               </div>

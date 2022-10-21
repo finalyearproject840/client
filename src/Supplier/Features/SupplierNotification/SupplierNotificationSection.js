@@ -7,13 +7,14 @@ import Loading from "../../../Shared/Components/Loading";
 //datatables
 import "datatables.net-bs5/js/dataTables.bootstrap5";
 import "datatables.net-bs5/css/dataTables.bootstrap5.min.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { StyleTitle } from "../../../Styles";
 import { readNotificationFunc } from "../../../Redux/Supplier/SupplierActions";
 import moment from "moment/moment";
 
 const SupplierNotificationSection = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const appStore = useSelector((state) => state.SupplierState);
   const { loading, data } = appStore.notifications;
@@ -31,6 +32,31 @@ const SupplierNotificationSection = () => {
       }, 1000);
     });
   }, []);
+
+  const notificationLinkTo = (linkInfo, id) => {
+    handleMarkAsRead(id);
+    if (linkInfo.to === "product") {
+      return navigate(`/supplier/product/${linkInfo.link}`);
+    }
+    if (linkInfo.to === "supplier") {
+      return navigate(`/supplier/profile`);
+    }
+    if (linkInfo.to === "user") {
+      return navigate(`/admin/user/${linkInfo.link}`);
+    }
+    if (linkInfo.to === "products") {
+      return navigate(`/supplier/products`);
+    }
+    if (linkInfo.to === "help") {
+      return navigate(`/admin/help/${linkInfo.link}`);
+    }
+    if (linkInfo.to === "contact message") {
+      return navigate(`/admin/contact/message/${linkInfo.link}`);
+    }
+    if (linkInfo.to === "prescription") {
+      return navigate(`/admin/all/prescription`);
+    }
+  };
 
   return (
     <StyledTableSection>
@@ -73,7 +99,12 @@ const SupplierNotificationSection = () => {
                         return (
                           <tr key={item._id}>
                             <td className="position-relative">
-                              <button to={"#"} className="btn btn-dark">
+                              <button
+                                onClick={() =>
+                                  notificationLinkTo(item.links[0], item._id)
+                                }
+                                className="btn btn-dark"
+                              >
                                 View
                               </button>
                               {item.read || <span className="dot"></span>}

@@ -16,14 +16,14 @@ const Tables = (props) => {
   }, []);
   return (
     <StyledTableContainer>
-      <StyleTitle font={fonts.righteous} size={fontSize.n} color={colors.blue}>
+      <StyleTitle font={fonts.righteous} size={fontSize.n} color={colors.dark}>
         {props.title || ""}
       </StyleTitle>
       {props.data && (
         <div className="table-responsive">
-          <table id={props.id} className="table table-hover table-bordered">
+          <table id={props.id} className="table table-hover">
             <thead>
-              <tr className="tr">
+              <tr className="tr text-dark">
                 {props.columnName ? (
                   props.columnName.map((item, index) => (
                     <th key={index}>{item}</th>

@@ -1,16 +1,11 @@
 import React from "react";
 import CardItem from "../../Components/CardItem/CardItem";
-import { AiFillMedicineBox } from "react-icons/ai";
 import { FaUsers, FaPrescriptionBottleAlt } from "react-icons/fa";
-import { MdDeliveryDining } from "react-icons/md";
 import { StyleSubtitle, StyleTitle } from "../../../Styles";
 import { colors, fonts, fontSize } from "../../../DefaultValues";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { MdOutlineNotificationsNone } from "react-icons/md";
-{
-  /* the card section as the first section of the dashboard */
-}
 const CardSection = () => {
   const appStore = useSelector((state) => state.SupplierState);
   const { products, notifications, subscribers } = appStore;
@@ -65,8 +60,8 @@ const CardSection = () => {
               </div>
             </Link>
           </CardItem>
-            {/* Card item */}
-            <CardItem className="col-sm-6 col-lg-4" color={colors.gold}>
+          {/* Card item */}
+          <CardItem className="col-sm-6 col-lg-4" color={colors.gold}>
             <Link to="/supplier/all/notifications">
               <div className="card-container">
                 <div className="icon-box">
@@ -82,13 +77,12 @@ const CardSection = () => {
                     font={fonts.righteous}
                     color={colors.muted}
                   >
-                  Notifications
+                    Notifications
                   </StyleSubtitle>
                 </div>
               </div>
             </Link>
           </CardItem>
-          
         </div>
       </div>
     </section>

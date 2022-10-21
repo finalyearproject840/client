@@ -95,7 +95,6 @@ export const readNotificationFunc = (id) => {
     };
     axios(config)
       .then(function (response) {
-        notifySuccess("Marked as read");
         dispatch(loadNotificationSuccess(response.data.data));
       })
       .catch(function (error) {

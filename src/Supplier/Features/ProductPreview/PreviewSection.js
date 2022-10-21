@@ -84,7 +84,6 @@ const PreviewSection = () => {
                 </StyleTitle>
                 {/* Product images */}
                 <div className="text-center">
-                  <StyleSubtitle>Product images</StyleSubtitle>
                   {data.product_images.map((item, index) => (
                     <div key={index} className="my-4">
                       <img
