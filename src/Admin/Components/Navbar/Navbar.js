@@ -80,6 +80,7 @@ const NavBar = () => {
   ];
   return (
     <StyledNavbar className="nav-bar" id="navbar">
+    <h6 className="h6 text-uppercase">Admin Panel</h6>
       <div className="navbar-second">
         {/* Notifcation area */}
         <div className="notification-area d-flex">
@@ -134,7 +135,7 @@ const StyledNavbar = styled.div`
   height: 4rem;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   padding: 0rem 1rem;
   background-color: #fff;

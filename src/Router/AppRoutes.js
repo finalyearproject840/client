@@ -48,6 +48,8 @@ import ContactMessages from "../Admin/Pages/ContactMessages";
 import HelpView from "../Admin/Pages/HelpView";
 import ViewContactMessage from './../Admin/Pages/ViewContactMessage';
 import ViewSubscriber from './../Supplier/Pages/ViewSubscriber';
+import Orders from "../Admin/Pages/Orders";
+import ViewOrder from "../Admin/Pages/ViewOder";
 
 const AppRoutes = () => {
   return (
@@ -93,6 +95,8 @@ const AppRoutes = () => {
           <Route element={<AllPrescription />} path="/admin/all/prescription" />
           <Route element={<HelpView />} path="/admin/help/:id" />
           <Route element={<PrescriptionResponse />} path="/admin/respond/prescription/:id" />
+          <Route element={<Orders />} path="/admin/all/orders" />
+          <Route element={<ViewOrder />} path="/admin/order/:id" />
         </Route>
 
         {/* supplier protected route */}

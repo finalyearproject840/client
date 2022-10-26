@@ -36,16 +36,17 @@ export const fonts = {
   righteous: "Righteous",
 };
 //live url
-export const baseUrl = "https://pharmacybackend.gidcharityfoundation.org/api/pharmacy"
+//export const baseUrl = "https://pharmacybackend.gidcharityfoundation.org/api/pharmacy"
 
 //local url
-//export const baseUrl = "http://localhost:5000/api/pharmacy"
+export const baseUrl = "http://localhost:5000/api/pharmacy"
 export const AdminRoutes = {
   adminLogin:`${baseUrl}/admin/login`,
   adminSignup:`${baseUrl}/admin/signup`,
   getSuppliers:`${baseUrl}/admin/all/suppliers`,
   getUsers:`${baseUrl}/admin/all/users`,
   verifySupplier:`${baseUrl}/admin/verify/supplier`,
+  trustSupplier:`${baseUrl}/admin/trust/supplier`,
   verifyUser:`${baseUrl}/admin/verify/user`,
   suspendSupplier:`${baseUrl}/admin/suspend/supplier`,
   suspendUser:`${baseUrl}/admin/suspend/user`,
@@ -74,6 +75,11 @@ export const AdminRoutes = {
   contactMessages:`${baseUrl}/admin/contact/messages`,
   readContactMessage:`${baseUrl}/admin/read/contact/message`,
   contactMessage:`${baseUrl}/admin/single/message`,
+  allOrders:`${baseUrl}/admin/all/orders`,
+  singleOrder:`${baseUrl}/admin/single/order`,
+  supplierOrders:`${baseUrl}/admin/supplier/orders`,
+  userOrders: `${baseUrl}/admin/user/orders`,
+  changeDeliveryStatus:`${baseUrl}/admin/change/order/status`
 }
 
 export const SupplierRoutes = {

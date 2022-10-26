@@ -55,6 +55,9 @@ const AdminNotificationSection = () => {
     if (linkInfo.to === "prescription") {
       return navigate(`/admin/all/prescription`);
     }
+    if (linkInfo.to === "order") {
+      return navigate(`/admin/order/${linkInfo.link}`);
+    }
   };
 
   return (

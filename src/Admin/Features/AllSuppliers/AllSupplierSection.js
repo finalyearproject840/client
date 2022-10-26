@@ -6,6 +6,7 @@ import { colors, fonts, fontSize } from "../../../DefaultValues";
 import ConfirmModal from "../../../Shared/Components/ConfirmModal";
 import {
   suspendSupplierFunc,
+  trustSupplierFunc,
   VerifySupplierFunc,
 } from "../../../Redux/Admin/AdminActions";
 import { StyleTitle } from "../../../Styles";
@@ -32,7 +33,7 @@ const AllSupplierSection = () => {
   const appStore = useSelector((state) => state.AdminState);
   const { suppliers } = appStore;
 
-  //const function to verfy or unverify supplier
+  //const function to verify or unverify supplier
   const handleVerify = (options) => {
     //set the title of the confirmation modal
     setConfirmModalTitle(options.msg);
@@ -47,6 +48,22 @@ const AllSupplierSection = () => {
     };
     //parse the verifyFunc to the confirmationModal to call it when admin confirm
     setConfirmModalFunc(() => () => verifyFunc());
+  };
+  //const function to trust or untrust supplier
+  const handleTrust = (options) => {
+    //set the title of the confirmation modal
+    setConfirmModalTitle(options.msg);
+    //create a trust function to be passed into the confirmation modal
+    const trustFunc = () => {
+      dispatch(
+        trustSupplierFunc({
+          id: options.id,
+          trust: options.type === "trust" ? true : false,
+        })
+      );
+    };
+    //parse the trustFunc to the confirmationModal to call it when admin confirm
+    setConfirmModalFunc(() => () => trustFunc());
   };
 
   //const function to suspend or unsuspend supplier
@@ -97,6 +114,7 @@ const AllSupplierSection = () => {
                         <th>Organization</th>
                         <th>Status</th>
                         <th>Verified</th>
+                        <th>Trusted</th>
                         <th>Suspended</th>
                         <th>License</th>
                         <th>Created At</th>
@@ -123,7 +141,7 @@ const AllSupplierSection = () => {
                             <td className="td">
                               {item.verified ? (
                                 <button
-                                  className="btn btn-secondary"
+                                  className="btn btn-danger"
                                   type="button"
                                   data-bs-toggle="modal"
                                   data-bs-target="#exampleModal"
@@ -158,9 +176,46 @@ const AllSupplierSection = () => {
                               )}
                             </td>
                             <td className="td">
+                              {item.trusted ? (
+                                <button
+                                  className="btn btn-danger"
+                                  type="button"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#exampleModal"
+                                  data-backdrop="false"
+                                  onClick={() =>
+                                    handleTrust({
+                                      type: "untrust",
+                                      msg: "You  are about to set this supplier as untrusted",
+                                      id: item._id,
+                                    })
+                                  }
+                                >
+                                  Untrusted
+                                </button>
+                              ) : (
+                                <button
+                                  className="btn btn-dark"
+                                  type="button"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#exampleModal"
+                                  data-backdrop="false"
+                                  onClick={() =>
+                                    handleTrust({
+                                      type: "trust",
+                                      msg: "You are about to set this supplier as trusted",
+                                      id: item._id,
+                                    })
+                                  }
+                                >
+                                  Trust
+                                </button>
+                              )}
+                            </td>
+                            <td className="td">
                               {item.suspended ? (
                                 <button
-                                  className="btn btn-secondary"
+                                  className="btn btn-danger"
                                   type="button"
                                   data-bs-toggle="modal"
                                   data-bs-target="#exampleModal"
@@ -199,7 +254,7 @@ const AllSupplierSection = () => {
                                 <a
                                   href={`${baseUrl}/${item.supplier_license}`}
                                   download={true}
-                                  className="btn btn-danger"
+                                  className="btn btn-primary"
                                 >
                                   Download
                                 </a>

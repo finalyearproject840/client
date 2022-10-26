@@ -14,6 +14,7 @@ import {
   loadAllSuppliersFunc,
   loadAllUsersFunc,
   loadNotificationFunc,
+  loadOrdersFunc,
   loadPrescriptionsFunc,
   loadProductFunc,
 } from "../../Redux/Admin/AdminActions";
@@ -25,6 +26,7 @@ const AdminDashboard = () => {
     dispatch(loadAllUsersFunc());
     dispatch(loadPrescriptionsFunc());
     dispatch(loadNotificationFunc())
+    dispatch(loadOrdersFunc());
   }, []);
   return (
     <StyleContainer>

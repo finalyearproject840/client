@@ -35,7 +35,7 @@ const AboutSection = () => {
                   where customers can find licensed suppliers to purchase
                   medicines from. The platform has over 500 Medicine suppliers
                   all across Ghana. Suppliers who wants to sell their drugs on
-                  this platform can do so buy creating an account on this web
+                  this platform can do so by creating an account on this web
                   application and going through the required process in order to
                   be approved. Customers can go click on the any of the links
                   above to download the mobile application on to their mobile

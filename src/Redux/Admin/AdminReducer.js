@@ -34,6 +34,11 @@ const initialState = {
     data: [],
     error: false,
   },
+  orders: {
+    loading: false,
+    data: [],
+    error: false,
+  },
 };
 
 export const AdminReducer = (state = initialState, { type, payload }) => {
@@ -236,7 +241,39 @@ export const AdminReducer = (state = initialState, { type, payload }) => {
           error: true,
         },
       };
-    default:
+    
+
+       //start load orders
+    case AdminActionTypes.ADMIN_START_LOAD_ORDERS:
+      return {
+        ...state,
+        orders: {
+          ...state.orders,
+          loading: true,
+        },
+      };
+    // load orders success
+    case AdminActionTypes.ADMIN_LOAD_ORDERS_SUCCESS:
+      return {
+        ...state,
+        orders: {
+          ...state.orders,
+          loading: false,
+          data: payload,
+        },
+      };
+    // load orders failed
+    case AdminActionTypes.ADMIN_LOAD_ORDERS_FAIL:
+      return {
+        ...state,
+        orders: {
+          ...state.orders,
+          loading: false,
+          error: true,
+        },
+      };
+    
+      default:
       return state;
   }
 };

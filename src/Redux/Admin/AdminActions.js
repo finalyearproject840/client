@@ -148,6 +148,20 @@ const loadPrescriptionsFail = () => ({
   type: AdminActionTypes.ADMIN_LOAD_PRESCRIPTIONS_FAIL,
 });
 
+//const admin load orders start
+const loadOrdersStart = () => ({
+  type: AdminActionTypes.ADMIN_START_LOAD_ORDERS,
+});
+//const admin load orders success
+const loadOrdersSuccess = (payload) => ({
+  type: AdminActionTypes.ADMIN_LOAD_ORDERS_SUCCESS,
+  payload: payload,
+});
+//const admin orders fail
+const loadOrdersFail = () => ({
+  type: AdminActionTypes.ADMIN_LOAD_ORDERS_FAIL,
+});
+
 //function load notification function
 export const loadNotificationFunc = () => {
   return (dispatch) => {
@@ -410,6 +424,45 @@ export const VerifySupplierFunc = (options) => {
             notifySuccess("Supplier has been verified successfully");
           } else {
             notifySuccess("Supplier has be  unverified successfully");
+          }
+          if (options.singlePage !== undefined) {
+            options.getSupplier();
+          }
+        } else {
+          notifySuccess("Oops! error occurred");
+        }
+      })
+      .catch(function (error) {
+        notifyError("Something went wrong");
+        console.log(error);
+      });
+  };
+};
+//supplier trust function
+export const trustSupplierFunc = (options) => {
+  return (dispatch) => {
+    const token = Cookies.get("token");
+    var config = {
+      method: "post",
+      url: AdminRoutes.trustSupplier,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      data: {
+        id: options.id,
+        trust: options.trust,
+      },
+    };
+
+    axios(config)
+      .then(function (response) {
+        if (response.data.success) {
+          dispatch(loadAllSuppliers(response.data.data));
+          if (options.trust) {
+            notifySuccess("Supplier has been set as trusted");
+          } else {
+            notifySuccess("Supplier has been set as untrusted");
           }
           if (options.singlePage !== undefined) {
             options.getSupplier();
@@ -938,6 +991,72 @@ export const readContactMessageFunc = (id) => {
       })
       .catch(function (error) {
         console.log(error);
+      });
+  };
+};
+
+//function load orders function
+export const loadOrdersFunc = () => {
+  return (dispatch) => {
+    dispatch(loadOrdersStart());
+    const token = Cookies.get("token");
+    //config headers
+    var config = {
+      method: "get",
+      url: `${AdminRoutes.allOrders}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    };
+    //axios
+    axios(config)
+      .then(function (response) {
+        if (response.data.success) {
+          dispatch(loadOrdersSuccess(response.data.data));
+        } else {
+          dispatch(loadOrdersFail());
+        }
+      })
+      .catch(function (error) {
+        console.log("error", error);
+        dispatch(loadProductFail());
+      });
+  };
+};
+//function set order as delivered
+export const setDeliveryStatusFunc = (id) => {
+  return (dispatch) => {
+    const token = Cookies.get("token");
+    let admin = Cookies.get("admin");
+    admin = JSON.parse(admin);
+    //config headers
+    var config = {
+      method: "post",
+      url: `${AdminRoutes.changeDeliveryStatus}/${id}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      data: {
+        data: JSON.stringify({
+          payload: {
+            deliveryStatus: "delivered",
+            delivered_On: new Date().toString(),
+          },
+        }),
+      },
+    };
+    //axios
+    axios(config)
+      .then(function (response) {
+        if (response.data.success) {
+          console.log(response.data.data);
+          dispatch(loadOrdersSuccess(response.data.data));
+        }
+      })
+      .catch(function (error) {
+        console.log("error", error);
       });
   };
 };

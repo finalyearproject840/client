@@ -13,7 +13,7 @@ import {
 } from "react-icons/io";
 
 import { RiMenuUnfoldLine, RiLockPasswordLine } from "react-icons/ri";
-import { GiMedicines } from "react-icons/gi";
+import { GiMedicines, GiReceiveMoney } from "react-icons/gi";
 import { FaUsers, FaEdit, FaPrescriptionBottleAlt } from "react-icons/fa";
 import { HiViewGridAdd } from "react-icons/hi";
 
@@ -28,19 +28,6 @@ const MenuBar = (props) => {
 
       {/* menu container */}
       <div className="menu-container">
-        <div>
-          {/* drug upload button */}
-          <Button display="block" width="100%">
-            <Link
-              to="#"
-              id="upload-drug-link"
-              className="d-flex text-light justify-content-between"
-            >
-              <span>Admin Panel</span>
-              <BsPatchPlusFill size={24} />
-            </Link>
-          </Button>
-        </div>
         {/*menu bar list */}
         <div className="menu-list-container">
           <StyledList className="menu-list">
@@ -51,6 +38,18 @@ const MenuBar = (props) => {
               active={
                 props.active
                   ? props.active === "dashboard"
+                    ? "true"
+                    : "false"
+                  : "false"
+              }
+            />
+             <MenuListItem
+              text="Orders"
+              Link="/admin/all/orders"
+              icon={<GiReceiveMoney size={23} />}
+              active={
+                props.active
+                  ? props.active === "orders"
                     ? "true"
                     : "false"
                   : "false"
