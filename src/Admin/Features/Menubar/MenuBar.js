@@ -1,19 +1,20 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import Button from "../../../Shared/Components/Button";
 import StyledMenu, { StyledList, StyledMenuCloser } from "./MenuStyles";
 import { colors } from "../../../DefaultValues";
 import MenuListItem from "./MenuListItem";
-import { BsPatchPlusFill } from "react-icons/bs";
-import { BiCategory, BiHome, BiUserCircle, BiStore,BiMessageSquareDots } from "react-icons/bi";
-import { AiOutlineClose } from "react-icons/ai";
+import { BsGift } from "react-icons/bs";
 import {
-  IoMdNotificationsOutline,
-  IoMdHelpCircle,
-} from "react-icons/io";
+  BiCategory,
+  BiHome,
+  BiUserCircle,
+  BiStore,
+  BiMessageSquareDots,
+} from "react-icons/bi";
+import { AiOutlineClose } from "react-icons/ai";
+import { IoMdNotificationsOutline, IoMdHelpCircle } from "react-icons/io";
 
 import { RiMenuUnfoldLine, RiLockPasswordLine } from "react-icons/ri";
-import { GiMedicines, GiReceiveMoney } from "react-icons/gi";
+import { GiMedicines } from "react-icons/gi";
 import { FaUsers, FaEdit, FaPrescriptionBottleAlt } from "react-icons/fa";
 import { HiViewGridAdd } from "react-icons/hi";
 
@@ -43,10 +44,10 @@ const MenuBar = (props) => {
                   : "false"
               }
             />
-             <MenuListItem
+            <MenuListItem
               text="Orders"
               Link="/admin/all/orders"
-              icon={<GiReceiveMoney size={23} />}
+              icon={<BsGift size={23} />}
               active={
                 props.active
                   ? props.active === "orders"
@@ -175,7 +176,7 @@ const MenuBar = (props) => {
                   : "false"
               }
             />
-             <MenuListItem
+            <MenuListItem
               text="Contact Messages"
               Link="/admin/contact/messages"
               icon={<BiMessageSquareDots size={23} />}

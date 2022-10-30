@@ -1,30 +1,28 @@
 import React from "react";
 import CardItem from "../../Components/CardItem/CardItem";
 import { AiFillMedicineBox } from "react-icons/ai";
-import { FaUsers,FaPrescriptionBottleAlt } from "react-icons/fa";
+import { FaUsers, FaPrescriptionBottleAlt } from "react-icons/fa";
 import { MdOutlineNotificationsNone } from "react-icons/md";
 import { StyleSubtitle, StyleTitle } from "../../../Styles";
 import { colors, fonts, fontSize } from "../../../DefaultValues";
 import { Link } from "react-router-dom";
-import {useSelector} from "react-redux"
-
-{
-  /* the card section as the first section of the dashboard */
-}
+import { useSelector } from "react-redux";
+import {BsGift} from "react-icons/bs"
 const CardSection = () => {
-  const appStore = useSelector(state=>state.AdminState);
-  const {suppliers, products, users, prescriptions, notifications, orders} = appStore;
+  const appStore = useSelector((state) => state.AdminState);
+  const { suppliers, products, users, prescriptions, notifications, orders } =
+    appStore;
   return (
     <section className="card-section my-3" id="card-section">
       <div className="container">
         <div className="row">
           {/* Card item */}
-             {/* Card item */}
-             <CardItem className="col-sm-6 col-lg-3" color={colors.ligthBlue}>
+          {/* Card item */}
+          <CardItem className="col-sm-6 col-lg-3" color={colors.ligthBlue}>
             <Link to="/admin/all/orders">
               <div className="card-container">
                 <div className="icon-box">
-                  <MdOutlineNotificationsNone color={colors.white} size={25} />
+                  <BsGift color={colors.white} size={25} />
                 </div>
                 <div className="text-container">
                   <StyleTitle size={fontSize.n} color={colors.ligthBlue}>
@@ -36,7 +34,7 @@ const CardSection = () => {
                     font={fonts.righteous}
                     color={colors.muted}
                   >
-                  Orders
+                    Orders
                   </StyleSubtitle>
                 </div>
               </div>
@@ -96,7 +94,7 @@ const CardSection = () => {
                 </div>
                 <div className="text-container">
                   <StyleTitle size={fontSize.n} color={colors.green}>
-                  {users.length}
+                    {users.length}
                   </StyleTitle>
                   <StyleSubtitle
                     size={fontSize.sm}
@@ -127,7 +125,7 @@ const CardSection = () => {
                     font={fonts.righteous}
                     color={colors.muted}
                   >
-                  Prescriptions
+                    Prescriptions
                   </StyleSubtitle>
                 </div>
               </div>
@@ -150,7 +148,7 @@ const CardSection = () => {
                     font={fonts.righteous}
                     color={colors.muted}
                   >
-                  Notifications
+                    Notifications
                   </StyleSubtitle>
                 </div>
               </div>
