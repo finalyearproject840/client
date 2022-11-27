@@ -36,7 +36,9 @@ export const fonts = {
   righteous: "Righteous",
 };
 //live url
-export const baseUrl = "https://pharmacybackend.gidcharityfoundation.org/api/pharmacy"
+//export const baseUrl = "https://pharmacybackend.gidcharityfoundation.org/api/pharmacy"
+//live url
+export const baseUrl = "https://pharmaplatbackend.onrender.com/api/pharmacy"
 
 //local url
 //export const baseUrl = "http://localhost:5000/api/pharmacy"
