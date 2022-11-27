@@ -66,9 +66,9 @@ const SupplierPending = () => {
         <p className="lead">
           Contact Admin if the review process has exceeded 48 hours
         </p>
-        <Button background={colors.violet} style={{ letterSpacing: "1px" }} className="me-2">
+        <a href="tel:0556705099" background={colors.violet} style={{ letterSpacing: "1px" }} className="me-2">
           Contact Admin
-        </Button>
+        </a>
         <Button background={colors.red} style={{ letterSpacing: "1px" }} onClick={()=>handleLogout()}>
           Logout
         </Button>
