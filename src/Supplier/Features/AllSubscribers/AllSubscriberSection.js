@@ -34,11 +34,11 @@ const AllSubscriberSection = () => {
               <StyledTableContainer>
                 <StyleTitle
                   font={fonts.barlow}
-                  size={fontSize.xxl}
+                  size={fontSize.xl}
                   color={colors.muted}
                   className="text-center"
                 >
-                  All Users
+                  My Subscribers
                 </StyleTitle>
 
                 <div className="table-responsive">
