@@ -45,7 +45,7 @@ const PrescriptionResponseSection = () => {
                 handleSubmit(form, setSubmitting, resetForm)
               }
             >
-              {({ isSubmitting, errors }) => (
+              {({ isSubmitting, errors,values }) => (
                 <Form encType="multipart/form-data">
                   <div className="my-3">
                     <StyledLabel htmlFor="recommendations">
@@ -79,7 +79,7 @@ const PrescriptionResponseSection = () => {
                     </div>
                   ) : (
                     <div className="d-flex justify-content-center">
-                      <Button case="uppercase" type="submit">
+                      <Button case="uppercase" type="submit" disabled={values.recommendations?false:true}>
                         Upload
                       </Button>
                     </div>

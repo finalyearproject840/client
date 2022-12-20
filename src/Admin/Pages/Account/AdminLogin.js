@@ -166,11 +166,11 @@ const AdminLogin = () => {
           )}
         </Formik>
         {/*alternate link*/}
-        <div className="my-3">
+        {/* <div className="my-3">
           <p className="lead">
             don 't have an account yet? <Link to="/admin/create">Register</Link>
           </p>
-        </div>
+        </div> */}
       </StyledFormContainer>
     </StyledAccount>
   );
